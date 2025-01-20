@@ -1,0 +1,207 @@
+[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Ensembles and Classification
+
+
+
+
+
+
+
+
+[t]Ensembles
+
+
+8pt
+
+An  is simply a collection of models that are all trained to perform the same task. 
+
+An ensemble can consist of many different versions of the same model, or many different types of models.
+
+The final output for an ensemble of classifiers is typically obtained through a (weighted) average or vote of the predictions of the different models in the ensemble.
+
+An ensemble of different models that all achieve similar generalization performance often outperforms any of the individual models. 
+
+How is this possible?
+
+
+
+
+
+[t]Ensemble Intuition
+
+
+6pt
+
+Suppose we have an ensemble of binary classification functions $f_k()$ for $k=1,...,K$.
+
+Suppose that on average they have the same expected error rate 
+$= E_p(x,y)[yf_k()]<0.5$, but that the errors they make are . 
+
+The intuition is that the majority of the $K$ classifiers in the ensemble will be correct on many examples where any individual classifier makes an error. 
+
+A simple majority vote can significantly improve classification performance by  in this setting. 
+
+ How can we come up with such an ensemble?
+
+
+
+
+
+[t]Independent Training Sets
+
+
+8pt
+
+Suppose we collect multiple independent training sets $Tr_1,...,Tr_K$ and use 
+each of these training sets to train a different instance of the same classifier obtaining
+$K$ classification functions $f_1(),...,f_K()$.
+
+Classifiers trained in this way are guaranteed to make independent errors on test data. 
+
+If the expected error of each classifier is less than $0.5$, then the weighted
+majority vote is guaranteed to reduce the expected generalization error.
+
+ What is the weakness of this approach?
+
+
+
+
+
+
+
+[t]Bagging
+
+
+8pt
+
+Bootstrap aggregation or  is an approximation to the previous method that takes a single training set $Tr$ and randomly sub-samples from it $K$ times (with replacement) to form $K$ training sets $Tr_1,...,Tr_K$.
+
+Each of these training sets is used to train a different instance of the same classifier obtaining $K$ classification functions $f_1(),...,f_K()$.
+
+The errors won't by totally independent because the data sets aren't independent, but the random re-sampling usually introduces enough diversity to decrease the variance and give improved performance.
+
+
+
+
+
+[t]Bagging and Random Forests
+
+
+8pt
+
+Bagging is particularly useful for high-variance, high-capacity models.
+
+Historically, it is most closely associated with decision tree models.
+
+A very successful extension of bagged trees is the random forest classifier.
+
+The random forests algorithm further decorrelates the learned trees by 
+only considering a random sub-set of the available features when deciding which
+variable to split on at each node in the tree.
+
+
+
+
+
+[t]Example: Bagging vs Random Forests
+[width=3in]../Figures/bagging_rf.png
+
+
+
+
+
+
+[t]Boosting
+
+
+8pt
+
+Boosting is an ensemble method based on iteratively re-weighting the data set instead
+of randomly resampling it.
+
+The main idea is to up-weight the importance of data cases that are missclassified by the classifiers currently in the ensemble, and then add a next classifier that will focus on data cases that are causing the errors.
+
+Assuming that the base classifier can always achieve an error of less than 0.5 on any data sample, the boosting ensemble can be shown to decrease error.
+
+
+
+
+
+[t]AdaBoost Algorithm
+[width=3.5in]../Figures/boosting_algorithm.png
+
+
+[t]Example: AdaBoost
+[width=3.5in]../Figures/boosting_examples2.png
+
+
+
+
+
+[t]Stacking (or Blending)
+
+
+8pt
+
+Unlike bagging and boosting, stacking is an algorithm for combining several different types of models.
+
+The main idea is to form a train-validation-test split and train many classifiers $f_k()$ on the training data. 
+
+The trained classifiers are used to make predictions on the validation data set and
+a new feature representation is then created where each data case consists of the vector of predictions of each classifier in the ensemble $ = [f_1(),...,f_K()]$.
+
+Finally, a meta-classifier called a  is trained to minimize the validation error given the data $\(y_i,_i)|i=1,..,N\$.
+
+The extra layer of combiner learning can deal with correlated classifiers as well 
+as classifiers that perform poorly.
+
+
+
+
+[t]Example: Netflix Prize (2009)
+
+[width=4in]../Figures/NetflixPrize.png\\
+Winning team used stacked predictor of 450+ different models.
+
+
+
+
+
+[t]Classification Wrap-Up
+
+
+8pt
+
+We've covered a good mix of classical and state-of-the-art classifiers including
+KNN, decision trees, naive Bayes, LDA, logistic regression, SVMs, neural networks and
+ensembles.
+
+We covered three of the most important meta issues in classification: generalization assessment, capacity control, and hyperparameter selection. 
+
+Things we didn't cover: feature selection, feature engineering, 
+dealing with class imbalance, covariate shift, cost of errors, classifier evaluation beyond accuracy, structured prediction, sequential decisions...
+
+
+
+[t]Classifier Evaluation
+[width=3.5in]../Figures/ConfusionMatrix.png
+
+
+[t]Image Segmentation
+[width=4.5in]../Figures/image_labeling.png
+
+
+[t]Mesh Segmentation
+[width=4.5in]../Figures/mesh_segmentation.jpg
+
+
+[t]Image to Text
+[width=3.5in]../Figures/cat-hat.jpg\\
+A very cute looking cat in a hat
+
+
+[t]Playing Atari Breakout
+[width=3.5in]../Figures/atari-nn.png\\

@@ -1,0 +1,5465 @@
+COMPSCI 589
+Benjamin M. Marlin
+University of Massachusetts Amherst
+College of Information and Computer Sciences
+
+
+[2]
+  [ Lecture #1] 
+    \\ Lecture #1: #2
+     []
+     []
+     \\
+        
+
+
+
+
+  
+    
+        Slides by Benjamin M. Marlin (marlin@cs.umass.edu). \\
+    Created with support from National Science Foundation Award\# IIS-1350522. 
+                                                              
+    
+  
+
+
+[]
+
+  <beamer>Outline
+    [currentsection,subsectionstyle=hide]
+  
+
+
+
+[1]
+
+[4]
+  <#1-#2>
+    [T]
+      
+           [width=0.5in]#3
+       
+            #4
+    
+              
+
+
+<presentation>
+  
+  
+
+
+<handout>
+  
+  
+
+
+
+[english]babel
+[latin1]inputenc
+
+[T1]fontenc
+
+
+[noend]algorithmic
+
+
+
+
+
+
+
+
+*
+*
+*Val
+[1]
+*arg\,max
+*arg\,min
+*sign
+[2][serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Course Overview - Supervised and Unsupervised Learning
+
+
+
+
+
+
+
+
+[t]Introduction
+    
+
+
+[t]Definitions of Learning
+
+3../Figures/bfskinner.jpg Learning is a long-term change in behavior due to experience.
+
+3../Figures/gestalt.jpg Learning is an internal mental process that integrates new information into established mental frameworks and updates those frameworks over time.
+
+3../Figures/hebb.png Learning is a physical process in which neurons join by developing the synapses between them.
+
+
+
+[t]Introduction
+    
+
+
+[t]Views on Machine Learning
+
+2../Figures/samuel.jpg ``Machine learning is a field of study that gives computers the ability to learn without being explicitly programmed.''
+
+2../Figures/mitchell.jpg ``A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at tasks in T, as measured by P, improves with experience E.''\\[12pt] Substitute ``training data D'' for  ``experience E.''
+
+
+
+
+
+[t]Machine Learning Tasks
+  [width=4in]../Figures/learning_problems.png
+
+
+[t]Machine Learning Approaches
+  [<+->]
+     Learning is accomplished by storing the training data (memorization).
+    
+     Learning is accomplished by using an algorithm to adapt the parameters in a mathematical or statistical model given training data. For exmaple:\\
+    
+    <+->() = _d=1^D_d x_d$$
+    
+  
+
+
+[t]Machine Learning Applications
+  [width=4in]../Figures/ml_applications.png
+
+
+[t]Machine Learning in Industry
+  [width=4in]../Figures/ml_industry.pdf
+
+
+
+[t]Relationship to Other Fields
+  [<+->]
+    Machine Learning and Artificial Intelligence
+    Machine Learning and Probability/Statistics
+    Machine Learning and Numerical Optimization
+    Machine Learning and Function Approximation
+    Machine Learning and Cognitive Science
+    Machine Learning and Neuroscience
+    Machine Learning and Data Mining 
+    Machine Learning and Data Science
+    Machine Learning and Big Data
+  
+
+
+
+
+
+
+
+[t]Course Goals
+
+The aim of this course is to develop the knowledge and skills necessary to effectively apply existing machine learning models and algorithms to solve real-world problems. The course will cover:
+
+ [<+->]
+Classification, regression, clustering, dimensionality reduction and representation learning 
+Model selection, regularization, design of experiments, model evaluation
+Use of machine learning across different computing contexts (desktop/cluster/cloud)
+
+
+<+->This course  teach you how to design new machine learning models and
+algorithms.
+
+
+
+[t]Prerequisites
+
+The course has formal prerequisites as listed below. All students are expected to be familiar with this material or have the ability to make up any gaps in their backgrounds on their own.
+
+ [<+->]
+Linear Algebra
+Calculus
+Probability and Statistics
+Algorithms and Data Structures 
+
+
+<+-> The course requires the use of Python for programming. Students are expected to learn Python as we go.
+
+
+
+
+[t,label=current]Text Books
+
+The course will use a two textbooks freely available from the authors:
+
+[<+->]
+[ISL]: . James, Witten, Hastie and Tibshirani.
+[ESL]: . Hastie, Tibshirani and Friedman.
+
+
+<+->Readings are intended to be completed before class.
+
+
+
+[t]Programming and Computing
+
+[<+->]
+Students need access to computing to complete regular assignments (any moderately recent laptop/desktop should do).
+Programming assignments will use Python 2.7.
+A complete Ubuntu programming environment will be distributed using Vagrant/Virtual Box. 
+Access to cloud computing resources is required to complete course components using Apache Spark. 
+
+
+
+
+
+
+
+[t]Linear Algebra
+
+Definition: Vector Space
+  The real vector space $^n$ is a set with elements  $=[x_1,...,x_n]$
+  where each $x_i $. The elements $$ are called vectors, and they satisfy the following properties:
+  
+    [<+->]
+     If $^n$ and $^n$, then 
+    $ + =[x_1+y_1,...,x_n+y_n] ^n$.
+     If $^n$ and $a $, then 
+    $a =[ax_1,...,ay_n] ^n$.
+     If $^n$ and $^n$, then 
+    $= _i=1^n x_iy_i$.
+  
+
+
+
+
+[t]Linear Algebra
+
+Definition: Matrix
+  A matrix $^nm$ is rectangular array of elements $x_ij$, $1i n$, $1j m$:
+  
+  $$ =
+ 
+  x_11 & x_12 & & x_1m \\
+  x_21 & x_22 & & x_2m \\
+   &  & &  \\
+  x_n1 & x_n2 & & x_nm
+ 
+  $$
+  
+
+
+
+[t]Linear Algebra
+
+Definition: Matrix
+  A matrix $^nm$ supports the following operations:
+  
+    [<+->]
+     If $^nm$, $^nm$ and $=+$, then  $^nm$ and $Z_ij=X_ij+Y_ij$.
+
+     If $^nm$, $a$
+    and $=a$, then  $^nm$ and $Z_ij=aX_ij$.
+    
+     If $^nm$, $^mn$ and $=$, then  $^nn$ and $Z_ij=_k=1^mX_ikY_kj$.
+
+    
+
+
+Yous should be familiar with basic matrix types (square, diagonal, identity), basic matrix operations (transpose, inverse, trace, determinant, etc.), and matrix concepts (eigenvalues, eigenvectors, orthogonality, etc.). 
+
+
+
+
+[t]Probability Distributions
+
+Definition: Probability Distribution
+
+  A probability distribution $P$ over a sample space $$ is a mapping from subsets of $$ to the real numbers that satisfies the following conditions:
+
+    [<+->]
+    Non-negativity: $P() 0$ for all $$
+    Normalization: $P() =1$
+    Additivity: For all $,  $ that are disjoint sets, $P() = P() + P()$
+  
+
+
+
+
+[t]Random Variables 
+Definition: Random Variable
+  A random variable $X$ is defined by a function $f_X$ that maps each element $$ of the sample space $$ to a value $f_X()$ in a set $$ called the  of the random variable.
+  
+    For each $x$ the event $\X=x\$ refers to the subset of the sample space $\| , f_X()=x\$.
+    
+    For each $x$ the probability $P(X=x) = P(\| , f_X()=x\)$.
+  
+
+
+
+[t]Probability and Random Variables 
+We can also specify a probability distribution for a random variable $X$ with range $$ directly instead of via an underlying sample space $$. The following conditions must hold:
+
+[<+->]
+ $P(X=x)0 \;\;x X$ 
+  and $_xP(X=x)=1$.
+ $p(X=x)0 \;\; x X$ 
+  and $_p(X=x)dx =1$.
+
+
+
+
+
+[t]Random Variables and Data Sets
+
+In machine learning and statistics, probability distributions are defined over data cases described by multiple attributes that are identified with random variables. 
+
+ 
+ Example: Heart Disease Dataset
+    gray!25white
+  cccc
+    
+     Gender & Blood Pressure & Cholesterol  & Heart Disease\\
+     Male&Med&Low&No\\
+     Male&Hi&Hi&Yes\\
+     Male&Med&Med&Yes\\
+     Male&Med&Hi&No\\
+     Female&Med&Low&No\\
+     Male&Low&Med&No
+  
+  
+
+
+
+
+
+[t]Joint Probability Distributions
+
+
+A  is a probability distribution defined over a collection of random variables $(X_1,...,X_m)$ with ranges $_1,...,_m$: $P(X_1=x_1,...,X_m=x_m)$.
+
+A joint distribution defined over random variables $X_1,...,X_m$ must satisfy normalization and non-negativity with respect to the Cartesian product of their ranges   $=_1_m$.
+
+Alternatively, a joint distribution can be viewed as a probability distribution over a single vector-valued random variable $=[X_1,...,X_m]$ whose range is $=_1_m$. 
+
+
+
+
+[t]Joint Distributions: Heart Disease Example
+Consider the heart disease example. The joint distribution over the random variables $Gender$, $BloodPressure$, $Cholesterol$ and $HeartDisease$ is just a big table:
+
+
+      gray!25white
+  ccccc
+    
+      Gender & BloodPressure & Cholesterol  & HeartDisease & P\\
+      F      & L       & L            & N             & 0.0127 \\
+      F      & L       & L            & Y             & 0.0007 \\
+      F      & L       & M            & N             & 0.0098 \\
+      F      & L       & M            & Y             & 0.0009 \\
+      F      & L       & H            & N             & 0.0087 \\
+      F      & L       & H            & Y             & 0.0010 \\
+      &  &       &        &                
+  
+
+
+
+
+
+[t]Important Probability Concepts
+
+You should be familiar with the following fundamental concepts from probability theory
+
+[<+->]
+Marginalization
+Conditioning
+Bayes Rules
+Expectations
+Classical Distributions (Bernoulli, Binomial, Multinomial, Gaussian)[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false]beamer
+
+
+
+KNN and Decision Trees
+
+
+
+
+
+
+
+
+[t]Views on Machine Learning
+
+../Figures/mitchell.jpg ``A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at tasks in T, as measured by P, improves with experience E.''\\[12pt]  Substitute ``training data D'' for  ``experience E.''
+
+
+
+[t]Machine Learning Tasks
+  [width=4in]../Figures/learning_problems.png
+
+
+[t]Machine Learning Approaches
+  
+     Learning is accomplished by storing the training data (memorization).
+    
+     Learning is accomplished by using an algorithm to adapt the parameters in a mathematical or statistical model given training data. For exmaple:\\
+    
+    
+  
+
+
+
+
+
+
+[t]The Classification Task
+
+Definition: The Classification Task
+Given a feature vector $^D$ that describes an object that belongs to one of $C$ classes from the set $$, predict which class the object belongs to.
+
+
+
+
+[t]Example: Digits
+  [width=3.5in]../Figures/mnist.png
+
+
+[t]Example: Natural Images
+  [width=3.5in]../Figures/cifar.png
+
+
+[t]Example: Synthetic Images
+  [width=3.5in]../Figures/tufas.png
+
+
+[t]The Classifier Learning Problem
+Definition: Classifier Learning
+Given a data set of example pairs $=\(_i,y_i),i=1:N\$ where $_i^D$ is a feature vector and $y_i$ is a class label, learn a function $f:^D$ that accurately predicts the class label $y$ for any feature vector $$.
+
+
+
+[t]Classification Error and Accuracy
+
+Definition: Classification Error Rate
+Given a data set of example pairs $=\(_i,y_i),i=1:N\$ and a function $f:^D$, the classification error rate of $f$ on $$ is:
+$$Err(f,) = N_i=1^N(y_i f(_i))$$
+
+
+Definition: Classification Accuracy Rate
+Given a data set of example pairs $=\(_i,y_i),i=1:N\$ and a function $f:^D$, the classification accuracy rate of $f$ on $$ is:
+$$Acc(f,) = N_i=1^N(y_i = f(_i))$$
+
+
+
+
+
+
+
+
+[t]K Nearest Neighbors Classification
+
+The KNN classifier is a non-parametric classifier that simply stores the training data $$
+and classifies each new instance $$ using a majority vote over its' set of $K$ nearest neighbors $_K()$ computed using any distance function $d:^D ^D  $.
+
+KNN Classification Function
+$$f_KNN() = _y _i_K() [y_i=y]$$
+
+
+Use of KNN requires choosing the distance function $d$ and the number of neighbors $K$.
+
+
+
+[t]Distance and Similarity
+
+
+In general, KNN can work with any distance function $d$ satisfying non-negativity $d(,')0$ and identity of indiscernibles $d(,)=0$.
+
+Alternatively, KNN can work with any similarity function $s$ satisfying non-negativity $s(,)0$ that attains it's maximum on indiscernibles $s(,)=_' s(,')$.
+
+However, the more structure the distance or similarity function has  (symmetry, triangle inequality), 
+the more structure you can exploit when designing algorithms.
+
+
+
+
+
+[t]Distance Metrics
+
+Definition: Minkowski Distance ($_p$ norms)
+Given two data vectors $,' ^D$, the Minkowski Distance with parameter $p$ (the $_p$ norm) is a proper metric defined as follows:
+
+
+d_p(,') &=  ||-'||_p \\
+&=(_i=1^D |x_d-x'_d|^p)^1/p
+
+
+Special cases include Euclidean distance ($p=2$), Manhattan distance ($p=1$) and Chebyshev distance ($p=$).
+
+
+
+[t]Brute Force KNN
+
+
+Given any distance function $d$, brute force KNN works by computing the distance $d_i = d(_i,_*)$ from a target point $_*$ to all of the training points $_i$.
+
+You then simply sort the distances $\d_i,i=1:N\$ and choose the data cases with the $K$ smallest distances to form the neighbor set $_K(_*)$. Using a similarity function is identical, but you select the $K$ most similar data cases. 
+
+Once the $K$ neighbors are selected, applying the classification rule is easy.
+
+
+
+
+[t]KNN Variants
+
+
+Instead of giving all of the $K$ neighbors equal weight in the majority vote, a distance-weighted majority can be used:
+
+
+f_KNN() &= _y _K() w_i [y_i=y]
+_i_K() w_i\\
+w_i &= (-d_i)
+
+
+Instead of a brute force nearest neighbor search, data structures like ball trees can be constructed over the training data that support nearest neighbor search with lower amortized computational complexity.
+
+
+
+
+
+[t]KNN Trade-Offs
+
+
+Low bias: Converges to the correct decision surface as data goes to infinity.
+
+High variance: Lots of variability in the decision surface when amount of data is low.
+
+Curse of dimensionality: Everything is far from everything else in high dimensions.
+
+Space and Time Complexity: Need to store all training data and perform neighbor search can make the method
+use a lot of memory and take a lot of time.
+
+
+
+
+
+
+
+[t]Decision Tree
+
+
+A classical decision tree classifies data cases using a conjunction of rules organized into a binary tree structure.
+
+Each internal node in a classical decision tree contains a rule of the form $(x_d<t)$ or $(x_d=t$) that tests a single data dimension $d$ against a single value $t$ and assigns the data case to it's left or right sub-tree according to the result.
+
+A data case is routed through the tree from the root to a leaf. Each leaf node is associated with a class, and a data case is assigned the class of the leaf node it is routed to.
+
+
+
+
+
+[t]Example: Decision Tree for Flu
+  [width=4in]../Figures/decision-tree.pdf
+
+
+[t]Decision Tree Learning Algorithm
+
+
+Decision trees are learned using recursive greedy algorithms that 
+select the variable and threshold at each node from top to bottom.
+
+The learning algorithm begins with all data cases at the root of the tree.
+
+The algorithm selects a variable and a threshold to split on according to a heuristic.
+
+The algorithm applies the chosen rule and assigns each data case to
+the left or right sub-tree.
+
+The algorithm then recurses on the child nodes until a given stopping condition is satisfied.
+
+When the stopping condition is satisfied, the current node is a leaf
+in the tree. It is typically assigned a label that corresponds to the most common label of the
+data cases it contains.
+
+
+The two main criteria used to evaluate the the split that results from 
+a potential variable $d$ and threshold $t$ are Gini Impurity ($C_GI$) and information gain ($C_IG$).
+
+Suppose a given variable $d$ and threshold $t$ result in a distribution of class labels in the proportions
+$p_1,p_2,...,p_C$ for the $C$ classes.
+
+$$
+C_GI = _c=1^C p_i(1-p_i)\;\;\;\;\;\;
+C_IG = -_c=1^C p_i (p_i)
+$$
+
+The decision tree construction algorithm recursively searches for optimal (variable, threshold) pairs according
+to a given criteria down to a specified depth.
+
+
+
+
+
+
+[t]Decision Tree Learning
+
+
+The main stopping criteria used are all data cases assigned to a node have the same label, the number of data cases assigned to the node falls below a threshold, and the node is at the maximum allowable depth.
+
+Given sufficient depth, a decision tree can approximate any classification function to arbitrary accuracy.
+
+There are a number of heuristics for selecting variables and thresholds to split on.
+In general, these heuristics are aimed at producing splits of the training data that are as homogeneous as possible in terms of the labels.
+
+
+
+
+[t]Decision Tree Trade-Offs
+
+
+Interpretability: The learned model is easy to understand as a collection of rules.
+
+Test Complexity: Shallow trees can be extremely fast classifiers at test time.
+
+Train Complexity: Finding optimal trees is NP-complete, thus need for greedy heuristics.
+
+Representation: Splitting on single variables can require very large trees to
+accurately model non-axis aligned decision boundaries.[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false]beamer
+
+
+
+Naive Bayes, LDA, \Logistic Regression
+
+
+
+
+
+
+
+
+[t]The Classification Task
+
+Definition: The Classification Task
+Given a feature vector $^D$ that describes an object that belongs to one of $C$ classes from the set $$, predict which class the object belongs to.
+
+
+
+
+
+[t]The Classifier Learning Problem
+Definition: Classifier Learning
+Given a data set of example pairs $=\(_i,y_i),i=1:N\$ where $_i^D$ is a feature vector and $y_i$ is a class label, learn a function $f:^D$ that accurately predicts the class label $y$ for any feature vector $$.
+
+
+
+[t]Classification Error and Accuracy
+
+Definition: Classification Error Rate
+Given a data set of example pairs $=\(_i,y_i),i=1:N\$ and a function $f:^D$, the classification error rate of $f$ on $$ is:
+$$Err(f,) = N_i=1^N(y_i f(_i))$$
+
+
+Definition: Classification Accuracy Rate
+Given a data set of example pairs $=\(_i,y_i),i=1:N\$ and a function $f:^D$, the classification accuracy rate of $f$ on $$ is:
+$$Acc(f,) = N_i=1^N(y_i = f(_i))$$
+
+
+
+
+
+
+
+
+
+
+[t]Probabilistic Classification
+
+
+Suppose we know that the true probability of seeing a data case that
+belongs to class $c$ is $P(Y=c)=_c$ and the true probability density of seeing a data vector $^D$ that belongs to class $c$ is $p(=|Y=c) =_c()$.
+
+We can use this information to compute the probability that the class of any observation $$ is $c$. How?
+
+Bayes Rule:
+$P(Y=c|=) = )_c_c'_c'()_c'$
+
+
+
+
+
+[t]The Bayes Optimal Classifier
+
+
+The Bayes Optimal Classifier uses the classification function: 
+
+
+
+f_B()&=_c P(Y=c|=)\\
+&=_c _c()_c
+
+
+
+The Bayes optimal classifier achieves the minimal possible expected error rate among all possible classifiers:
+
+$$1 - _P(=)[_c P(Y=c|=)]$$
+
+This is a nice result, but is it useful in practice?
+
+
+
+
+
+
+
+
+
+[t]Naive Bayes
+
+
+The naive Bayes classifier approximates the Bayes optimal classifier using a simple form for the functions $_c()$. 
+
+This form assumes that all of the data dimensions are probabilisticaly independent given the value of the class variable:
+
+$$_c() = p(=|Y=c) = _d=1^D p(X_d=x_d|Y=c)=_d=1^D _cd(x_d)$$
+
+The general form for the classification function is:
+
+f_NB()&=_c _c_d=1^D_cd(x_d)
+
+
+
+
+
+
+
+[t]Class Conditional Distributions
+
+12pt
+The functions $p(X_d=x_d|Y=c)=_cd(x_d)$ are called .
+
+For real valued $x_d$,  $p(X_d=x_d|Y=c)$ is typically modeled as a normal density $_cd(x_d)=(x_d;_dc,^2_dc)=$ $^2(-2_dc^2(x_d-_dc)^2)$.
+
+For binary valued $x_d$,  $p(X_d=x_d|Y=c)$ is a Bernoulli distribution $_cd(x_d)=_dc^x_d(1-_dc)^(1-x_d)$.
+
+For general categorical values $x_d$,  $p(X_d=x_d|Y=c)$ is a categorical distribution $_cd(x_d)=_v_d _vdc^[x_d=v]$
+
+
+
+
+
+[t]Learning for Naive Bayes
+
+
+12pt
+The class probabilities $_c$ and the parameters of the marginal class conditional distributions $_cd(x_d)$ are learned by maximum likelihood on a sample of training data $=\(_i,y_i),i=1:n\$. 
+
+This reduces to estimating them using class-conditional sample averages for most common distributions.
+
+Class probabilities: $_c = n_i=1^n [y_i=c]$
+
+Normal: 
+$_dc = ^n [y_i=c]x_di_i=1^n [y_i=c]\;\;\;\;\;
+^2_dc = ^n [y_i=c](x_di-_dc)^2_i=1^n [y_i=c]$
+
+Bernoulli: 
+$_dc = ^n [y_i=c]x_di_i=1^n [y_i=c]$ Categorical: 
+$_vdc = ^n [y_i=c][x_di=v]_i=1^n [y_i=c]$
+
+
+
+
+
+
+[t]Geometric Interpretation
+
+
+12pt
+Suppose we use normal distributions for the marginal class conditional distributions and we have a binary classification problem. What is the geometry of the decision boundary?
+
+
+f_NB()&=_c _c_d=1^D_cd(x_d)\\
+               &=_c (_c) + _d=1^D(_cd(x_d))\\
+               &=_c (_c) + _d=1^D (-2(2_dc^2) - 2_dc^2(x_d-_dc)^2)
+
+
+
+
+
+
+[t]Geometric Interpretation
+
+
+12pt
+The decision boundary consists of the set of points $$ where:
+
+&(_0) + _d=1^D (-2(2_d0^2) - 2_d0^2(x_d-_d0)^2) \\
+&-(_1) - _d=1^D (-2(2_d1^2) - 2_d1^2(x_d-_d1)^2)=0
+
+
+It's easy to see that the decision boundary is a quadratic function of $$ with the form:
+$_d=1^D ( a_dx_d^2 + b_dx_d) + c=0$.
+
+In the multi-class case, the decision boundary is piece-wise quadratic.
+
+
+
+
+[t]Trade-Offs
+
+
+12pt
+Speed: Both learning and classification have very low computational complexity.
+
+Storage: The model only requires $O(DC)$ parameters. It achieves a large compression of the training data.
+
+Interpretability: The model has good interpretability since the parameters of $_c()$ correspond to class conditional averages.
+
+Accuracy: The assumption of feature independence and canonical forms for class-conditional marginals will rarely be correct for real-world problems, leading to lower accuracy.
+
+Data: Some care is needed in the estimation of parameters in the discrete case when data is scarce. 
+
+
+
+
+
+
+
+
+[t]Linear Discriminant Analysis
+
+
+Linear Discriminant Analysis (LDA) is a classification technique due to Fisher that dates back to the 1930's.
+
+It can be interpreted as a different approximation to the Bayes Optimal Classifier for real-valued data. 
+
+Instead of a product of independent Normals like in Naive Bayes, LDA assumes the class-conditional densities are multivariate normal with a common covariance matrix: 
+
+$$_c() = (;_c,) 
+= |2|^1/2(-2(-_c)^T^-1(-_c))$$
+
+The classification function is $f_LDA() = _c _c()_c$
+
+
+
+
+
+[t]Learning for LDA
+
+
+As with Naive Bayes, LDA parameters are learned using maximum likelihood, which reduces
+to using sample estimates.
+
+Class probabilities: $_c = n_i=1^n [y_i=c]$
+
+Class Means: $_c = ^n [y_i=c]_i_i=1^n [y_i=c]$
+
+Shared Covariance: $= n_i=1^n
+(_i-_y_i)(_i-_y_i)^T$
+
+
+
+
+
+[t]Geometric Interpretation
+
+
+12pt
+What is the geometry of the decision boundary for LDA in the binary case?
+
+The decision boundary consists of the set of points $$ where:
+
+
+&(_0) -2|2| - 2(-_0)^T^-1(-_0)\\
+&-(_1) + 2|2| +2(-_1)^T^-1(-_1)=0
+
+
+We can cancel a large number of terms because of the common covariance matrix and obtain the following result:
+$$(_0) -(_1) - 0.5_0^T^-1_0 + 0.5_1^T^-1_1 +  (_0-_1)^T^-1=0$$
+
+This shows that the decision boundary is actually linear in $$.
+
+
+
+[t]Trade-Offs
+
+
+6pt
+Speed: The quadratic dependence on $D$ makes LDA slower than Naive Bayes by a factor of $D$ during learning and classification.
+
+Storage: The model requires $O(D^2C)$ parameters. This can still represent a good compression of the data when $D<<N$.
+
+Interpretability: The model has good interpretability since the mean parameters $_c$ correspond to class conditional averages.
+
+Accuracy: The assumptions LDA makes will rarely be correct for real-world problems. However, the induced linear decision boundaries can often perform reasonably well.
+
+Data: LDA will generally need more data than NB since it needs to estimate the $O(D^2)$ parameters in the pooled covariance matrix $$.
+
+
+
+
+
+
+
+[t]Generative vs Discriminative Classifiers
+
+
+12pt
+The Bayes Optimal Classifier, Naive Bayes and LDA are said to be  classifiers because they explicitly model the joint distribution $P(,Y)$ of the data vectors $$ and the labels $y$. Question: is this really necessary?
+
+No, to build a probabilistic classifier, all we really need to model is $P(Y|)$. 
+
+Classifiers based on directly estimating $P(Y|)$ are called  classifiers because they ignore the distribution of $$ and focus only on the class labels $y$.
+
+
+
+
+[t]Logistic Regression
+
+
+8pt
+Logistic Regression is a probabilistic discriminative classifier.  
+
+In the binary case, it directly models the decision boundary using a linear function:
+$$P(Y=1|)-P(Y=0|)  = ^T+b $$$$P(Y=1|) = 1+(-(^T+b))$$
+
+The classification function is: $f_LR() = _c P(Y=c|)$
+
+
+
+
+
+
+[t]Logistic Function
+
+[width=3in]../Figures/logistic.png
+
+
+
+[t]Multiclass Logistic Regression
+
+
+8pt
+
+Logistic regression can also be extended to the multiclass case:
+
+$$P(Y=c|) = _c^T+b_c)_c' (-(_c'^T+b_c'))  $$
+
+The classification function is still: 
+$$f_LR() = _c P(Y=c|)$$
+
+
+
+
+[t]Learning Logistic Regression
+
+
+12pt
+The logistic regression model parameters $= \(_c, b_c), c\$ are selected to optimize the conditional log likelihood of the labels given a data set $=\(_i,y_i), i=1:n\$:
+
+$$_* = _(|) = __i=1^n P(Y=y_i|=_i)$$
+
+However, the function $(|)$ can not be maximized analytically. Learning the model parameters requires numerical optimization methods. 
+
+
+
+
+[t]Geometry
+
+
+12pt
+Logistic regression is explicitly designed to have a linear decision boundary in the binary case.
+
+In the multiclass case, the decision boundary is piece-wise linear. 
+
+Logistic Regression has the same representational capacity as LDA.
+
+
+
+
+
+[t]Trade-Offs
+
+
+6pt
+Speed: At classification time, LR is faster than NB and LDA. Learning LR requires numerical optimization, which will be slower than NB.  
+
+Storage: The model requires $O(DC)$ parameters. The same order as Naive Bayes, but much less than LDA's $O(DC + D^2)$ when $C<<D$.
+
+Interpretability: The ``importance'' of different feature variables $x_d$ can be understood in terms of their weights $w_dc$.
+
+Accuracy: Tends to be better in high dimensions with limited data compared to LDA. Much worse than KNN in low dimensions with lots of data and non-linear decision boundaries.[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false]beamer
+
+
+
+Overfitting, Regularization,\\ and Crossvalidation
+
+
+
+
+
+
+
+[t]Open Questions
+
+
+8pt
+To date we have introduced five classifiers: KNN, Decision Trees, Naive Bayes, LDA and Logistic Regression.
+
+In the case of KNN and Decision Trees, we saw that the results are very sensitive to the number of neighbors, and the depth of the tree. 
+
+In the case of logistic regression, we saw that $P_(y|)$ is 
+sensitive to the magnitude of the weights $$. 
+
+In this lecture, we'll discuss what changes in these models as we vary these parameters and introduce methodology for selecting optimal values for them.
+
+
+
+
+
+
+
+
+
+
+[t]Model Capacity
+
+
+12pt
+
+Deterministic classifiers that can represent more complex decision boundaries are said to have higher  than classifiers that can only represent simpler boundaries. 
+
+Probabilistic classifiers that can represent more complex sets of conditionals $P(Y|X)$
+are said to have higher  than probabilistic classifiers that can only represent simpler sets of conditionals. 
+
+ How would you rank the capacity of the classifiers we've seen so far?
+
+
+
+
+
+[t]Generalization
+
+
+12pt
+
+ Why can't we always just use the classifier with the highest possible capacity for every problem? 
+
+ This would always minimize the error on the training data. However, what we really care about for prediction problems is .
+
+ The ability of a trained classifier to achieve an error rate on  (the generalization error rate) that is comparable to the training error rate. 
+
+ To achieve optimal generalization performance for a given training set, we often need to control model capacity carefully. 
+
+
+
+
+
+[t]Overfitting and Underfitting
+
+
+12pt
+
+ The generalization error for a classifier is much worse than the training error. This usually results from choosing a classifier with too much capacity so that it models the noise in the training data.
+
+ Occurs when the capacity of the classifier is too low to capture the actual structure in the training data, leading to both high training error and high generalization error.
+
+
+
+
+
+
+[t]Bias-Variance Trade-Off
+
+
+12pt
+
+ A classifier is said to have low  if the true decision boundary or conditionals $P(Y|X)$ can be approximated closely by the model.
+
+ A classifier is said to have low  if the decision boundary or conditionals $P(Y|X)$ it constructs are stable with respect to small changes to the training data. 
+
+ To achieve low generalization error, we need classifiers that are low-bias and low-variance, but this isn't always possible. 
+
+ On complex data, models with low capacity have low variance, but high bias; while models with high capacity have low bias, but high variance. 
+
+
+
+
+
+
+[t]Hyperparameters
+
+
+12pt
+
+In order to control the capacity of a classifier, it needs to have capacity control parameters. 
+
+Because capacity control parameters can not be chosen based on training error, they are often called hyperparameters. 
+
+ What are the capacity control parameters for KNN and decision trees?
+
+ What are the capacity control parameters for naive Bayes and logistic regression? 
+
+
+
+
+[t]Capacity, Smoothness and Regularization
+
+
+6pt
+
+ In the case of probabilistic classifiers like NB, LDA, and LR, we can think of capacity in terms of the  of $P(Y|X)$. 
+
+ We can control the smoothness of $P(Y|X)$ using a technique called  that penalizes parameters that result in overly complex $P(Y|X)$ during learning.
+
+ Laplace smoothing is a simple method for smoothing the parameter estimates of a categorical distribution:
+
+$$P_(X=v)=_v = ^n[x_i=v]V+ n, \;\; v=1..V$$
+
+As the regularization hyperparameter $$ increases, our estimate of the distribution smooths out toward being uniform. This provides capacity control for NB with binary or categorical features. 
+
+
+
+
+
+[t]Regularization For Logistic Regression
+
+
+6pt
+
+In the case of logistic regression, the smoothness of $P_(Y|X)$ is determined by the magnitude of $$. 
+
+We can control the magnitude of $$ by introducing a regularization term into the conditional log likelihood learning criteria that penalizes the norm of $$. 
+
+$$_* = _\;\;_i=1^n P(Y=y_i|=_i) - ||||_2^2 $$
+
+Some formulations of this problem up-weight the contribution from the data instead:
+
+$$_* =  _\;\; C_i=1^n P(Y=y_i|=_i) - ||||_2^2 $$
+
+
+
+
+[t]Regularization For Logistic Regression
+
+
+6pt
+
+This problem can also be solved using other norms, including the $_1$ norm. This has the advantage of creating sparse weight vectors: 
+
+$$_* =  _\;\;_i=1^n P(Y=y_i|=_i) - ||||_1 $$
+
+$$_* = _\;\; C_i=1^n P(Y=y_i|=_i) - ||||_1 $$
+
+The regularization hyperparameters are either $$ or $C$. As $$ increases, the learned $P(Y|X)$ will smooth out. As $C$ decreases, the learned $P(Y|X)$ will smooth out.
+
+
+
+
+
+
+
+[t]Model Selection and Evaluation
+
+12pt
+
+We've identified the parameters that control the capacity of our models, we need a way to choose optimal values for these parameters. 
+
+In addition, we will want an estimate of the generalization error that the selected parameters achieve.
+
+To obtain, valid results, we need to use appropriate methodology and construct learning experiments carefully.
+
+Data used to estimate generalization error can not be used for any other purpose (ie: model training, hyperparameter selection, feature selection, etc.) or the results of the evaluation will be .
+
+
+
+
+
+[t]Recipe 1: Train-Validation-Test
+
+6pt
+
+Given a data set $D$, we randomly partition the data cases into a training set ($Tr$), a validation set ($V$), and a test set ($Te$). Typical splits are 60/20/20, 80/10/10, etc. 
+
+Models $M_i$ are learned on $Tr$ for each choice of hyperparameters $H_i$
+
+The validation error $Val_i$ of each model $M_i$ is evaluated on $V$.
+
+The hyperparameters $H_*$ with the lowest value of $Val_i$ are selected and the classifier is re-trained using these hyperparameters on $Tr+V$, yielding a final model $M_*$
+
+Generalization performance is estimated by evaluating error/accuracy of $M_*$ on the test data $Te$.
+
+
+
+
+
+[t]Example: Train-Validation-Test
+
+[width=2.8in]../Figures/model-selection-tr-val-te.png
+
+Note that the order of the data cases needs to be randomly
+shuffled before partitioning D.
+
+
+
+
+[t]Recipe 2: Crossvalidation-Test
+
+6pt
+
+Randomly partition $D$ into a learning set $L$ and a test set $Te$ (typically 50/50, 80/20,  etc). 
+
+We next randomly partition $L$ into a set of $K$ blocks $B_1,...,B_K$.
+
+For each crossvalidation fold $k=1,...,K$:
+
+  Let $V=B_k$ and $Tr = L/B_k$ (the remaining  $K-1$ blocks).
+  Learn $M_ik$ on $Tr$ for each choice of hyperparameters $H_i$.
+  Compute $Val_ik$ of $M_ik$ on $V$.
+
+Select hyperparameters $H_*$ minimizing $K_k=1^K Val_ik$ and re-train model on $L$ using these hyperparameters, yielding final model $M_*$.
+
+Estimate generalization performance by evaluating error/accuracy of $M_*$ on $Te$.
+
+
+
+
+
+[t]Example: 3-Fold Cross Validation and Test
+First Cross Validation Fold\\
+[width=2.8in]../Figures/model-selection-cv-te-1.png\\
+Note that the order of the data cases needs to be randomly
+shuffled before partitioning D into L and Te. 
+
+
+[t]Example: 3-Fold Cross Validation and Test
+Second Cross Validation Fold\\
+[width=2.8in]../Figures/model-selection-cv-te-2.png\\
+Note that the order of the data cases needs to be randomly
+shuffled before partitioning D into L and Te.  
+
+
+[t]Example: 3-Fold Cross Validation and Test
+Third Cross Validation Fold\\
+[width=2.8in]../Figures/model-selection-cv-te-3.png\\
+Note that the order of the data cases needs to be randomly
+shuffled before partitioning D into L and Te. 
+
+
+
+[t]Recipe 3: Random Resampling Validation-Test
+
+6pt
+
+Randomly partition the data cases into a learning set $L$ and a test set $Te$ (typically 50/50, 80/20,  etc). 
+
+For sample $s=1,...,S$:
+
+  Randomly partition $L$ into $Tr$ and $V$ (again 50/50, 80/20, etc).
+  Learn $M_is$ on $Tr$ for each choice of hyperparameters $H_i$.
+  Compute $Val_is$ of $M_is$ on $V$.
+
+Select hyperparameters $H_*$ minimizing $S_s=1^S Val_is$ and re-train model on $L$ using these hyperparameters, yielding final model $M_*$.
+
+Estimate generalization performance by evaluating error/accuracy of $M_*$ on $Te$.
+
+
+
+
+
+[t]Example: 3-Sample Random Resampling and Test
+First Sample\\
+[width=2.8in]../Figures/model-selection-rr-te-1.png\\
+Note that the order of the data cases needs to be randomly
+shuffled before partitioning D into L and Te. 
+
+
+[t]Example: 3-Sample Random Resampling and Test
+Second Sample\\
+[width=2.8in]../Figures/model-selection-rr-te-2.png\\
+Note that the order of the data cases needs to be randomly
+shuffled before partitioning D into L and Te. 
+
+
+[t]Example: 3-Sample Random Resampling and Test
+Third Sample\\
+[width=2.8in]../Figures/model-selection-rr-te-3.png\\
+Note that the order of the data cases needs to be randomly
+shuffled before partitioning D into L and Te. 
+
+
+
+
+[t]Recipe 4: Crossvalidation-Crossvalidation
+
+6pt
+
+Randomly partition data set $D$ into a set of $J$ blocks $C_1,...,C_J$.
+
+For $j=1,...,J$:
+
+  Let $Te_j = C_j$ and $L_j = D/C_j$ 
+  Partition $L_j$ into a set of $K$ blocks $B_1,...,B_K$.
+  For $k=1,...,K$:
+  
+    Let $V=B_k$ and $Tr= L_j/B_k$.
+    Learn $M_ik$ on $Tr$ for each choice of hyperparameters $H_i$.
+    Compute error $Val_ik$ of $M_ik$ on $V$.
+  
+  Select hyperparameters $H_*$ minimizing $K_k=1^K Val_ik$ and re-train model on $L_j$ using these hyperparameters, yielding model $M_*j$.
+  Compute $Err_j$ by evaluating $M_*j$ on $Te_j$.
+
+Estimate generalization error using $J_j=1^JErr_j$
+
+We can define a similar nested random resampling validation procedure.
+
+
+
+
+
+[t]Trade-Offs
+
+6pt
+
+In cases where the data has a benchmark split into a training set and a test set, we can use Recipes 1-3 by preserving the given test set and splitting the given training set into train and validation sets as needed.
+
+In cases where there is relatively little data, using a single held out test set will have high bias. In these cases, Recipe 4 often provides a better estimate of generalization error, but has much higher computational cost.
+
+Choosing larger $K$ in cross validation will reduce bias. Choosing larger $S$ in random re-sampling validation will reduce variance and bias. However, both increase computational costs. $K=3,5,10$ are common choices for cross validation. $K=N$, also known as Leave-one-out cross validation is also popular when feasible.[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false]beamer
+
+
+
+Support Vector Machines, Basis Expansion and Kernels
+
+
+
+
+
+
+
+[t]Overview
+
+
+12pt
+To date we've seen one example of a discriminative linear classifier.
+
+Today we'll introduce a second example, support vector machines.
+
+We'll then address the question of how to increase the capacity of 
+linear classifiers so they can produce non-linear classification boundaries.
+
+
+
+
+
+
+
+
+
+[t]Support Vector Machines
+
+
+8pt
+A binary support vector machine is a discriminative classifier that takes labels in the set $\-1,1\$.
+
+The decision function has the form:
+$$f_SVM() = (^T+b )$$
+
+It's easy to show that the decision boundary for logistic regression can be written in exactly the same way.
+
+ If logistic regression and SVMs have the same form for their decision boundaries, how do the differ?
+
+
+
+
+[t]Logistic Loss
+
+
+8pt
+In the case of logistic regression with $_2$ regularization, we select the model parameters by maximizing the function:
+
+$$C_i=1^n P(Y=y_i|=_i) - ||||_2^2 $$
+
+Under the assumption that the labels take the values $\-1,1\$, it can be shown that
+this is equivalent to minimizing the function:
+
+$$C_i=1^n (1+(-y_i g())) + ||||_2^2$$
+
+where $L_log(y_i,g(_i)) = (1+(-y_i g()))$ is the  and 
+$g() = ^T+b$.
+
+
+
+
+
+[t]Hinge Loss
+
+
+8pt
+In the case of SVMs with $_2$ regularization, we select the model parameters by minimizing the function:
+
+
+C_i=1^n (0,1-y_i g(_i)) +  ||||_2^2 
+
+
+The function $L_h(y_i,g(_i))= (0,1-y_i g(_i))$ is called the .
+
+
+
+
+[t]Zero-One Loss
+
+
+8pt
+Both the logistic loss and the hinge loss are convex upper bounds on the zero-one loss:
+
+$$L_01(y_i,g(_i)) = [y_i (g(_i))]$$
+
+The average zero-one loss over a data set is exactly the classification error rate.
+
+This is the loss function we'd like to minimize, but this generally isn't computationally feasible, thus the need for surrogate loss functions.
+
+Hinge loss has some advantages over logistic loss, as we'll see.
+
+
+
+
+
+
+[t]Maximum Margin Property
+
+Part of popularity of SVMs stems from the fact that the hinge loss results in the  decision boundary when the training cases are linearly separable.
+
+2in
+[width=2in]../Figures/svm-boundaries.png
+2in
+[width=2in]../Figures/svm-opt.png
+
+
+
+
+[t]Support Vector Property
+
+In the linearly separable case, some data points will always fall exactly on the margins. These points are called .
+
+[width=2.5in]../Figures/svm-support-vectors.png
+
+
+
+[t]SVMs vs Logistic Regression
+
+
+8pt
+SVMs and Logistic regression are both discriminative linear classifiers with identical capacity and space complexity. 
+
+SVMs and Logistic regression have very similar convex loss functions and identical regularizers.
+
+The hinge loss is not differentiale, unlike the logistic loss, so SVMs require more advanced optimization methods (sub-gradient descent or quadratic programming), but there are extremely good algorithms and implementations available.
+
+The maximum-margin property of SVMs can yield better generalization than logistic regression when data is scarce.
+
+
+
+
+[t]SVMs vs Logistic Regression
+
+
+8pt
+
+It is somewhat more difficult to form a multi-class SVM than a multi-class logistic regression model, and many implementations use ``hacks'' like one-vs-all.
+
+Unlike logistic regression, SVMs do not produce probabilistic outputs, but again, there are hacks that can estimate probabilities.
+
+
+
+
+
+
+
+
+[t]The Problem with Linear Models
+
+
+8pt
+The problem with linear classifiers is that their decision boundaries are by definition linear in the input feature space.
+
+This means that they can have very high bias on complex data.
+
+ How can we relax the constraint of linear decision boundaries while retaining the nice properties of linear classifiers?
+
+
+
+
+[t]Basis Function Expansion
+
+
+8pt
+One very simple solution is to apply a set of functions $_1$,...,$_K$ to the
+raw feature vector $$ to map it in to a new feature space:
+
+$$() = [_1(),...,_K()]$$
+
+This is called a  since $K>D$ in general. This requires that we know the functions $_1$,...,$_K$ that we want to apply in advance.
+
+We then define a linear classifier (SVM or Logistic Regression) in this new feature space:
+
+$$^T() + b$$
+
+
+
+
+[t]Basis Function Expansion Examples
+
+
+8pt
+ We include all single features $x_d$, their squares $x_d^2$, and all products of two distinct features $x_dx_d'$.
+
+ We include all single features $x_d$, and all unique products of between $2$ and $B$ features.
+
+The problem is that the space complexity of representing the expanded set of features is essentially $O(D^B)$.
+
+Next we'll see how this problem can be solved.
+
+
+
+
+
+
+
+[t]Representer Theorem
+
+
+8pt
+One of the interesting properties of SVMs is that the optimal weight vectors can always be expressed as a weighted linear combination of the data vectors:
+
+$$ = _j=1^N _j _j$$
+
+This result is called the . 
+
+
+
+
+[t]Dependence on Inner Products
+
+
+8pt
+Plugging this result back in to the SVM objective we find that the objective only depends on the data through inner products: $_j^T_i$:
+
+
+g(_i) &= ^T_i + b 
+= _j=1^N _j _j^T_i +b\\
+||||_2^2 &= ^T 
+= _j=1^N _i=1^N _j_i _j^T_i
+
+
+
+
+
+
+[t]Basis Expansion and Representer Theorem
+
+
+8pt
+Under an arbitrary basis expansion $()$ this result becomes:
+
+
+g((_i)) &= _j=1^N _j (_j)^T(_i) +b\\
+||||_2^2  &= _j=1^N _i=1^N _j_i (_j)^T(_i) \\
+
+
+It can be shown in the linearly separable case that the $_i$ parameters
+for data cases that are not support vectors are always $0$.
+
+
+
+
+[t]The Kernel Trick
+
+
+8pt
+Amazingly, for many useful basis function expansions $()$, it is possible to find a function $(,') =()^T(')$ that can compute the inner product under the basis expansion !
+
+Such functions are called  and this is known as the ``Kernel Trick''.
+
+Importantly, you can also directly learn the parameters $_i$ and $b$ using the kernel trick, without constructing the basis expansion.
+
+Interestingly, there exist kernels for which the basis function expansion implied by the kernel isn't even finite dimensional!
+
+
+
+
+
+[t]Examples of Kernel Functions
+
+
+8pt
+ $_P(,') = (^T' + 1)^B$
+
+ $_G(,') = (-||-'||_2^2)$
+
+Many more domain-specific kernels for strings, histograms, probability distributions, and other complex structured objects.
+
+
+
+
+
+[t]Trade-Offs: Basis Expansion and Kernels
+
+
+8pt
+Linear classifiers are fast and space efficient, but can have high bias.
+
+Basis expansion requires more space ($O(NK)$ for data and $O(K)$ for parameters), but yields non-linear classifiers that have lower bias.
+
+Kernel SVMs actually require $O(N^2)$ space for storing all the kernel values during training and have $O(N)$ parameters. This can still be much lower than $O(NK)$ for large sets of basis functions. Kernels also yield non-linear classifiers that have lower bias.
+
+Kernel SVMs often have at least two parameters ($C$ and a kernel hyperparameter). These need to be set jointly, which can be computationally expensive. 
+
+
+
+
+[t]Trade-Offs: Basis Expansion and Kernels
+
+
+8pt
+
+Gaussian kernel SVMs also have infinite capacity, and a very closely related to weighted KNN.
+
+Importantly, everything we said about SVMs and kernels is also true for logistic regression. Applying the kernel trick to logistic regression yields a model called ``kernel logistic regression'' or KLR.
+
+KLR can exploit infinite dimensional feature spaces, can be learned with smooth optimization methods, supports probabilistic outputs, and has an easy multi-class generalization, but lacks the margin maximization property.[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false]beamer
+
+
+
+Neural Networks and Deep Learning
+
+
+
+
+
+
+
+[t]Overview
+
+
+12pt
+Last class we saw how basis expansion and kernels could be used to
+increase the capacity of linear models in a controlled way.
+
+ What is the primary weakness of this approach?
+
+In this lecture, we'll see how artificial neural networks can learn appropriate feature representations along with decision boundaries to maximize classification accuracy.
+
+We'll start with the inspiration for artificial neural networks: your brain.
+
+
+
+
+
+
+
+
+
+[t]Your Brain
+[width=3.8in]../Figures/brain.jpg
+
+
+[t]Brain Regions and Functions
+[width=3.8in]../Figures/neuroanatomy.jpg
+
+
+[t]Visual Areas
+[width=3.9in]../Figures/visual_areas.jpg\\
+Optic nerve contains about 1 Million nerve fibers.
+
+
+[t]Cortical Columns
+[width=3.5in]../Figures/cortical_columns.jpg
+
+
+[t]Neurons
+[width=4in]../Figures/neuron.jpg\\
+Your brain contains about 100 Billions neurons. 
+
+
+[t]Visual Receptive Fields
+[width=4in]../Figures/receptive_fields.jpg\\ 
+
+
+[t]Mapping Receptive Fields in Live Subjects
+[width=3.5in]../Figures/cat_experiment.jpg\\ 
+Hubel and Wiesel earned the Nobel Prize in Physiology or Medicine in 1981 for this work.\\
+
+
+
+
+
+
+
+[t]McCulloch and Pitts Neuron (1943)
+[width=4in]../Figures/pitts_neuron.png\\
+Assuming $() = ()$, what model is this?
+
+
+[t]The Perceptron (1950)
+
+The Perceptron is a simple online algorithm for adapting the weights in a
+McCulloch/Pitts neuron. It was developed in the 1950s by Rosenblatt at Cornell.
+
+[width=4in]../Figures/perceptron_algorithm.png
+
+
+
+[t]Limitations of Single Layer Perceptrons
+
+
+8pt
+
+The representational limitations of the single-layer perceptron were not well understood at first in the AI community.
+
+In 1969, Minsky and Papert at MIT popularized a set of arguments showing that the single-layer perceptron could not learn certain classes of functions (including XOR). 
+
+They also showed that more complex functions could be represented using a
+ or MLP, but no one knew how to learn them from examples.
+
+This led to a shift away from mathematical/statistical models in AI toward
+logical/symbolic models.
+
+
+
+
+
+
+[t]Multi-Layer Perceptron
+
+[width=4in]../Figures/sigmoid_network.jpg
+
+
+
+
+[t]Sigmoid Neural Networks
+The solution to MLP learning turned out to be: 
+
+8pt
+
+Make the hidden layer non-linearities smooth (sigmoid/logistic) functions:
+
+
+h^(1)_k &= 1+(-(_dw_dkx_d + b_dk))\\
+h^(i)_k &= 1+(-(_lw_lkh^(i-1)_l + b_lk))
+
+
+Make the output layer non-linearity a smooth (sigmoid/logistic/softmax) function.
+
+Use standard numerical optimization methods (gradient descent) to learn the parameters. The algorithm is known as Backpropagation and was popularized by Rumelhart, Hinton and Williams in the 1980s.  
+
+
+
+
+[t]Sigmoid Neural Network Properties 
+
+8pt
+
+It can be shown that a sigmoid network with one hidden layer (of unbounded size) is a universal function approximator. 
+
+In terms of classification, this means neural networks with one hidden layer (of unbounded size) can represent any decision boundary and thus have infinite capacity.
+
+It was also shown that deep networks can be exponentially more efficient at representing certain types of functions than shallow networks.
+
+Demo!
+
+
+
+
+
+
+[t]More Failures
+
+8pt
+
+Through the 1990s is became clear that while these models could represent arbitrarily complex functions and that deep networks should work better than shallow networks, no one could effectively train deep networks.
+
+This led to a shift away from neural networks towards probabilistic/statistical  models and SVMs through the late 1990s and 2000s. 
+
+Only a few groups continued to work on neural network models during this time period (Hinton, LeCun, Bengio, Ng).
+
+
+
+
+
+
+
+[t]Deep Learning
+The solution to the deep learning problem (as of right now) appears to be:
+
+
+8pt
+
+Have access to lots of labeled data (ie: millions of examples).
+
+Make the non-linearities non-smooth again (rectified linear units, ReLU):
+
+
+h^(1)_k &= (0,_dw_dkx_d + b_dk))\\
+h^(i)_k &= (0,_lw_lkh^(i-1)_l + b_lk))
+
+
+
+
+
+
+[t]Deep Learning
+The solution to the deep learning problem (as of right now) appears to be:
+
+
+8pt
+
+Have access to lots of labeled data (ie: millions of examples).
+
+Make the non-linearities non-smooth again (rectified linear units, ReLU):
+
+
+h^(1)_k &= (0,_dw_dkx_d + b_dk))\\
+h^(i)_k &= (0,_lw_lkh^(i-1)_l + b_lk))
+
+
+
+
+
+[t]Deep Learning
+The solution to the deep learning problem (as of right now) appears to be:
+
+
+8pt
+2
+Use somewhat improved optimization methods for non-smooth functions (accelerated stochastic sub-gradient descent) to learn the parameters.
+
+Use new regularization schemes based on randomly zeroing-out nodes in the
+network.
+
+Do the computing on a GPU with 1000s of cores and 10s of GB of RAM for a massive 20-30X speedup (go SIMD!). Model training takes 10 days for large vision problems instead of 1 year.
+
+
+
+
+[t]Deep Learning Applications
+
+
+8pt
+
+Deep learning models using these basic ingredients have become dominant in AI over the last few years starting with computer vision and moving on to other areas including speech recognition.
+
+Many companies use deep learning-based vision systems to analyze photos and images.
+
+Google and others switched to deep-learning based speech recognition systems after it was shown to lead to substantial reductions in the word error rate.
+
+
+
+[t]Deep Learning For Vision
+
+Deep learning for vision uses a modified deep architecture called a  or convnet that learns small patches of weights (or filters)
+and replicates (convolves) them over an image. 
+
+[width=4in]../Figures/convnet.png
+
+
+
+This architecture is also from the 1980s and was 
+directly inspired by the structure of the visual areas of the brain.
+
+
+
+
+[t]Learned Receptive Fields
+
+[width=4in]../Figures/nn_filters.jpg
+
+
+
+[t]Learned Receptive Fields
+
+[width=4in]../Figures/rbm_filters.png
+
+
+
+[t]Deep Learning Demos
+
+
+8pt
+
+Digit Recognition: 
+
+Image Classification: 
+
+Image Classification: 
+
+Image Description: 
+
+Handwriting Generation:[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Ensembles and Classification
+
+
+
+
+
+
+
+
+[t]Ensembles
+
+
+8pt
+
+An  is simply a collection of models that are all trained to perform the same task. 
+
+An ensemble can consist of many different versions of the same model, or many different types of models.
+
+The final output for an ensemble of classifiers is typically obtained through a (weighted) average or vote of the predictions of the different models in the ensemble.
+
+An ensemble of different models that all achieve similar generalization performance often outperforms any of the individual models. 
+
+How is this possible?
+
+
+
+
+
+[t]Ensemble Intuition
+
+
+6pt
+
+Suppose we have an ensemble of binary classification functions $f_k()$ for $k=1,...,K$.
+
+Suppose that on average they have the same expected error rate 
+$= E_p(x,y)[yf_k()]<0.5$, but that the errors they make are . 
+
+The intuition is that the majority of the $K$ classifiers in the ensemble will be correct on many examples where any individual classifier makes an error. 
+
+A simple majority vote can significantly improve classification performance by  in this setting. 
+
+ How can we come up with such an ensemble?
+
+
+
+
+
+[t]Independent Training Sets
+
+
+8pt
+
+Suppose we collect multiple independent training sets $Tr_1,...,Tr_K$ and use 
+each of these training sets to train a different instance of the same classifier obtaining
+$K$ classification functions $f_1(),...,f_K()$.
+
+Classifiers trained in this way are guaranteed to make independent errors on test data. 
+
+If the expected error of each classifier is less than $0.5$, then the weighted
+majority vote is guaranteed to reduce the expected generalization error.
+
+ What is the weakness of this approach?
+
+
+
+
+
+
+
+[t]Bagging
+
+
+8pt
+
+Bootstrap aggregation or  is an approximation to the previous method that takes a single training set $Tr$ and randomly sub-samples from it $K$ times (with replacement) to form $K$ training sets $Tr_1,...,Tr_K$.
+
+Each of these training sets is used to train a different instance of the same classifier obtaining $K$ classification functions $f_1(),...,f_K()$.
+
+The errors won't by totally independent because the data sets aren't independent, but the random re-sampling usually introduces enough diversity to decrease the variance and give improved performance.
+
+
+
+
+
+[t]Bagging and Random Forests
+
+
+8pt
+
+Bagging is particularly useful for high-variance, high-capacity models.
+
+Historically, it is most closely associated with decision tree models.
+
+A very successful extension of bagged trees is the random forest classifier.
+
+The random forests algorithm further decorrelates the learned trees by 
+only considering a random sub-set of the available features when deciding which
+variable to split on at each node in the tree.
+
+
+
+
+
+[t]Example: Bagging vs Random Forests
+[width=3in]../Figures/bagging_rf.png
+
+
+
+
+
+
+[t]Boosting
+
+
+8pt
+
+Boosting is an ensemble method based on iteratively re-weighting the data set instead
+of randomly resampling it.
+
+The main idea is to up-weight the importance of data cases that are missclassified by the classifiers currently in the ensemble, and then add a next classifier that will focus on data cases that are causing the errors.
+
+Assuming that the base classifier can always achieve an error of less than 0.5 on any data sample, the boosting ensemble can be shown to decrease error.
+
+
+
+
+
+[t]AdaBoost Algorithm
+[width=3.5in]../Figures/boosting_algorithm.png
+
+
+[t]Example: AdaBoost
+[width=3.5in]../Figures/boosting_examples2.png
+
+
+
+
+
+[t]Stacking (or Blending)
+
+
+8pt
+
+Unlike bagging and boosting, stacking is an algorithm for combining several different types of models.
+
+The main idea is to form a train-validation-test split and train many classifiers $f_k()$ on the training data. 
+
+The trained classifiers are used to make predictions on the validation data set and
+a new feature representation is then created where each data case consists of the vector of predictions of each classifier in the ensemble $ = [f_1(),...,f_K()]$.
+
+Finally, a meta-classifier called a  is trained to minimize the validation error given the data $\(y_i,_i)|i=1,..,N\$.
+
+The extra layer of combiner learning can deal with correlated classifiers as well 
+as classifiers that perform poorly.
+
+
+
+
+[t]Example: Netflix Prize (2009)
+
+[width=4in]../Figures/NetflixPrize.png\\
+Winning team used stacked predictor of 450+ different models.
+
+
+
+
+
+[t]Classification Wrap-Up
+
+
+8pt
+
+We've covered a good mix of classical and state-of-the-art classifiers including
+KNN, decision trees, naive Bayes, LDA, logistic regression, SVMs, neural networks and
+ensembles.
+
+We covered three of the most important meta issues in classification: generalization assessment, capacity control, and hyperparameter selection. 
+
+Things we didn't cover: feature selection, feature engineering, 
+dealing with class imbalance, covariate shift, cost of errors, classifier evaluation beyond accuracy, structured prediction, sequential decisions...
+
+
+
+[t]Classifier Evaluation
+[width=3.5in]../Figures/ConfusionMatrix.png
+
+
+[t]Image Segmentation
+[width=4.5in]../Figures/image_labeling.png
+
+
+[t]Mesh Segmentation
+[width=4.5in]../Figures/mesh_segmentation.jpg
+
+
+[t]Image to Text
+[width=3.5in]../Figures/cat-hat.jpg\\
+A very cute looking cat in a hat
+
+
+[t]Playing Atari Breakout
+[width=3.5in]../Figures/atari-nn.png\\[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Linear Regression, Ridge, and Lasso
+
+
+
+
+
+
+
+[t]Views on Machine Learning
+
+../Figures/mitchell.jpg ``A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at tasks in T, as measured by P, improves with experience E.''\\[12pt]  Substitute ``training data D'' for  ``experience E.''
+
+
+
+[t]The Regression Task
+
+Definition: The Regression Task
+Given a feature vector $^D$, predict it's corresponding output value $y$.
+
+
+[width=3in]../Figures/polynomial-function.png
+
+
+[t]Example: Stock Prices
+[width=4in]../Figures/apple-stock.png
+
+
+[t]Example: Climate Change
+[width=4in]../Figures/northern-hemisphere-temperature.png
+
+
+[t]Example: Weather Forecasting
+[width=3.5in]../Figures/weather-forecast.png
+
+
+[t]The Regression Learning Problem
+Definition: Regression Learning Problem
+Given a data set of example pairs $=\(_i,y_i),i=1:N\$ where $_i^D$ is a feature vector and $y_i$ is the output, learn a function $f:^D$ that accurately predicts $y$ for any feature vector $$.
+
+
+
+[t]Example: Linear Regression Learning
+[width=3.5in]../Figures/regression-learning-example.png
+
+
+[t]Example: Non-Linear Regression Learning
+[width=3in]../Figures/nonlinear-regression.jpg
+
+
+
+[t]Error Measures: MSE
+Definition: Mean Squared Error
+Given a data set of example pairs $=\(_i,y_i),i=1:N\$ and a function $f:^D$, the mean squared error of $f$ on $$ is:
+$$MSE(f,) = N_i=1^N(y_i - f(_i))^2$$
+
+
+Related measures include: \\
+Sum of Squared Errors: $SSE(f,)=NMSE(f,)$\\
+Risidual Sum of Squares: $RSS(f,)=NMSE(f,)$\\
+Root Mean Squared Error: $RMSE(f,)=)$
+
+
+
+
+[t]Error Measures: MAE
+
+Definition: Mean Absolute Error
+Given a data set of example pairs $=\(_i,y_i),i=1:N\$ and a function $f:^D$, the mean absolute error of $f$ on $$ is:
+$$MAE(f,) = N_i=1^N|y_i - f(_i)|$$
+
+
+
+
+
+
+
+[t]Linear Regression
+
+Linear regression is a parametric regression method that assumes the relationship between $y$ and $$ is a linear function with parameters $=[w_1,...,w_D]^T$ and $b$.
+
+Linear Regression Function
+$$f_Lin() = (_d=1^D w_d x_d) + b = +b$$
+
+
+ How can we learn the parameter values $$ and $b$? 
+
+
+[t]Ordinary Least Squares Linear Regression
+
+Ordinary least squares selects the linear regression parameters to minimize the 
+mean squared error (MSE) on the training data set:
+
+
+$$^*,b^* = _,b N_i=1^N(y_i - _i+b)^2$$
+
+
+
+[t]Solving OLS For One Feature
+
+$$_w,b N_i=1^N(y_i - wx_i-b)^2$$
+[width=4in]../Figures/ols_objective.png
+
+
+
+[t]Solving OLS For One Feature
+
+$$_w,b N_i=1^N(y_i - wx_i-b)^2$$
+
+wN_i=1^N(y_i - wx_i-b)^2&=0\\
+bN_i=1^N(y_i - wx_i-b)^2&=0\\
+
+
+
+
+
+[t]Solving OLS For One Feature
+
+
+2N_i=1^N(y_i - wx_i-b)x_i&=0\\
+2N_i=1^N(y_i - wx_i-b)&=0
+
+
+
+w(_i=1^Nx_i^2) + b(_i=1^Nx_i) &=_i=1^N(y_ix_i)\\
+w(_i=1^Nx_i)+b(N)&= _i=1^N(y_i) 
+
+
+
+
+[t]Solving OLS For One Feature
+
+
+
+_i=1^Nx_i^2 & _i=1^Nx_i \\
+_i=1^Nx_i   & N\\
+
+
+w\\
+b
+
+=
+
+_i=1^Ny_ix_i \\
+_i=1^Ny_i 
+
+
+
+
+w\\
+b
+
+=
+
+_i=1^Nx_i^2 & _i=1^Nx_i \\
+_i=1^Nx_i   & N\\
+^-1
+
+_i=1^Ny_ix_i \\
+_i=1^Ny_i 
+
+
+
+
+
+
+[t]General OLS Solution 
+Assume that $$ is a data matrix with one data case $_i^D$ per row, and $$ is 
+a column vector containing the corresponding outputs. The general OLS solution is: 
+
+^* &= _ N_i=1^N(y_i - _i)^2\\
+          &= _ N( - )^T( - )\\
+0          &=  N( - )^T( - )\\
+0&=^T( - ) \\
+^T &= ^T\\
+^* & = (^T)^-1^T
+
+
+
+[t]Connection to Probabilistic Models 
+This same solution can be derived as the maximum conditional 
+likelihood estimate for the parameters of a conditional 
+Normal model. $^2$ is the noise variance.
+
+
+P(y|) = (y;, ^2)
+             = (-2^2(y-)^2)
+
+
+This view shows that OLS assumes the residuals are Normally distributed.
+This assumption is violated in many real world processes that have significant
+outliers or heavy-tailed noise.
+
+
+
+
+[t]Strengths and Limitations of OLS 
+
+
+Need at least $D$ data cases to learn a model with a $D$
+dimensional feature vector. Otherwise inverse of
+$^T$ is not defined.
+
+Very sensitive to noise and outliers due to MSE objective 
+function/Normally distributed residuals assumption.
+
+Sensitive to co-linear features ($x_i ax_j +b$). Otherwise inverse of
+$^T$ is not numerically stable.
+
+High bias (assumes linear relationships between the features and target).
+
+Computation is cubic in data dimension $D$.
+
+Variance is generally low unless there are outliers.
+
+
+
+
+
+
+
+
+
+
+
+[t]Regularized Linear Regression 
+Just as in classification, regression models require capacity control to avoid overfitting 
+and numerical stability problems in high dimensions. This is accomplished by 
+regularizing the weight parameters during learning.
+
+
+^* &= _ N_i=1^N(y_i - _i)^2 + ||||\\
+          &= _ N_i=1^N(y_i - _i)^2 
+            |||| c
+
+
+
+[t]Ridge Regression 
+Ridge regression is the name given to regularized least squares when the weights are penalized using the square
+of the $_2$ norm $||||_2^2 = ^T = _d=1^D w_d^2 $:
+
+
+^* &= _ N_i=1^N(y_i - _i)^2 + ||||_2^2\\
+          &= _ N_i=1^N(y_i - _i)^2 
+           ||||_2^2 c
+
+
+In this case, it is easy to show that the optimal regularized weights are:
+
+$$^*  = (^T+I)^-1^T$$
+
+
+
+[t]The Lasso 
+The Lasso is the name given to regularized least squares when the weights are penalized using the the $_1$ norm $||||_1 = _d=1^D |w_d|$:
+
+
+^* &= _ N_i=1^N(y_i - _i)^2 + ||||_1\\
+          &= _ N_i=1^N(y_i - _i)^2 
+           ||||_1 c
+
+
+The Lasso problem is a quadratic programming problem. However, it can be solved efficiently for all values of
+$$ using an algorithm called  (LARS). The advantage of the Lasso is that
+it simultaneously performs regularization and feature selection.
+
+
+[t]Lasso vs Ridge 
+
+[width=4in]../Figures/ridge_vs_lasso.png
+
+
+
+[t]Strengths and Limitations of Ridge and Lasso 
+
+
+Solves the problem of needing at least $D$ data cases to learn a model with a $D$
+dimensional feature vector.
+
+Solves the problem of co-linear features ($x_i ax_j +b$).
+
+MSE objective function still sensitive to noise and outliers, but regularization
+can reduce the possibility of very large weights overfitting to outliers.
+
+Does not solve bias problem
+
+Computation for ridge is still cubic in data dimension $D$, but now need to
+determine regularization parameters. Computation for LARS is similar.
+
+
+
+
+
+
+
+
+
+[t]Basis Expansion 
+Just as with linear classification models, linear regression models can be extended to
+capture non-linear relationships using basis function expansions. The polynomial basis is
+often used for this purpose, although it is not sensible for forecasting.
+
+[width=4in]../Figures/polynomial_regression.png
+
+
+
+
+[t]Strengths and Limitations of Basis Expansion 
+
+
+Does solve the bias problem.
+
+MSE objective function still sensitive to noise and outliers. Basis expansions
+can easily overfit so need to control capacity.
+
+Computation is cubic in the dimensionality of the basis function
+expansion. Can be costly.[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+KNN Regression, Regression Trees, \Feature Selection
+
+
+
+
+
+
+
+[t]The Regression Task
+
+Definition: The Regression Task
+Given a feature vector $^D$, predict it's corresponding output value $y$.
+
+
+[width=3in]../Figures/polynomial-function.png
+
+
+[t]The Regression Learning Problem
+Definition: Regression Learning Problem
+Given a data set of example pairs $=\(_i,y_i),i=1:N\$ where $_i^D$ is a feature vector and $y_i$ is the output, learn a function $f:^D$ that accurately predicts $y$ for any feature vector $$.
+
+
+
+[t]Error Measures: MSE
+Definition: Mean Squared Error
+Given a data set of example pairs $=\(_i,y_i),i=1:N\$ and a function $f:^D$, the mean squared error of $f$ on $$ is:
+$$MSE(f,) = N_i=1^N(y_i - f(_i))^2$$
+
+
+Related measures include: \\
+Sum of Squared Errors: $SSE(f,)=NMSE(f,)$\\
+Risidual Sum of Squares: $RSS(f,)=NMSE(f,)$\\
+Root Mean Squared Error: $RMSE(f,)=)$
+
+
+
+
+
+
+
+[t]K Nearest Neighbors Regression
+
+The KNN regression is a non-parametric regression method that simply stores the training data $$
+and makes a prediction for each new instance $$ using an average over it's set of $K$ nearest neighbors $_K()$ computed using any distance function $d:^D ^D  $.
+
+KNN Regression Function
+$$f_KNN() = K_i_K() y_i$$
+
+
+As with classification, use of KNN requires choosing the distance function $d$ and the number of neighbors $K$.
+
+
+
+
+[t]Example: 1D KNN (K=1 vs K=9)
+
+[width=4in]../Figures/knn_regression_1d.png
+
+
+
+[t]Example: 2D KNN (K=1 vs K=9)
+
+[width=4in]../Figures/knn_regression_2d.png
+
+
+
+
+[t]Weighted KNN Regression
+
+
+Instead of giving all of the $K$ neighbors equal weight in the average, a distance-weighted average can be used:
+
+
+f_KNN() &=_K() w_i y_i
+_i_K() w_i\\
+w_i &= (-d_i)
+
+
+
+
+
+
+
+
+
+
+[t]Regression Trees
+
+A regression tree makes predictions using a conjunction of rules organized into a binary tree structure.
+
+Each internal node in a regression tree contains a rule of the form $(x_d<t)$ or $(x_d=t$) that tests a single data dimension $d$ against a single threshold value $t$ and assigns the data case to it's left or right sub-tree according to the result.
+
+A data case is routed through the tree from the root to a leaf. Each leaf node is associated with a predicted output, and a data case is assigned the output of the leaf node it is routed to.
+
+
+
+
+
+[t]Example: 2D Regression Trees
+[page=1,width=4in]../Figures/2DTree-Example.png
+
+
+[t]Building Regression Trees
+[H]
+,h,minS,maxD)$
+
+ $d,t = BestSplit()$
+ $_1 = \(y_i,_i)| x_dit\$, $_2 = \(y_i,_i)| x_di > t\$
+_1|<=minS$ or $h+1maxD$
+  $Root.RightChild.Prediction = |_1|_y _1 y$
+
+$BuildTree(Root.RightChild, _1,h+1,minS,maxD)$
+  
+_2|<=minS$ or $h+1maxD$
+  $Root.LeftChild.Prediction = |_2|_y _2 y$
+ $BuildTree(Root.LeftChild, _2,h+1,minS,maxD)$
+
+ $Root.d=d$,$Root.t=t$
+
+
+
+
+
+
+
+[t]Finding the Best Split
+[H]
+)$
+
+ $ = sort(\x_d1,...,x_dN\)$
+ )/2|i=1...N-1\$
+   $_1 = \(y_i,_i)| x_dit\$
+   $_2 = \(y_i,_i)| x_di > t\$
+   $_1 = |_1|_y _1 y$
+   $_2 = |_2|_y _2 y$
+   $Score(d,t) = _y _1 (y-_1)^2 + _y _2 (y-_2)^2$
+ $d,t = _d',t'  Score(d,t)$
+
+
+
+
+[t]Example: Building Regression Trees
+[page=1,width=3.5in]../Figures/regression_tree.pdf
+
+
+
+
+
+[t]Best Subset Selection
+[width=4in]../Figures/best_subset_selection.png
+
+
+
+[t]Forward Stepwise Selection
+[width=4in]../Figures/forward_selection.png
+
+
+[t]Backward Stepwise Selection
+[width=4in]../Figures/backward_selection.png[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Support Vector and Neural Network Regression
+
+
+
+
+
+
+
+[t]Support Vector Regression
+
+
+Support Vector Regression (SVR) is the generalization of SVMs to the case of regression.
+
+As with SVMs, SVR is a linear regression model trained using a different objective function. In this case, the .
+
+[width=4in]../Figures/svr_loss.png
+
+
+
+[t]Support Vector Regression
+
+$$f_SVR() = (_d=1^D w_d x_d) + b = +b$$
+
+$$^*,b^* = _,b C_i=1^N V_(y_i - _i-b) + ||||_2^2$$
+
+$$V_(r) = 
+\
+lr
+0 &  |r|<\\
+|r|-& 
+
+.
+$$
+
+
+[t]Support Vector Regression
+
+[width=4in]../Figures/svr_example.png
+
+
+
+[t]Kernelization
+
+Using the same representer theorem used in classification, it can be shown that
+
+$$f_SVR() = ^*+b* = _i=1^N _i<,_i> + _i=1^N _i<1,_i>$$
+
+This can again be generalized using kernels to allow for non-linear models:
+$$f_SVR() = ^*+b* = _i=1^N _iK(,_i)$$
+
+
+
+
+[t]SVR vs KRR
+[width=3.5in]../Figures/svr_vs_krr.png
+
+
+[t]Trade-Offs
+
+
+SVR is more robust to outliers than OLS (minimizing the MSE) due to the loss being linear in the tails instead of quadratic. This is related to a long line of work on robust regression.
+
+Kernel SVR is low bias and has good capacity control, but use of
+cross validation to select regularization hyperparameters is critical.
+
+The learning problem is convex for any choice of 
+reglarization parameters and thus has a unique global optimum.
+
+The kernel matrix computation is quadratic in the data dimension,
+but the model has a support vector property.
+
+You need to know what kernel to use or you need to
+use some form of validation to select from among several alternatives.
+
+
+
+
+
+
+
+
+
+[t]Multi-Layer Perceptron
+
+[width=4in]../Figures/sigmoid_network.jpg
+
+
+
+
+[t]Neural Network Regression
+To convert an MLP from classification to regression, we only need to change the output
+activation function from logistic to linear.
+
+12pt
+
+The hidden layer non-linearities are smooth functions:
+
+
+h^1_k &= 1+(-(_dw_dk^1x_d + b^1_dk))\\
+h^i_k &= 1+(-(_lw_lk^ih^(i-1)_l + b^i_lk))  for  i=2,...,L
+
+
+The output layer activation function is a linear function:
+$$ = _l w_l^o h^L_l + b^o$$
+
+
+
+
+
+[t]Learning
+
+Let $$ be the complete collection of parameters defining a neural network model.
+Our goal is to find the value of $$ that minimizes the MSE on the training data
+set $ = \y_i,_i\_i=1:N$
+
+$$_MSE(|) =  N_n=1^N (y_n-_n)^2$$
+
+
+
+[t]Gradients
+
+We need the gradient with respect to each of the parameters. Let's begin with $w_l^o$:
+
+
+_MSE(|)w_l^o 
+&= w_l^oN_n=1^N (y_n-_n)^2=0\\
+&=N_n=1^N (y_n-_n)_nw_l^o\\
+&=N_n=1^N (y_n-_n)h^L_l
+
+
+
+
+[t]Gradients
+
+It's also useful to define the derivatives wrt the hidden units for a single data case:
+
+^L_k = _MSE(y,|)h^L_k 
+&=h^L_k  (y-)^2\\
+&= 2(y-)h_k^L\\ 
+&= 2(y-)w^o_k
+
+In general, we can define: $^j_k = _MSE(y,|)h^j_k$
+
+
+
+
+
+[t]Gradients
+
+Suppose we're trying to compute the derivative with respect to the weight
+$w_kl^j$ for some layer $j$ and assume we have $^j_l$ computed for
+all hidden units $l$ in layer $j$.
+
+
+_MSE(y,|)w_kl^j 
+ &= _MSE(y,|)h_l^jw_kl^j \\
+ &= ^j_l h_l^j(1-h_l^j)h_k^j-1
+
+
+
+The total derivative is then given by:
+
+$$_MSE(|)w_kl^j =N_n=1^N_MSE(y_n,_n|)w_kl^j $$
+
+
+
+[t]Gradients
+
+Suppose we're trying to compute the error with respect to hidden unit $k$ in layer
+$j-1$ and assume we have $^j_l$ computed for all hidden units $l$ in layer $j$.
+
+
+_MSE(y,|)h_k^j-1 
+ &= _l_MSE(y,|)h_l^jh_k^j-1 \\
+ &= _l^j_l h_l^j(1-h_l^j) w_kl^j-1
+
+ 
+
+
+[t]Backpropagation
+
+
+The Backpropagation algorithm works by making a forward pass through the network
+for each data case and storing all the hidden unit values.
+
+The algorithm then computes the error at the output and makes a backward pass through
+the network computing the derivatives with respect to the parameters as well as the contribution
+of each hidden unit to the error. These are the $_k^j$ values.
+
+The complete computation is just an application of the chain rule with caching of
+intermediate terms in the neural network graph structure.
+
+
+
+
+[t]Trade-Offs
+
+
+Neural network regression has low bias, but high variance.
+
+The objective function has local optima and requires
+iterative numerical optimization using backpropagation to
+compute the gradients, which can be slow.
+
+Making predictions with trained models can be very fast.
+
+Capacity control in these models can be crucial. The capacity
+parameters are the depth of the network and the size of each layer.
+
+These models can also be trained using $_2$ or $_1$ regularization
+or the more recent dropout scheme as an alternative to controlling
+network structure.[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+KOLS and Gaussian Process Regression
+
+
+
+
+
+
+
+[t]Support Vector Regression
+
+
+Support Vector Regression (SVR) is the generalization of SVMs to the case of regression.
+
+As with SVMs, SVR is a linear model trained using a different 
+objective function. In this case, the .
+
+[width=4in]../Figures/svr_loss.png
+
+
+
+
+[t]Kernelization
+
+Using the same representer theorem used in classification, it can be shown that
+
+$$f_Lin() = ^*+b* = _i=1^N _i<,_i> + _i=1^N _i<1,_i>$$
+
+This can again be generalized using kernels to allow for non-linear models:
+$$f_Lin() = ^*+b* = _i=1^N _iK(,_i)$$
+
+Let's have a look at how this model works in more detail.
+
+
+
+[t]What About Probabilities?
+
+
+An additional drawback of SVR is that it isn't probabilistic.
+
+For many applications like weather prediction and stock 
+market forecasting, we might like the model to predict both a 
+mean value and a confidence interval or standard deviation.
+
+ How can we define a flexible regression model 
+like SVR, but with probabilistic outputs?
+
+
+
+
+[t]OLS Regression as a Probabilistic Model
+
+Recall that the ordinary least squares solution to linear regression
+is equivalent to optimizing the following probabilistic model
+where $^2$ is the noise variance.
+
+
+P(y|) = (y;, ^2)
+             = 
+(-2^2(y-
+)^2)
+
+
+
+
+[t]Parameter Estimates
+
+The solution for the parameter estimates is:
+
+
+_* & = (^T)^-1^T\\
+^2_*  & = N_n=1^N (y_n - _n)^2
+
+
+Note that learning this model estimates both the regression
+weights $$ and the residual noise variance $^2$.
+
+
+
+[t]Kernelized OLS Regression
+
+Just as with SVR, the OLS solution can be written in terms of inner products 
+between data cases and the representer theorem can be used to obtain a 
+kernelized form of the model where:
+
+$$f_Lin() = _* = _i=1^N 
+_iK(,_i)$$
+
+$$^2  = N_n=1^N (y_n - f_Lin(_n))^2$$
+
+Let's have a look at how this model compares to SVR.
+
+
+
+[t]KOLS and Uncertainty
+
+ What is the problem with the uncertainty estimate coming 
+from KOLS?\\[12pt]
+
+It's the same everywhere! We should have more uncertainty far from where
+we have data and less uncertainty close to where we have data.
+
+
+
+
+
+
+
+
+[t]Gaussian Process Regression
+
+
+Gaussian Process Regression is a kernelized probabilistic regression model
+that infers a probability distribution over latent functions (a 
+).  
+
+A Gaussian process regression model uses a Gaussian process prior 
+over the space of functions, and a regular normal likelihood.
+
+$$p(f) = (f;m,)\;\;\;\;\; p(y|,f) = 
+(y;f(x),^2)$$
+
+A Gaussian process is characterized by a mean function 
+$m()$ and a covariance function (kernel function) 
+$(,')$ such that the joint distribution of the process
+over any finite collection of input $_1,...,_n$ is multivariate 
+Gaussian. 
+
+
+
+
+
+[t]Gaussian Process Regression
+
+The covariance function $$ defines how ``smooth'' typical
+functions $f$ from the process look. Different covariance functions
+and different hyper-parameters lead to favoring different types of functions.
+
+[width=4in]../Figures/GPsamples1.png
+
+
+
+[t]Gaussian Process Regression
+
+The covariance function $$ defines how ``smooth'' typical
+functions $f$ from the process look. Different covariance functions
+and different hyper-parameters lead to favoring different types of functions.
+
+[width=4in]../Figures/GPsamples2.png
+
+
+
+[t]Gaussian Process Regression
+
+
+Intuitively, the model defines the distribution $p(y|)$ by 
+integrating over the space of all possible functions:
+
+$$p(y|) = 
+(y;f(x),^2)(f;m,)df$$
+
+If we have a data set 
+$=\(y_i,_i\_i=1:N$, we can (conceptually) invert this 
+model using Bayes rule to infer $p(f|)$:
+
+$$p(f|) = (f;_N,_N)^N 
+(y_i;f(_i),^2)(f;m,)
+_i=1^N
+(y_i;f(_i),^2)(f;m,)df
+$$
+
+We can then make predictions for new points using the equation:
+
+$$p(y|,) = 
+(y;f(x),^2)(f;)df$$
+
+
+
+
+
+[t]Gaussian Process Regression
+
+
+It may look like the prediction computation $p(y|,)$ is 
+impossible to actually carry out here, but it turns out to be computable in 
+closed form:
+
+Let $ = [y_1,...,y_N]^T$ 
+
+Let $ = [m(_1),...,m(_N)]^T$ and $m_* = 
+m()$
+Let $_ij = (_i,_j)$, 
+$(_*)_i,1 = (_i,)$ and $(_**) = 
+(,)$.
+
+We can compute the predictive distribution as follows:
+
+  p(y|,) &= (y; _*,^2_*)\\
+  _* &= m_* + _*^T (+ ^2I)^-1 ( - 
+)\\
+  ^2_*& = _** - _*^T (+ ^2I)^-1_*
+
+
+Let's see what this model can do.
+
+
+
+
+
+
+[t]Learning
+
+
+Since as a non-parametric Bayesian model, GPR has no explicit model 
+parameters to learn like SVR. 
+
+The covariance function that defines a GP has the same 
+hyper-parameters as the corresponding kernel when used in SVR.
+
+The hyper-parameters can be set via cross validation. They can also
+be learned on training data using maximum marginal likelihood optimization.
+
+
+
+
+
+[t]Trade-Offs
+
+
+The computational complexity of GPR scales with cube of the number of
+input points due to inversion of the covariance matrix. This can be sped up 
+using a number of approximations.
+
+Unlike SVR and KOLS, GPR provides a more sensible estimate of uncertainty
+that reflects the amount of data locally.
+
+The likelihood function is still Gaussian; however, so the model is 
+sensitive to outliers like OLS, and unlike SVR.
+
+Unlike SVR, the model does not have a support vector property. This means
+naive GPR implementations must retain access to all data similar to KNN. 
+regression.[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Introduction to Data Parallel Computing
+
+
+
+
+
+
+
+
+
+[t]Moore's Law
+[width=3.5in]../Figures/moores_law.png\\[6pt]
+
+Machine Learning's free ride ended in about 2005.
+
+
+[t]Multi-Core CPUs
+[width=4in]../Figures/corei7.jpg
+
+
+[t]Multi-Core CPU Memory Architecture
+[width=3.5in]../Figures/multi-core-architecture.jpg\\[12pt]
+What if one multi-core CPU isn't enough?
+
+
+[t]Distributed Computer (Cluster)
+[width=3.5in]../Figures/openrack2.jpg\\[12pt]
+Facebook custom-built server rack.
+
+
+[t]Distributed Computer (Cluster) Architecture
+[height=2in]../Figures/hpc_cluster.png\\[12pt]
+ What if a one-rack cluster isn't enough?
+
+
+
+[t]Server Container
+[width=3.5in]../Figures/bing_container.jpg\\
+Server container used by Bing Search.\\
+What if a one-container cluster isn't enough?
+
+
+[t]Container Hanger
+[width=3.5in]../Figures/server_container.jpg\\
+Container hanger at Google data center.
+\\
+What if you don't want to manage a compute 
+center?
+
+
+[t]Cloud Computing
+[width=3.5in]../Figures/clouds.png\\[12pt]
+
+Infrastructure as a service (IAAS) + Hardware Virtualization \\[12pt]
+
+
+
+
+
+
+
+[t]Types of Parallelism
+
+ Running multiple threads 
+concurrently with access to a single shared memory.  Low communication overhead. 
+Limited scalability. Typical of multi-core 
+setting.
+
+ Running multiple processes on 
+different machines that are networked together. High communication overhead. 
+High scalability. Typical of cluster setting.
+
+
+
+[t]Types of Parallel Computing Tasks
+
+ Tasks need no communication between 
+them at all. Near linear speedups. Examples: cross validation workflows.
+
+ Each task performs the same operations over 
+a distinct set of data elements. Tasks typically communicate only with a 
+``master'' task for synchronization and not with each other. Sub-linear 
+speedups. Examples: data parallel 
+implementations of any algorithms we've seen to date)
+
+ Each CPU performs local computation
+but needs to frequently communicate results with other CPUs. Sub-linear 
+speedups. Examples: physics simulations.
+
+
+
+
+[t]Why the Sub-Linear Scaling?
+
+The parallel speedup is limited by the amount of time a 
+non-embarrassingly parallel process spends either in single threaded code or 
+communicating with other processes.
+
+Amdahl's Law: Let $$ be the fraction of code that must run 
+single threaded and $P$ be the number of processors. Then the maximum parallel 
+speedup
+is approximated by:
+
+$$P + $$
+
+
+In the limit as $P$ goes to infinity, this ratio converges to 
+$1/$.
+
+
+
+
+[t]Amdahl's Law
+[width=3.5in]../Figures/AmdahlsLaw.png\\
+
+
+
+
+
+[t]Imperative Programming
+
+Imperative programming languages (C, C++, Java, etc.) have multiple 
+problems with concurrency when parallelism is introduced through 
+multi-threading with shared memory.
+
+Examples: Order-Violation, Atomicity-Violation, Deadlock, ... 
+
+Writing correct multi-threaded code is highly non-trivial. Since 
+the order of execution of code in threads is basically random, detecting and
+replicating bugs is extremely difficult.
+
+A key problem in PL is automatically compiling a single-threaded 
+imperative program into a multi-threaded program. No such general purpose 
+compiler exists today. 
+
+
+
+
+
+[t]Functional Programming
+
+The main problems in multi-threaded imperative programs result from 
+allowing mutable state through global variables accessible to all threads. 
+
+This is often referred to as the ``side effects'' problem. In other 
+words, a function can depend on variables other than its explicit inputs, and 
+modify state variables as a result of producing it's output. 
+
+Functional programming eliminates all of these problems by 
+prohibiting mutable state variables and building computations only by nesting
+function evaluations.
+
+There is no explicit looping, only recursion. The component 
+functions are required to always return the same output when run on the same 
+input.
+
+
+
+
+
+[t]Anonymous Functions
+
+In functional programming, functions are first-class types that can be 
+passed to other functions as input.
+
+Some mostly imperative languages like Python also support this.
+
+Since functional programs are often specified using many short 
+functions, naming all the functions becomes tedious. 
+
+Anonymous functions are simply unnamed functions that can be 
+written as inline expressions.
+
+Python supports this using the Lambda Function syntax:\\
+
+
+
+
+
+
+
+[t]Functional Programming and Parallel Computing
+
+The advantage of functional programming is that the resulting 
+programs are trivial to parallelize automatically since different arguments
+to the same function can always be computed in parallel. 
+
+$$f(g(x),h(x),i(x),j(k(x),l(x)))$$
+
+
+
+
+[t]Functional Programming and Data Parallel Computing
+
+Functional programming is a natural match for data parallel computing
+where we want to do things like:
+
+
+Apply the same function to all elements in a 
+data set (Map) 
+Apply a Boolean filter to select only certain data elements 
+(Filter)
+Aggregate a number of data elements by summing, maxing, etc. 
+(Reduce or Fold).
+
+
+It turns out that a small number of such easily parallelizable 
+functional programming primitives are sufficient for creating data-parallel
+implementations of machine learning algorithms. 
+
+
+
+
+[t]Data Parallel Computing: Map
+
+ Applies the function $f$ to each value of the array 
+$x$. This is an embarrassingly parallel operation.
+
+$$Map(f,x)=[f(x_1),...,f(x_n)]$$
+
+[width=3.5in]../Figures/map.png\\
+
+
+
+
+[t]Data Parallel Computing: Reduce
+
+
+ Applies the function $g$ to the first two 
+elements of the array $x$ recursively until the input contains a single value, 
+which it then returns. 
+
+$$Reduce(g,x) = \lr
+Reduce(g,[g(x_1,x_2), x_3,...,x_n]) &  n>1 \\ 
+x_1 &  
+.$$
+
+Ex: $Reduce(+,[3,10,20,15]) =
+Reduce(+,[(3+10),20,15])= 
+Reduce(+,[13,20,15])=
+Reduce(+,[(13+20),15])=
+Reduce(+,[33,15])=
+Reduce(+,[(33+15)])=
+48$
+
+ Can we parallelize this computation?
+
+
+
+
+
+[t]Data Parallel Computing: Reduce
+
+
+If the function is associative, this computation can be 
+parallelized using a balanced binary tree.
+
+[width=3.5in]../Figures/reduce.png\\
+
+
+Ex: $Reduce(+,[3,10,20,15]) = 
+Reduce(+,[Reduce(+,[3,10]),Reduce(+,[20,15])])= 
+Reduce(+,[13,35])= 48$[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Introduction to Apache Spark
+
+
+
+
+
+
+
+[t]Moore's Law
+[width=3.5in]../Figures/moores_law.png\\[6pt]
+
+Machine Learning's free ride ended in about 2005.
+
+
+[t]Big Data
+[width=3.5in]../Figures/big_data.jpg\\[6pt]
+
+The amount of data is doubling every two years. 
+
+
+[t]Amdahl's Law
+[width=3.5in]../Figures/AmdahlsLaw.png\\
+
+
+[t]Functional Programming and Data Parallel Computing
+
+Functional programming is a natural match for data parallel computing
+where we want to do things like:
+
+
+Apply the same function to all elements in a 
+data set (Map) 
+Apply a Boolean filter to select only certain data elements 
+(Filter)
+Aggregate a number of data elements by summing, maxing, etc. 
+(Reduce or Fold).
+
+
+It turns out that a small number of such easily parallelizable 
+functional programming primitives are sufficient for creating data-parallel
+implementations of machine learning algorithms. 
+
+
+
+
+
+
+
+[t]MapReduce and Hadoop
+
+
+MapReduce is a distributed programming model 
+introduced by Google in the early 2000's where all you can do is apply map and 
+reduce functions to data. 
+
+Hadoop is a widely used open-source implementation of this 
+framework.
+
+A scheduler breaks up the map 
+computations over a cluster with a data-parallel distributed file system. The 
+results of the map step are written back to the file system.
+
+The scheduler then schedules the reduce jobs on the cluster, which 
+produce the final output and write it to the file system. 
+
+MapReduce uses a 
+specialization of reduce for key-value pairs called .
+
+
+
+
+
+[t]Limitations of MapReduce For ML
+
+
+The fact that MapReduce is completely stateless and all 
+communication between processing iterations happens via the file system creates 
+a significant synchronization barrier that negatively affects parallel 
+scalability of iterative computations.
+
+[width=3.4in]../Figures/synchronization_barrier.jpg\\
+
+
+
+
+[t]Apache Spark
+
+
+Apache Spark is a parallel and distributed programming framework that 
+adds additional parallel abstractions and allows for distributed 
+in-memory caching as well as distributed on-disk data access. This makes it 
+much faster than MapReduce for ML tasks.
+
+[width=3.4in]../Figures/spark_vs_hadoop.png\\
+
+
+
+
+
+[t]Apache Spark
+
+Examples[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Data Parallel Programming Abstractions in Spark
+
+
+
+
+
+
+
+[t]Apache Spark
+
+
+Apache Spark is a parallel and distributed programming framework that 
+adds 
+additional parallel abstractions and allows for distributed 
+in-memory caching as well as distributed on-disk data access. This makes it 
+much faster than MapReduce for ML tasks.
+
+[width=3.4in]../Figures/spark_vs_hadoop.png\\
+
+
+
+[t]Distributed Data Abstraction
+
+
+Spark's primary abstraction is a data structure called a 
+ or RDD.
+
+An RDD is a read-only partitioned collection of objects that is 
+stored across one or more nodes in a Spark cluster.
+
+RDDs are created by applying a sequence of  
+to data. Results are obtained by applying  to RDDs.
+
+The Spark system keeps track of the transformations used to create 
+each partition of an RDD and can dynamically re-generate lost partitions on 
+other cluster nodes. This makes it very fault-tolerant. 
+
+
+
+
+[t]Creating RDDs from Data
+
+
+
+An RDD is initially created from a root Spark context object. 
+
+Supported methods include $textFile(path)$ to create an RDD from a 
+text file (or a directory of files), and $parallelize(data)$ to partition an 
+existing collection.
+
+Spark can run over a regular file system or the Hadoop file system
+(HDFS), which provides on-disk distributed storage.
+
+
+
+
+
+[t]Parallel Programming Abstractions: Transformations
+
+For the reasons covered last class, transformations on RDDs are 
+specified through parallel programming abstractions with functional semantics:
+
+
+$map(f)$:  Return a new distributed dataset formed by passing each 
+element of the source through a function $f$.
+
+$flatMap(f)$:   Similar to map, but each input item can be 
+mapped to 0 or more output items (so $f$ should return a list rather than a 
+single item). 
+
+$filter(f)$:  Return a new dataset formed by selecting those 
+elements of the source on which $f$ returns true.
+
+$reduceByKey(func, [numTasks])$:   When called on a dataset of $(K, 
+V)$ pairs, returns a dataset of $(K, V)$ pairs where the values for each key 
+are aggregated using the given reduce function $f$, which must be of type 
+$(V,V) => V$. 
+
+
+
+
+[t]Parallel Programming Abstractions: Transformations
+
+
+
+Transformation use lazy evaluation.
+
+No transformations are applied until you call an action on an RDD.
+
+Why is Spark implemented in this way?
+
+
+
+
+
+
+[t]Parallel Programming Abstractions: Actions
+
+Actions on RDDs return actual values to the Spark master process:
+
+
+
+$collect()$:    Return all the elements of the dataset as an array to 
+the driver program. This is usually useful after a filter or other operation 
+that returns a sufficiently small subset of the data. 
+
+$reduce(f)$:    Aggregate the elements of the dataset using a 
+function $f$ (which takes two arguments and returns one). The function 
+should be commutative and associative so that it can be computed correctly in 
+parallel. 
+
+$first()$:         Return the first element of the dataset.
+
+$take(n)$:        Return an array with the first $n$ elements of the 
+dataset. 
+
+$saveAsTextFile(path)$:    Write the elements of the dataset as a 
+text file (or set of text files) in a given directory in the filesystem.
+
+
+
+
+
+[t]Spark API
+
+The Python Spark RDD API is fully documented here:
+
+
+
+
+
+[t]Mixing Imperative and Functional Programming
+
+
+
+Importantly, programs written using Spark can mix regular imperative
+programming with the functional parallel programming abstractions that Spark 
+provides.
+
+All code in the Spark master process and in individual functions $f$
+passed to Spark can be regular single-threaded imperative code.
+
+
+
+[width=4in]../Figures/spark_flow.png
+
+
+
+[t]Spark and Numpy
+
+
+
+We can use any Python data types in RDDs and any Python 
+library functions inside the functions we pass to Spark transformations and 
+actions. In particular, we can use Numpy functions.
+
+A common operation is to map the rows of an RDD to Numpy arrays
+so that we can apply Numpy operations to them within Spark map and reduce operations.
+
+
+
+
+
+
+[t]In Memory Caching of RDDs
+
+
+
+The main advantage of Spark over MapReduce/Hadoop is that
+it has the ability to cache RDDs in memory on remote cluster nodes.
+
+In the absence of caching, an RDD is recomputed from the
+base data from scratch including all transformations each time an action
+is called on it.
+
+Caching makes Spark much faster than Hadoop for iterative algorithms
+or repeated queries since the data doesn't need to be read of disk for each
+iteration or query.
+
+An RDD can be marked for caching by calling $cache()$ on it. 
+
+
+
+
+
+
+
+[t]Spark and Machine Learning
+
+
+
+Since the computationally intensive part of most machine learning
+computations on big data involves computations that are embarrassingly parallel
+with respect to the data, Spark can be a great fit.
+
+To re-write a Python implementation of a  method like 
+logistic regression learning or prediction, we need to replace the loops 
+over the data with map and reduce steps.
+
+Let's look at the fundamental operation of classifying data cases
+contained in the rows of an RDD using a linear classifier implemented with Spark:
+
+$$w^Tx + b = _i=1^D w_ix_i +b >0$$[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Hierarchical Clustering
+
+
+
+
+
+
+
+[t]Views on Machine Learning
+
+../Figures/mitchell.jpg ``A computer 
+program is said to learn from experience E with respect to some class of tasks 
+T 
+and performance measure P, if its performance at tasks in T, as measured by P, 
+improves with experience E.''\\[12pt]  Substitute ``training data D'' for  
+``experience E.''
+
+
+
+[t]Machine Learning Tasks
+  [width=4in]../Figures/learning_problems.png
+
+
+[t]The Classification Task
+
+Definition: The Classification Task
+Given a feature vector $^D$ that describes an object that 
+belongs to one of $C$ classes from the set $$, predict which class 
+the object belongs to.
+
+
+
+
+[t]The Clustering Task
+
+Definition: The Clustering Task
+Given a collection of data cases $_i^D$, partition the 
+data cases into groups such that the data cases within each partition are
+more similar to each other than they are to data cases in other partitions.
+
+
+[width=3in]../Figures/clustering_example.png
+
+
+[t]Examples: Market Segmentation
+[width=4.5in]../Figures/market_segmentation.jpg
+
+
+[t]Examples: Community Detection
+[width=3.5in]../Figures/community_detection.jpg
+
+
+[t]Examples: Gene Expression
+[width=3.5in]../Figures/gene_clustering.jpg
+
+
+[t]Examples: Phylogenetic Trees
+[width=4.5in]../Figures/phylogeny.jpg
+
+
+[t]Examples: Super Pixels
+[width=4in]../Figures/super_pixels.png
+
+
+
+
+
+ 
+[t]Defining a Clustering
+ 
+
+Suppose we have $N$ data cases $=\_i\_i=1:N$.
+ 
+ A clustering of the $N$ cases into $K$ clusters is a partitioning 
+ of $$ into $K$ mutually disjoint subsets 
+ $=\C_1,...,C_K\$ such that 
+ $C_1 ... C_K = $.
+ 
+ 
+
+
+[t]Exhaustive Clustering
+ 
+ Suppose we have a function $f()$ that takes a partitioning 
+ $$ of the data set $D$ and returns a score with lower scores 
+ indicating better clusterings.
+ 
+ The optimal clustering according to $f$ is simply given by 
+ $$_ \;\;f()$$
+ 
+  What is the complexity of exhaustive clustering?
+ 
+
+
+[t]Number of Clusterings
+
+
+
+ The total number of clusterings of a set of $N$ elements is the 
+Bell number $B_N$ where $B_0=1$ and $B_n+1 = _k=0^n n k B_k$.
+
+The first few Bell numbers are: 1, 1, 2, 5, 15, 52, 203, 877, 
+4140, 21147, 115975, 678570, 4213597, 27644437, 190899322, ...
+
+The complexity of exhaustive clustering scales with $B_N$ and is 
+thus computationally totally intractable for general scoring functions. 
+
+We will need either approximation algorithms or scoring functions 
+with special properties. 
+
+
+
+
+
+
+
+[t]Hierarchical Agglomerative Clustering
+
+
+Hierarchical Clustering methods are a family of greedy tree-based 
+clustering methods.
+
+Hierarchical Agglomerative Clustering (HAC)  is the most popular 
+member of this family.
+
+It begins with all data cases assigned to their own clusters, and 
+then greedily and recursively merges the pair of clusters that is optimal with 
+respect to a given criteria.
+
+
+
+
+
+[t]Distance and Linkage Functions
+
+
+Like KNN, HAC need to be supplied with a function for computing the 
+distance between two data cases. This is often taken to be Euclidean 
+distance, but could be any distance function.
+
+To merge clusters, HAC also needs what is called a linkage function 
+for measuring the distance between clusters. 
+
+Linkage functions can differ 
+significantly in their computational complexity and the clusterings they 
+produce.
+
+
+
+
+[t]Examples of Linkage Functions
+[width=4in]../Figures/linkage.png
+
+
+
+[t]The Hierarchical Agglomerative Clustering Algorithm
+[width=4in]../Figures/hac_algorithm.png
+
+
+[t]Example: Data
+[width=3in]../Figures/hac_example_data.png
+
+
+[t]Example: Dendrograms
+[width=4in]../Figures/hac_example.png
+
+
+[t]Issues
+
+
+We need to have a good notion of similarity for the results of cluster 
+analysis to be meaningful at all.
+
+As with KNN, pre-processing like re-scaling/normalizing features can
+completely change the results. 
+
+Further, we need to slect between the different linkage functions.
+
+We need some way to determine the ``right'' number of clusters to 
+focus on. We want to cluster on salient differences between data cases, not 
+noise.
+
+This procedure is not able to nicely handle noise observations 
+that are different from each other and from the rest of the data that do 
+belong to valid clusters.
+
+All of these issues mean we need to be cautious in interpreting 
+the results of clustering. It should  be the starting point for an exploratory 
+data analysis, not the end point.[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+K-Means Clustering
+
+
+
+
+
+
+
+
+[t]The Clustering Task
+Definition: The Clustering Task
+Given a collection of data cases $_i^D$, partition the 
+data cases into groups such that the data cases within each partition are
+more similar to each other than they are to data cases in other partitions.
+
+
+ 
+ 
+[t]Defining a Clustering
+ 
+
+Suppose we have $N$ data cases $=\_i\_i=1:N$.
+ 
+A clustering of the $N$ cases into $K$ clusters is a partitioning 
+ of $$ into $K$ mutually disjoint subsets 
+ $=\C_1,...,C_K\$ such that 
+ $C_1 ... C_K = $.
+ 
+ 
+
+
+[t]The Hierarchical Agglomerative Clustering Algorithm
+[width=4in]../Figures/hac_algorithm.png
+
+
+
+
+
+
+[t]The K-Means Algorithm
+ 
+
+The K-Means algorithm is an iterative optimization 
+algorithm for clustering that alternates between two steps.
+
+The algorithm maintains a set of $K$ cluster centroids  or 
+prototypes $_k$ that represent the average (mean) feature vector of the data 
+cases in each cluster.
+
+In the first step, the distance between each data case and each 
+prototype is computed, and each data case is assigned to the nearest prototype.
+
+In the second step, the prototypes are updated to the mean of the 
+data cases assigned to them.
+
+ 
+
+
+[t]The K-Means Algorithm
+
+[width=4in]../Figures/kmeans-algorithm.png
+
+
+
+[t]The K-Means Algorithm
+
+Suppose we let $z_i$ indicate which cluster $_i$ belongs to and 
+$_k^D$ be the cluster centroid/prototype for cluster $k$.
+The two main steps of the algorithm can then be expressed as follows:
+
+
+$z_i =_k ||_k-_i||_2^2$
+
+$_k = ^N [z_i=k]_i_i=1^N 
+[z_i=k]$
+
+
+
+
+
+[t]The K-Means Objective
+
+
+The K-Means algorithm attempts to minimize the sum of the within-cluster
+variation over all clusters (also called the within-cluster sum of squares):
+
+$$^* = _ 
+_k=1^K|C_k|__i,_jC_k 
+||_i-_j||_2^2$$
+
+Note that this objective function has many, many local optima in 
+general, each corresponding to a different clustering of the data. 
+
+K-Means produces a non-increasing sequence of objective function 
+values and is guaranteed to converge to some local optima. Finding the global
+optimum is not computationally tractable.
+
+
+ 
+
+
+
+
+[t]Initialization
+
+
+Because K-Means finds a local optimum, it can be highly sensitive to 
+initialization.
+
+It is common to perform multiple random re-starts of the algorithm
+and take the clustering with the minimal total variation.
+
+Common initializations include setting the initial 
+centers to be randomly selected data cases, setting the initial partition to
+a random partition, and selecting centers using a ``furthest first''-style 
+heuristic (more formally known as K-Means++).
+
+It often helps to initially to run with $K(K)$ 
+clusters, then merge clusters to get down to $K$ and run the algorithm
+from that initialization.
+
+ 
+
+
+
+[t]Issues
+
+
+Only works with Euclidean distance. An alternate version based on 
+Manhattan distance exists and is called the K-medians algorithm.
+
+Pre-processing like re-scaling/normalizing features can
+completely change the results.
+
+We need some way to determine the ``right'' number of clusters to 
+focus on. We want to cluster on salient differences between data cases, not 
+noise.
+
+The run time is $O(NKT)$ where $T$ is the number of iterations to
+convergence of the total variation. $T$ is often small (like 20), but examples 
+can be constructed that require an exponential number of steps to converge. 
+
+Results in a hard assignment of data cases to clusters, which may 
+be a 
+problem if there are outliers.[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Mixture Models
+
+
+
+
+
+
+
+[t]Mixture Models
+
+
+A mixture model is a probabilistic clustering model that is the 
+unsupervised analogue of the Bayes Optimal Classifier where the unknown 
+assignment of data cases to clusters take the place of the known class labels. 
+
+We let $_i$ be a data case and $z_i\1,...,K\$ be the 
+index of the cluster data case $i$ belongs to. $z_i$ is often called the 
+mixture indicator variable or the latent class.
+
+Each cluster $k$ specifies it's own distribution over the feature 
+vectors $P(=|Z=k)$ 
+
+We also have a discrete distribution $P(Z=k)=_k$, which 
+describes the prior probability that a data case belongs to cluster $k$.
+
+
+
+[t]Data Distribution
+
+
+The joint  distribution of the features and the mixture indicator 
+variable is:
+
+$$P(=,Z=k)=P(=|Z=k)P(Z=k)$$
+
+In clustering, we don't know what the right value of the mixture 
+indicator variable is a priori, but we can marginalize it away to obtain a 
+probability distribution on the feature vector only:
+
+$$P(=)=_k=1^KP(=|Z=k)P(Z=k)$$
+
+
+
+
+[t]Mixture Component Distributions
+
+To define a specific mixture model, we need to define the form of 
+$P(=|Z=k)$. Some common choices include:
+
+
+Bernoulli: $_d=1^D 
+_dk^[x_d=1](1-_dk)^[x_d=0]$
+
+Independent Gaussian: $_d=1^D 
+(x_d;_dk, ^2_dk)$
+
+Multivariate Gaussian: $ 
+(;_k,_k)$
+
+
+
+
+[t]Learning
+
+
+Given a data set $=\_i\_i=1:N$, we can learn the
+mixture model parameters by maximizing the log probability of the data give 
+the parameters:
+
+$$ = _i=1^N 
+(_k=1^KP(_i=_i|Z=k)P(Z=k))$$
+
+
+While we can do this directly using gradient-based optimization, 
+it's often faster to use a special algorithm called Expectation 
+Maximization.
+
+
+
+
+[t]Expectation Maximization for Gaussian Mixture Models
+
+
+[E-Step:] In the first step of the algorithm, we compute the 
+probability that each data case belongs to each cluster using Bayes rule. These 
+probabilities are often called the responsibilities. 
+
+$$r_ik = P(Z_i=k|_i)=
+(;_k,_k)_k'=1^K_k' 
+(;_k',_k')$$
+
+
+
+
+
+
+
+
+[t]Expectation Maximization for Gaussian Mixture Models
+
+
+
+[M-Step:] In the second step, we update the parameters 
+using responsibility weighted averages.
+
+$$_k = ^N r_ikN, \;\;\;\;\;\;
+_k = ^N r_ik_i _i=1^N r_ik$$
+
+$$_k = ^N 
+r_ik(_i-_k)^T(_i-_k) _i=1^N r_ik$$
+
+
+
+
+
+
+[t]A Special Case
+
+Suppose we fix $_k=1/K$ and $_k = I$. In this case we have:
+$$(;_k,_k) = 
+|2I|(-2||_k-_i||_2^2)$$
+and we obtain the following special case of the EM algorithm for multivariate 
+Gaussians:
+
+$$r_ik = 
+2||_k-_i||_2^2)_k'=1^K(-2
+||_k'-_i||_2^2)$$
+
+$$_k = ^N r_ik_i _i=1^N r_ik$$
+
+This is often referred to as soft K-means.
+
+
+
+[t]Trade-Offs
+
+
+We can see that the original K-Means algorithm performs hard assignments 
+during clustering, and implicitly assumes all clusters will have an equal 
+number of points assigned as well as a unit covariance matrix. 
+
+EM for Mixtures of Gaussians relaxes all of these assumptions. The 
+objective still has multiple local optima, but EM also produces a guaranteed 
+non-decreasing sequence of objective function values.
+
+EM can also be used with any component densities/distributions to 
+customize the model to a given data set.
+
+As with K-Means, initialization is important, but the same 
+heuristics can be applied. There are similar issues with interpreting output 
+and selecting $K$.
+
+
+
+
+[t]Choosing K
+
+
+The Elbow Method: Simple, only requires one fit per value of K. Requires manual assessment of plot. Works for K-Means and Mixture Models.
+
+Cross-validation: Requires multiple fits per value of K. Automatic selection of best K. 
+Works for GMMs, but often fails for K-Means.[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Linear Dimensionality Reduction and SVD
+
+
+
+
+
+
+
+[t]Machine Learning Tasks
+  [width=4in]../Figures/learning_problems.png
+
+
+
+[t]The Dimensionality Reduction Task
+
+Definition: The Dimensionality Reduction Task
+Given a collection of feature vectors $_i^D$, map the 
+feature vectors into a lower dimensional space $_i^K$ where 
+$K<D$ while preserving certain properties of the data.
+
+
+[width=4in]../Figures/manifold_unrolling.png
+
+
+[t]Example: Representing Time Series
+[width=4in]../Figures/spase_coding_time_series.png
+
+
+[t]Example: Learning Face Parts
+[width=4.5in]../Figures/nmf.png
+
+
+[t]Example: Representing Natural Image Patches
+[width=4.5in]../Figures/sparse_coding_images.jpg
+
+
+[t]Example: Image Embedding
+[width=4.5in]../Figures/image_embedding.png
+
+
+[t]Applications
+ 
+
+Can be used as a pre-processing step to enable more accurate
+classification and regression on manifold data.
+
+Very low dimensional embeddings (ie: K=2,3) can be used to
+visualize complex manifold-structured data as in the previous example.
+
+Can be used to de-noise data by projecting to lower-dimensional
+space and then projecting back to the feature space.
+
+ 
+
+
+[t]Dimensionality Reduction vs Feature Selection
+ 
+
+The goal of feature selection is to remove features that are not 
+informative with respect to the class label. This obviously reduces the 
+dimensionality of the feature space.
+
+Dimensionality reduction can be used to compress the feature space
+for manifold structured data even when there is information in each of the 
+feature dimensions so that none can be discarded.
+
+Another important property of dimensionality reduction is that it is 
+unsupervised. It will attempt to preserve structure in the data that could be
+useful for a range of supervised problems, not a specific problem. 
+
+Unlike feature selection, which is a supervised task, 
+dimensionality reduction can sometimes compress out structure useful to a 
+particular supervised task thereby increasing error.
+
+ 
+
+
+
+
+
+
+[t]Linear Dimensionality Reduction
+ 
+
+The simplest dimensionality reduction methods assume that the observed 
+high dimensional data vectors $_i^D$ lie on a 
+K-dimensional linear manifold within $^D$. 
+
+[width=4in]../Figures/linear_subspace.png
+
+
+ 
+
+
+[t]Linear Dimensionality Reduction
+ 
+
+Mathematically, the linear sub-space assumption can be written as follows:
+
+$$_id = _k=1^K z_ik b_kd$$
+
+
+where $_k=[b_k1,...,b_kD]$ for $k=1,...,K$ are a 
+set of basis vectors describing a $K$-dimensional linear sub-space of 
+$^D$ and $z_ki$ are a set of real-valued weights on those basis 
+vectors.
+
+
+ 
+
+
+
+[t]Connection to Linear Regression
+ 
+
+This expression is exactly linear regression where $x_id$ is 
+the target, $z_ik$ are the weights, and $_kd$ for each $k$ are the 
+features. 
+
+$$_id = _k=1^K z_ik b_kd$$
+
+
+This observation is also true if we swap the roles of the weights 
+and the features.
+
+However, unlike the linear regression case, we only know what 
+corresponds to the targets. We must learn both the features and the weights. 
+
+ 
+
+
+[t]Matrix Form
+ 
+
+If we let $$ be the data matrix $_id= x_id$,
+$$ be a matrix where $_ik=z_ik$, and $$ be a matrix 
+where $_kd=b_kd$, we can express $$ as follows:
+
+$$ = $$
+
+
+$^NK$ is often referred to as the 
+factor loading matrix while $^KD$ are referred to 
+as the latent factors by analogy to regression.
+
+ 
+
+
+[t]Observation Noise
+ 
+
+Most real world data will be subject to noise. If we assume that 
+$^ND$ is a matrix of noise values from some
+probability distribution, we have:
+
+$$ =  + $$
+
+
+ 
+
+
+[t]Learning
+ 
+
+The learning problem for linear dimensionality reduction is to estimate
+values for both $$ and $$ given only the noisy observations 
+$$.
+
+One possible learning criteria is to minimize the sum of squared 
+errors when reconstructing $$ from $$ and $$. This leads 
+to:
+
+$$_, || -  ||_F$$
+
+
+where $||||_F$ is the Frobenius norm of matrix  $$ (the sum of 
+the squares of all matrix entries). 
+
+ 
+
+
+[t]Learning Algorithm
+ 
+
+Not surprisingly, we can obtain a solution to this learning problem by
+leveraging the OLS solution to linear regression. The algorithm is often 
+referred to as Alternating Least Squares or ALS. 
+
+Starting from a random initialization, ALS iterates between 
+assuming $$ are known features and optimizing $$ 
+as the unknown weights, and assuming that $$ are the known features and 
+optimizing $$ as the unknown weights:
+
+
+$$ (^T)^-1^TX$$
+$$^T (^T)^-1X^T$$
+
+
+ 
+
+
+[t]Lack of Uniqueness of Optimal Parameters
+ 
+
+Suppose we run the ALS algorithm to convergence and obtain estimates
+for $_*$ and $_*$ such that:
+
+$$c = || - _*_*||_F$$
+
+Note that if we let $ ^KK$ be an 
+arbitrary $KK$ invertible matrix, then we obtain exactly the same value 
+$c$ of the objective function for the alternate parameters 
+$=_*$ and $ = 
+^-1_*$:
+
+
+c &= || - _*(I)_*||_F\\
+ &= || - (^-1) ||_F\\
+ &= || -  ||_F
+
+
+ 
+
+
+[t]Singular Value Decomposition
+ 
+
+Interestingly, this optimization problem has a continuous subspace of 
+optimal solutions that all obtain the same global minimum value of the 
+objective function. 
+
+Each optimal solution is simply a different representation the same
+linear subspace.
+
+We can pick a unique representation for the subspace by 
+specifying additional criteria. Classical Rank-K Singular Value Decomposition 
+(K-SVD) corresponds to the following restriction:
+
+$$_,, || - ^T ||_F$$
+
+where $S$ is a $KK$ diagonal matrix with positive elements,  
+$$ is an $NK$ matrix such that  $^T=I$, and $V$
+is a $DxK$ matrix such that $^T=I$.
+
+ 
+
+
+[t]Trade-Offs
+ 
+
+Minimum Frobenius norm linear dimensionality reduction is nice because 
+it will find the globally optimal linear sub-space, and SVD provides a 
+unique representation for this sub-space.
+
+The basic ALS algorithm scales as $O(K^3 + D^3)$ per pair of 
+iterations due to the matrix inverses, which is not suitable for high 
+dimensions. The full SVD algorithm scales as $O(min(DN^2, ND^2))$, which also 
+isn't scalable to large data. However, fast approximations exist for both 
+problems.
+
+A significant limitation of linear dimensionality reduction is that
+it can fail to achieve a useful compression of the data if the underlying 
+manifold is not actually linear.
+
+As with clustering, the rank $K$ of the latent sub-space is a free 
+parameter.[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Principal Components Analysis
+
+
+
+
+
+
+
+[t]The Dimensionality Reduction Task
+
+Definition: The Dimensionality Reduction Task
+Given a collection of feature vectors $_i^D$, map the 
+feature vectors into a lower dimensional space $_i^K$ where 
+$K<D$ while preserving certain properties of the data.
+
+
+[width=4in]../Figures/manifold_unrolling.png
+
+
+
+[t]Linear Dimensionality Reduction
+ 
+
+The simplest dimensionality reduction methods assume that the observed 
+high dimensional data vectors $_i^D$ lie on a 
+K-dimensional linear manifold within $^D$. 
+
+Mathematically, the linear sub-space assumption can be written as 
+$ = $
+
+[width=3in]../Figures/linear_subspace.png
+
+
+ 
+
+
+[t]Learning
+ 
+
+The learning problem for linear dimensionality reduction is to estimate
+values for both $$ and $$ given only the noisy observations 
+$$.
+
+One possible learning criteria is to minimize the sum of squared 
+errors when reconstructing $$ from $$ and $$. This leads 
+to:
+
+$$_, || -  ||_F$$
+
+
+where $||||_F$ is the Frobenius norm of matrix  $$ (the sum of 
+the squares of all matrix entries). 
+
+ 
+
+
+[t]Singular Value Decomposition
+ 
+
+
+We can pick a unique representation for the subspace by 
+specifying additional criteria. Classical Rank-K Singular Value Decomposition 
+(K-SVD) corresponds to the following restriction:
+
+$$_,, || - ^T ||_F$$
+
+where $S$ is a $KK$ diagonal matrix with positive elements,  
+$$ is an $NK$ matrix such that  $^T=I$, and $V$
+is a $DxK$ matrix such that $^T=I$.
+
+The matrix product $=$ gives the optimal 
+rank-K representation of $$ with respect to Frobenius norm minimization,
+with $^T$ acting as the basis for the space.
+
+ 
+
+
+
+
+
+[t]Eigenvectors
+ 
+
+
+Let $^DxD$ be a matrix, $
+^D$ be a vector, and $$ be scalar.
+
+If $ = $ then $$ is a right 
+eigenvector of $A$ with eigenvalue $$.
+
+If $^T = $ then $$ is a 
+left eigenvector of $A$ with eigenvalue $$ (equivalently 
+$^T = ^T$).
+
+If $$ is symmetric so that $=^T$, then the 
+left and right eigenvectors of $$ are the same with the same eigenvalues.
+
+$$2&1\\1&2 
+1\\1 
+=3\\3
+=31\\1
+$$
+
+$$1 & 1 
+2 & 1\\ 1 & 2 
+=31 & 1 
+$$
+
+A full-rank (invertible) matrix $
+^DxD$ will have $D$ linearly independent eigenvectors.
+
+ 
+
+
+[t]Eigendecomposition
+ 
+
+
+Let $ ^DxD$ be a matrix whose columns 
+$_d$ are $D$ linearly independent eigenvectors of $$ 
+with $$ the corresponding diagonal matrix of eigenvalues such that 
+$_dd=_d$.Then:
+
+$$ = $$
+$$ = ^-1$$
+$$^-1 = $$
+
+
+Without loss of generality, we can assume that $_1
+_2 ... _D$,
+
+ 
+
+
+
+[t]Eigendecomposition of a Symmetric Matrix
+ 
+
+
+If $$ is symmetric, we can choose $D$ orthonormal eigenvectors so that
+$||_d||_2=1$, $^T_d _d'=0$ and $D$ real eigenvalues 
+$_d$. This representation of $$ is unique. 
+As a result, we have:
+
+$$ = ^T = _d=1^D _d _d^T_d$$
+
+$$^T=$$ 
+
+
+ 
+
+
+[t]Representation of a Vector in the Eigen Basis
+ 
+
+
+Similarly, if $$ is an arbitrary vector, then we can also 
+represent $$ using the basis provided by the eigevectors $$ of a 
+real symmetric matrix $$. We obtain:
+
+
+ &= _d=1^D _d _d\\
+_d&= ^T_d
+
+
+ 
+
+
+
+[t]Geometry
+ 
+
+
+If $$ is a real symmetric matrix with positive eigenvalues, then 
+the quadratic equation $^T=0$ defines an ellipsoid in a 
+$D$-dimensional space, which provides a different way of thinking about these 
+operations:
+
+[width=4in]../Figures/eigen_basis_change.png
+
+ 
+
+
+
+
+
+[t]Principal Component Analysis
+ 
+
+Given a data matrix $^ND$, 
+the goal of Principal Component Analysis (PCA) is to identify the directions
+of maximum variance contained in the data.
+
+[width=4in]../Figures/pca1.png
+
+ 
+
+
+
+[t]Sample Variance in a Given Direction
+
+
+Let $^D$ such that 
+$||||_2=^T=1$. 
+
+The sample estimate of the variance in the direction 
+$$ given the data set $$ is given by the expression:
+
+$$ N_i=1^N (_i-)^2 \;\; \;\;
+= N_i=1^N _i$$ 
+
+ 
+
+
+[t]Pre-Centering
+
+
+Under the assumption that the data are 
+pre-centered so that $N_i=1^N _i=0$, this expression 
+simplifies to:
+
+
+N_i=1^N (_i)^2 
+= ()^T() 
+= ^T^T
+
+
+ 
+
+
+[t]The Direction of Maximum Variance
+
+
+Suppose we want to identify the direction $_1$ of maximum variance 
+given the data matrix $$. We can formulate this optimization problem as 
+follows:
+
+
+_1 = _ ^T^T  
+||||_2=1
+
+
+How can we solve this problem?
+
+ 
+
+
+[t]The Direction of Maximum Variance
+
+
+Let $= ^T$. 
+
+$$ is real and symmetric, so it 
+admits an eigendecomposition of the form: 
+$$= _d=1^D _d 
+_d_d^T$$
+
+$_1_2 ,...,_D0$ are the 
+eigenvalues of $$. 
+
+$_d^D$ are the eigenvectors of $$.
+They satisfy: 
+
+$$||_d||_2 = _d^T_d =1  d$$ 
+
+$$_d^T_d' =0  dd'$$ 
+
+ 
+
+
+[t]The Direction of Maximum Variance
+
+
+Using this result, we can write the optimization problem as:
+
+
+$$_ ^T^T  
+||||_2=1 $$
+$$_ 
+^T(_d=1^D _d _d_d^T)  
+... st  
+||||_2=1$$
+$$_ _d=1^D _d 
+(^T_d)^2  
+||||_2=1 $$
+
+
+ 
+
+
+
+[t]The Direction of Maximum Variance
+
+
+$$ can also be expressed in the orthonormal basis 
+$_1,...,_D$ by letting $ = 
+_d=1^D_d_d$. 
+
+The constraint that $||||_2=1 $ becomes $^D 
+_d^2=1$. 
+
+This means $_d=1^D _d^2=1$ and $_d^2>0$, so the 
+$_d^2$ values act like a discrete probability distribution.
+
+ 
+
+
+
+[t]The Direction of Maximum Variance
+
+
+
+Plugging this back into the objective function, we have:
+
+$$_ _d=1^D _d 
+(^T_d)^2  
+||||_2=1 $$
+
+$$_ _d=1^D _d 
+(_d'=1^D_d'_d'^T_d)^2  
+_d=1^D _d^2=1 $$
+
+$$_ _d=1^D _d _d^2  
+_d=1^D _d^2=1 $$
+
+
+ 
+
+
+[t]The Direction of Maximum Variance
+
+
+
+At this point, the solution is clear.
+
+To maximize the variance, we need to set $_1=1$ 
+and set $_d=0$ otherwise. This put's all the weight on the maximum 
+eigenvalue of $$, which is $_1$ by assumption.
+
+Working our way back to $_1$, we put all our weight on the 
+maximum eigenvalue, so $ = 
+_d=1^D_d_d = _1$.
+
+This shows that the maximum variance direction given a data 
+matrix $$ is the eigenvector of $^T$ with the 
+largest eigenvalue. 
+
+
+ 
+
+
+[t]K Largest Directions of Variance
+
+
+
+Suppose instead of just the direction of maximum variance, we want the 
+$K$ largest directions of variance that are all mutually orthogonal.
+
+Finding the second-largest direction of variance corresponds to 
+solving the problem:
+
+
+_2 &=  _ _d=1^D _d 
+(^T_d)^2  
+||||_2=1  and  ^T_1=0
+
+
+It's easy to see that this is going 
+to be the eigenvector corresponding to the second largest eigenvalue.
+
+In general, the top $K$ directions of variance 
+$_1,...,_K$ are given by the $K$ eigenvectors corresponding to 
+the $K$ largest eigenvalues of $^T$.
+
+ 
+
+
+[t]Dimensionality Reduction with PCA
+
+
+Given centered data matrix $ ^ND$, compute 
+unscaled sample covariance matrix $= ^T$.
+
+Compute the $K$ leading eigenvectors $w_1,...,w_K$ of $$ 
+where $_k ^D$.
+
+Stack the eigenvectors together into a $D K$ matrix 
+$$ where each column $k$ of $$ corresponds to $_k$.
+
+Project the matrix $$ into the rank-K sub-space of maximum 
+variance by computing the matrix product $=$.
+
+To reconstruct $$ given $$ and $$,
+we use $ = ^T$.
+
+ 
+
+
+
+
+
+[t]Connection to SVD
+
+
+Last class we saw that the minimum Frobenius norm linear dimensionality 
+reduction problem could be solved using the the rank-K SVD of $$:
+
+$$_,, || - ^T ||_F$$
+
+where the matrix product $=$ gives the optimal rank-K 
+representation of $$ with respect to Frobenius norm minimization.  
+
+
+ 
+
+
+
+[t]Connection to SVD
+
+
+If we let $K=D$ then $ = ^T$ and
+$^T = ^T^T$.
+
+Due to orthogonality of $U$ this gives: $^T = 
+^2^T$. 
+
+This means that the right singular vectors of 
+$$ are exactly the eigenvectors of $^T$, so 
+SVD's $$ and PCA's $$ are identical (assuming $$ is centered). 
+
+We can also see that the eigenvalues of $^T$ are the 
+squares of the diagonal elements of $$. 
+
+This means that the $K$ largest 
+singular values and $K$ largest eigenvalues correspond to the same $K$ basis 
+vectors.
+
+ 
+
+
+
+[t]Connection to SVD
+
+
+
+According to PCA, the projection operation is 
+$=$. 
+
+Using $ = ^T$ and 
+$=$ we have:
+
+$$= = (^T)() = $$ 
+
+Finally, note that if the decompositions are based only on the K 
+leading basis vectors, which are identical under both PCA and SVD, the 
+projections $=$ and $=$ will still be 
+identical.
+
+ 
+
+
+[t]Connection to SVD
+
+
+These manipulations show that PCA on $^T$ and SVD on 
+$$ identify exactly the same sub-space and result in exactly the same 
+projection of the data into that sub-space.
+
+As a result, generic linear dimensionality reduction 
+simultaneously minimizes the Frobenius norm of the reconstruction error of 
+$$ and maximizes the retained variance in the learned sub-space.
+
+Both SVD and PCA provide the same refinement of generic linear 
+dimensionality reduction: an orthogonal basis for exactly the same optimal 
+linear subspace. 
+
+ 
+
+
+[t]Issues
+
+
+The computational complexity of PCA is $O(D^2N + D^3)$ if the full 
+eigendecomposition is obtained and then truncated, compared to 
+$O(min(DN^2, ND^2))$ for SVD.
+
+If $K<<D$, then PCA can also be computed iteratively, as can SVD.
+
+The basic SVD and PCA algorithms are not suitable for large-scale 
+data. Instead, randomized algorithms are often used.
+
+The value of $K$ can sometimes be chosen based on looking for 
+eigenvalue gaps in the eigenspectrum of the covariance matrix. Otherwise, a 
+supervised end/side-task is needed or a criteria like AIC/BIC must be applied.[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Sparse Coding, NMF and ICA
+
+
+
+
+
+
+
+
+[t]Linear Dimensionality Reduction
+ 
+
+The learning problem for linear dimensionality reduction is to estimate
+values for both $$ and $$ given only the noisy observations 
+$$.
+
+One possible learning criteria is to minimize the sum of squared 
+errors when reconstructing $$ from $$ and $$. This leads 
+to:
+
+$$_, || -  ||_F$$
+
+
+where $||||_F$ is the Frobenius norm of matrix  $$ (the sum of 
+the squares of all matrix entries). 
+
+ 
+
+
+[t]PCA and SVD
+
+
+PCA on $^T$ and SVD on 
+$$ identify exactly the same linear sub-space and result in exactly the 
+same projection of the data into that linear sub-space.
+
+As a result, generic linear dimensionality reduction 
+simultaneously minimizes the Frobenius norm of the reconstruction error of 
+$$ and maximizes the retained variance in the learned sub-space.
+
+SVD and PCA provide the same refinement of generic linear 
+dimensionality reduction: an orthogonal basis for exactly the same optimal 
+linear subspace. 
+
+To extend PCA and SVD to the non-linear case, we can use basis expansions 
+or kernels (next class).
+
+ 
+
+
+
+[t]Limitations
+
+
+PCA and SVD constrain the basis elements to be orthonormal. 
+
+In some cases we may want to extract representations where the 
+basis elements and factor loadings are non-negative, representations where the 
+factor loadings are maximally independent, or representations where the 
+factor loadings are sparse.
+
+The reason is that these constraints may better 
+model the process that generates the data. These constraints may also help 
+with recognition tasks.
+
+ 
+
+
+
+
+
+[t]Sparse Coding
+
+
+Sparse coding is an extension of linear dimensionality reduction where 
+the factor loadings are constrained to be sparse.
+
+This model is closely related to the Lasso ($_1$ 
+regularized linear regression).
+ 
+This gives rise to the following optimization problem:
+
+
+&_, || -  ||_F - 
+||||_1 \\
+& ||B_k||_2=1  k
+
+
+ 
+where $||||_1$ is the sum of the absolute values of the elements in 
+$$ and $||||_F$ is the sum of the squares of the elements in 
+$$. 
+ 
+ 
+
+
+[t]Motivation
+
+
+By the early 2000's several theoretical, computational, and experimental 
+studies suggested that neurons encode sensory information using a small
+number of active neurons at any given point in time, a strategy that was named
+sparse coding in the computational neuroscience literature.
+
+Olshausen and Field (2004) argued that sparse coding makes 
+the structure in natural signals more apparent, represents complex data in a 
+way that is easier to read out in later stages of processing, and saves energy.
+
+As $$ increases, the representation becomes sparser, 
+typically using a small number of the $K$ available basis vectors to encode 
+each signal. By comparison, the PCA representation of a natural signal normally 
+puts non-zero weight on all basis elements.
+
+
+
+
+[t]Example: Image Patches
+[width=4.5in]../Figures/sparse_coding_images.jpg
+
+
+[t]Example: Time Series
+[width=4in]../Figures/spase_coding_time_series.png
+
+
+
+
+
+[t]Non-Negative Matrix Factorization
+
+
+NMF is an extension of linear dimensionality reduction where 
+the factor loadings and the basis elements are constrained to be positive.
+ 
+This gives rise to the following optimization problem:
+
+
+&_, || -  ||_F\\
+& 0, 0
+
+
+ 
+ 
+
+
+[t]Motivation
+
+
+Data including natural images, gene expressions, and word count 
+representations of text are naturally non-negative.
+
+In many cases, complex non-negative data arise from a 
+non-negative composition of simpler non-negative parts.
+
+This is exactly the intuition that non-negative matrix 
+factorization is designed to capture.
+
+
+
+
+
+[t]Example: Learning Face Parts
+[width=4.5in]../Figures/nmf.png
+
+
+
+
+
+[t]Independent Components Analysis
+
+
+ICA is an extension of linear dimensionality reduction where 
+the random variables that represent the factor loadings are constrained to be 
+problematically independent of each other.  
+ 
+This gives rise to the following optimization problem:
+
+
+&_, || -  ||_F\\
+& Z_i Z_j  1<i<j<k
+
+
+
+In practice, a surrogate criterion must be used in place of 
+independence and a number of different functions have been explored in the 
+literature.  
+
+ 
+
+
+[t]Motivation
+
+
+Linear mixing of independent sources is exactly what occurs when you
+listen to multiple audio sources at the same time.
+
+Humans are somehow able to automatically de-mix multiple sources of 
+audio (multiple people speaking) into distinct source channels very accurately.
+
+ICA was designed to solve exactly this problem (called blind source 
+separation) and can do so very reliably when the number of observed linearly 
+mixed channels is equal to the number of sources.
+
+The method has also been applied to images and many other types of 
+data.
+
+
+
+
+[t]Example: Blind Source Separation
+[width=4.5in]../Figures/ica_signals.pdf
+
+
+
+[t]Example: Independent Components of Natural Images
+[width=4.5in]../Figures/ica_images.pdf[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Kernel Principal Components \and Spectral Clustering
+
+
+
+
+
+
+
+
+[t]Limitations of LDR
+
+
+All the dimensionality reduction methods we've seen so far find optimal
+linear sub-spaces under different constraints.
+
+ How can we move beyond linear sub-spaces?
+ 
+
+
+[t]Basis Expansion
+
+
+One way to move beyond linear dimensionality reduction is to first apply 
+a non-linear basis expansion to the data vectors, and then apply linear 
+dimensionality reduction.
+ 
+Any basis expansion can be applied including polynomials, etc., 
+just as in the case of classification and regression.
+ 
+ 
+
+
+[t]Basis Expansion + SVD
+
+Given a data set $^ND$ and a basis expansion 
+function $: ^D ^D'$ for $D'>D$, we obtain 
+the following SVD-based algorithm:
+
+
+ Compute $,, = (())$
+ Return $Z = $
+ 
+
+
+[t]Basis Expansion + PCA
+
+Given a data set $^ND$ and a basis expansion 
+function $: ^D ^D'$ for $D'>D$, we obtain 
+the following PCA-based algorithm:
+
+
+Compute $= (()-)^T(()-)$ where 
+$=1/N(_i)$.
+
+Compute the $K$ leading eigenvectors $w_1,...,w_K$ of $$ 
+where $_k ^D'$.
+
+Stack the eigenvectors together into a $D' K$ matrix 
+$$ where each column $k$ of $$ corresponds to $_k$.
+
+Project the matrix $()$ into the rank-K sub-space of 
+maximum variance by computing the matrix product $=()$.
+ 
+
+
+[t]Kernel PCA
+
+As in the classification case, it becomes very expensive to use an 
+explicit basis function expansion that maps data into a high-dimensional space.
+
+In the basic SVD-based algorithm, there's no way to avoid this 
+problem.
+
+In the PCA-based algorithm, it's not hard to show that the sample 
+covariance matrix obtained after the basis expansion depends only on inner 
+products of the form $(_i),(_j)$. 
+
+Kernel functions can often provide a much more efficient 
+computation of these inner products without explicitly computing the basis 
+expansion: $(_i, _j) = 
+(_i),(_j)$
+
+
+
+[t]Kernel PCA Algorithm
+Given a data set $^ND$ and a kernel function 
+$$, Kernel PCA can be computed as follows:
+
+
+Compute $_ij = (_i,_j)$ for 
+all $i,j$
+
+Compute $= (I-1_N)(I-1_N)$ where $1_N$ is an $NxN$ 
+matrix where every entry is $1/N$.
+
+Compute the $K$ leading eigenvectors $w_1,...,w_K$ of $$ 
+where $_k ^N$ along with their eigenvalues 
+$_1,...,_K$
+
+Compute the elements of the matrix of projected data vectors using
+$$_nk = _i=1^N _ik_k 
+(_n,_i)$$
+ 
+
+
+[t]Example
+
+Consider the case of using the radial basis function kernel
+$(,) = (-c||-||_2^2)$.
+
+[width=4in]../Figures/kpca.png
+
+
+
+[t]Summary
+
+
+Kernel PCA provides a non-linear dimensionality reduction method that can 
+be used to extract directions of variation after applying high-dimensional 
+basis function expansions, without explicitly performing the basis expansion.
+
+Kernel PCA can be thought of as looking for directions of variation 
+in the space of similarities between data cases, and can extract components 
+that correspond to fairly complex structures.
+
+When a good kernel is known a priori, kernel PCA can provide an
+effective pre-processing step for clustering methods as well as linear 
+classification and regression methods.  
+
+However, exact computation of kernel PCA can be expensive because 
+the size of the matrix that is decomposed is $NxN$.
+ 
+
+
+
+
+
+
+[t]Spectra Clustering
+
+
+Applying kernel PCA followed by K-means clustering is closely related to 
+a clustering method called spectral clustering.
+
+Spectral clustering works by defining a weighted 
+similarity graph on the data cases. 
+
+It's very common to use $(,) = 
+(-c||-||_2^2)$ as the weighting function and to 
+include edges corresponding to the $K$ nearest neighbors of each point.
+
+Unlike the kernel PCA case, the similarity values for
+edges not included in the graph are set to $0$. The matrix of edge weights is 
+denoted by $$.
+
+ 
+
+
+
+
+[t]Connected Components
+
+
+In the simple case, the resulting graph has multiple connected 
+components, and we can create one cluster for each connected component.
+
+[width=4in]../Figures/spectral_clustering1.png
+
+ 
+
+
+
+[t]Minimum Weight Balanced Cut
+
+
+In the more complex case, the graph has only one connected component, and
+the goal is to identify a minimum weight balanced cut:
+
+[width=4in]../Figures/spectral_clustering2.png
+
+ 
+
+
+
+
+[t]Spectral Clustering Algorithm
+
+
+Define the weighted node degree matrix $$ such that $_ii 
+= _n _in$.
+
+Define the graph laplacian $ =  - $.
+
+Compute the eigendecomposition of $$ and extract the 
+$M$ eigenvectors corresponding to the $M$ smallest eigenvalues. 
+
+Just like in kernel PCA, each eigenvector is length $N$. The 
+collection of $M$ of them forms an alternative dimensionality reduced 
+representation for $$, which we can call $$.
+
+Run K-means on $$ to extract $K$ clusters.
+
+This algorithm is an approximation to the exact $K$-way min-cut in 
+the graph, which has exponential complexity to compute.[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Multidimensional Scaling and Isomap
+
+
+
+
+
+
+
+
+[t]Kernel PCA and Spectral Clustering
+
+
+Last class, we saw a method to achieve non-linear dimensionality reduction
+by combining basis expansions with dimensionality reduction.
+
+We showed that basis expansion can be combined with PCA and SVD, but that
+PCA could also be used with the kernel trick.
+
+Lastly, we saw how spectral clustering can be viewed as a modification of 
+clustering in the kernel PCA latent space.
+
+ 
+
+
+
+
+
+
+
+[t]Multidimensional Scaling
+
+
+MDS is a non-linear dimensionality reduction method that is explicitly 
+designed to minimize the distortion in the pairwise distances 
+between points when projecting them into a low dimensional embedding.
+
+Suppose we have a data set $= 
+\_i^D\_i=1:N$. 
+
+Let $d_ij$ be the distance between $_i$ and $_j$. 
+Any distance metric can be used. Euclidean distance  
+$d_ij=||_i-_j||$ is common.
+
+ 
+
+
+[t]Least Squares Multidimensional Scaling
+
+
+Let $_i ^K$ be the low-dimensional embedding of 
+$_i$ for each data case $i$. We assume $K<D$.
+
+Least-squares MDS learns the embeddings $_i$ by minimizing 
+the following objective function, known as the  function:
+
+
+$$__1,...,_N _i<j ( d_ij - 
+||_i-_j||_2)^2$$
+
+Basically, this function attempts to have the regular Euclidean 
+distances between points in $^K$ reflect the distances between the 
+points in $^D$. This can be useful for data visualization when $K=2$.
+
+ 
+
+
+[t]Classical Multidimensional Scaling Variants
+
+
+Let $s_ij$ be the similarity between $_i$ and $_j$. 
+
+
+Let $_i ^K$ be the low-dimensional embedding 
+of $_i$ for each data case $i$. We assume $K<D$.
+
+Classical MDS learns the embeddings $_i$ by minimizing 
+the following objective function:
+
+
+$$__1,...,_N _i<j ( s_ij - 
+_i-, _j-)^2$$
+
+If the similarities are centered inner products in $^D$, 
+Classical MDS and PCA are equivalent. For other similarity functions, classical 
+MDS performs non-linear dimensionality reduction.
+
+  
+
+
+[t]MDS Trade-offs
+
+
+Interestingly, to use MDS we actually don't need the raw feature vectors. 
+It's enough to have the pairwise distance or similarity matrices.
+
+Unlike kernel PCA, the similarity or distance matrices do not need 
+to be valid kernel matrices (ie: they do not need to correspond to inner 
+products of some basis expansion).
+
+A significant issue with MDS is that we need to be able to specify 
+a global similarity or distance matrix directly. This may not actually be easy 
+to do if the data come from a complex manifold (regular Euclidean distance will 
+fail).
+
+  
+
+
+
+
+
+
+
+
+[t]Isometric feature mapping
+
+
+Isometric feature mapping (Isomap) is a non-linear dimensionality 
+reduction method that is designed to minimize the distortion in geodesic 
+distances on a manifold when projecting them into a low dimensional embedding.
+ 
+
+[width=4.5in]../Figures/isomap.jpg
+
+
+
+
+[t]Isometric feature mapping algorithm
+
+
+The isomap algorithm begins by computing the K-nearest 
+neighbors of each data point and building the distance weighted K-nearest 
+neighbor graph $G$ over the data. 
+
+For points $i, j$ that are neighbors in the graph, isomap uses the 
+straight line distance between them as $d_ij$.
+
+For points $i, j$ that are not neighbors in the graph, isomap uses 
+the length of the shortest path in $G$ as $d_ij$. This is an approximation to
+the geodesic distance between $_i$ and $_j$ on the manifold.
+
+Finally, isomap plugs the distances $d_ij$ into MDS with 
+classical scaling and computes the embedding.

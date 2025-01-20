@@ -1,0 +1,320 @@
+[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Linear Regression, Ridge, and Lasso
+
+
+
+
+
+
+
+[t]Views on Machine Learning
+
+../Figures/mitchell.jpg ``A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at tasks in T, as measured by P, improves with experience E.''\\[12pt]  Substitute ``training data D'' for  ``experience E.''
+
+
+
+[t]The Regression Task
+
+Definition: The Regression Task
+Given a feature vector $^D$, predict it's corresponding output value $y$.
+
+
+[width=3in]../Figures/polynomial-function.png
+
+
+[t]Example: Stock Prices
+[width=4in]../Figures/apple-stock.png
+
+
+[t]Example: Climate Change
+[width=4in]../Figures/northern-hemisphere-temperature.png
+
+
+[t]Example: Weather Forecasting
+[width=3.5in]../Figures/weather-forecast.png
+
+
+[t]The Regression Learning Problem
+Definition: Regression Learning Problem
+Given a data set of example pairs $=\(_i,y_i),i=1:N\$ where $_i^D$ is a feature vector and $y_i$ is the output, learn a function $f:^D$ that accurately predicts $y$ for any feature vector $$.
+
+
+
+[t]Example: Linear Regression Learning
+[width=3.5in]../Figures/regression-learning-example.png
+
+
+[t]Example: Non-Linear Regression Learning
+[width=3in]../Figures/nonlinear-regression.jpg
+
+
+
+[t]Error Measures: MSE
+Definition: Mean Squared Error
+Given a data set of example pairs $=\(_i,y_i),i=1:N\$ and a function $f:^D$, the mean squared error of $f$ on $$ is:
+$$MSE(f,) = N_i=1^N(y_i - f(_i))^2$$
+
+
+Related measures include: \\
+Sum of Squared Errors: $SSE(f,)=NMSE(f,)$\\
+Risidual Sum of Squares: $RSS(f,)=NMSE(f,)$\\
+Root Mean Squared Error: $RMSE(f,)=)$
+
+
+
+
+[t]Error Measures: MAE
+
+Definition: Mean Absolute Error
+Given a data set of example pairs $=\(_i,y_i),i=1:N\$ and a function $f:^D$, the mean absolute error of $f$ on $$ is:
+$$MAE(f,) = N_i=1^N|y_i - f(_i)|$$
+
+
+
+
+
+
+
+[t]Linear Regression
+
+Linear regression is a parametric regression method that assumes the relationship between $y$ and $$ is a linear function with parameters $=[w_1,...,w_D]^T$ and $b$.
+
+Linear Regression Function
+$$f_Lin() = (_d=1^D w_d x_d) + b = +b$$
+
+
+ How can we learn the parameter values $$ and $b$? 
+
+
+[t]Ordinary Least Squares Linear Regression
+
+Ordinary least squares selects the linear regression parameters to minimize the 
+mean squared error (MSE) on the training data set:
+
+
+$$^*,b^* = _,b N_i=1^N(y_i - _i+b)^2$$
+
+
+
+[t]Solving OLS For One Feature
+
+$$_w,b N_i=1^N(y_i - wx_i-b)^2$$
+[width=4in]../Figures/ols_objective.png
+
+
+
+[t]Solving OLS For One Feature
+
+$$_w,b N_i=1^N(y_i - wx_i-b)^2$$
+
+wN_i=1^N(y_i - wx_i-b)^2&=0\\
+bN_i=1^N(y_i - wx_i-b)^2&=0\\
+
+
+
+
+
+[t]Solving OLS For One Feature
+
+
+2N_i=1^N(y_i - wx_i-b)x_i&=0\\
+2N_i=1^N(y_i - wx_i-b)&=0
+
+
+
+w(_i=1^Nx_i^2) + b(_i=1^Nx_i) &=_i=1^N(y_ix_i)\\
+w(_i=1^Nx_i)+b(N)&= _i=1^N(y_i) 
+
+
+
+
+[t]Solving OLS For One Feature
+
+
+
+_i=1^Nx_i^2 & _i=1^Nx_i \\
+_i=1^Nx_i   & N\\
+
+
+w\\
+b
+
+=
+
+_i=1^Ny_ix_i \\
+_i=1^Ny_i 
+
+
+
+
+w\\
+b
+
+=
+
+_i=1^Nx_i^2 & _i=1^Nx_i \\
+_i=1^Nx_i   & N\\
+^-1
+
+_i=1^Ny_ix_i \\
+_i=1^Ny_i 
+
+
+
+
+
+
+[t]General OLS Solution 
+Assume that $$ is a data matrix with one data case $_i^D$ per row, and $$ is 
+a column vector containing the corresponding outputs. The general OLS solution is: 
+
+^* &= _ N_i=1^N(y_i - _i)^2\\
+          &= _ N( - )^T( - )\\
+0          &=  N( - )^T( - )\\
+0&=^T( - ) \\
+^T &= ^T\\
+^* & = (^T)^-1^T
+
+
+
+[t]Connection to Probabilistic Models 
+This same solution can be derived as the maximum conditional 
+likelihood estimate for the parameters of a conditional 
+Normal model. $^2$ is the noise variance.
+
+
+P(y|) = (y;, ^2)
+             = (-2^2(y-)^2)
+
+
+This view shows that OLS assumes the residuals are Normally distributed.
+This assumption is violated in many real world processes that have significant
+outliers or heavy-tailed noise.
+
+
+
+
+[t]Strengths and Limitations of OLS 
+
+
+Need at least $D$ data cases to learn a model with a $D$
+dimensional feature vector. Otherwise inverse of
+$^T$ is not defined.
+
+Very sensitive to noise and outliers due to MSE objective 
+function/Normally distributed residuals assumption.
+
+Sensitive to co-linear features ($x_i ax_j +b$). Otherwise inverse of
+$^T$ is not numerically stable.
+
+High bias (assumes linear relationships between the features and target).
+
+Computation is cubic in data dimension $D$.
+
+Variance is generally low unless there are outliers.
+
+
+
+
+
+
+
+
+
+
+
+[t]Regularized Linear Regression 
+Just as in classification, regression models require capacity control to avoid overfitting 
+and numerical stability problems in high dimensions. This is accomplished by 
+regularizing the weight parameters during learning.
+
+
+^* &= _ N_i=1^N(y_i - _i)^2 + ||||\\
+          &= _ N_i=1^N(y_i - _i)^2 
+            |||| c
+
+
+
+[t]Ridge Regression 
+Ridge regression is the name given to regularized least squares when the weights are penalized using the square
+of the $_2$ norm $||||_2^2 = ^T = _d=1^D w_d^2 $:
+
+
+^* &= _ N_i=1^N(y_i - _i)^2 + ||||_2^2\\
+          &= _ N_i=1^N(y_i - _i)^2 
+           ||||_2^2 c
+
+
+In this case, it is easy to show that the optimal regularized weights are:
+
+$$^*  = (^T+I)^-1^T$$
+
+
+
+[t]The Lasso 
+The Lasso is the name given to regularized least squares when the weights are penalized using the the $_1$ norm $||||_1 = _d=1^D |w_d|$:
+
+
+^* &= _ N_i=1^N(y_i - _i)^2 + ||||_1\\
+          &= _ N_i=1^N(y_i - _i)^2 
+           ||||_1 c
+
+
+The Lasso problem is a quadratic programming problem. However, it can be solved efficiently for all values of
+$$ using an algorithm called  (LARS). The advantage of the Lasso is that
+it simultaneously performs regularization and feature selection.
+
+
+[t]Lasso vs Ridge 
+
+[width=4in]../Figures/ridge_vs_lasso.png
+
+
+
+[t]Strengths and Limitations of Ridge and Lasso 
+
+
+Solves the problem of needing at least $D$ data cases to learn a model with a $D$
+dimensional feature vector.
+
+Solves the problem of co-linear features ($x_i ax_j +b$).
+
+MSE objective function still sensitive to noise and outliers, but regularization
+can reduce the possibility of very large weights overfitting to outliers.
+
+Does not solve bias problem
+
+Computation for ridge is still cubic in data dimension $D$, but now need to
+determine regularization parameters. Computation for LARS is similar.
+
+
+
+
+
+
+
+
+
+[t]Basis Expansion 
+Just as with linear classification models, linear regression models can be extended to
+capture non-linear relationships using basis function expansions. The polynomial basis is
+often used for this purpose, although it is not sensible for forecasting.
+
+[width=4in]../Figures/polynomial_regression.png
+
+
+
+
+[t]Strengths and Limitations of Basis Expansion 
+
+
+Does solve the bias problem.
+
+MSE objective function still sensitive to noise and outliers. Basis expansions
+can easily overfit so need to control capacity.
+
+Computation is cubic in the dimensionality of the basis function
+expansion. Can be costly.

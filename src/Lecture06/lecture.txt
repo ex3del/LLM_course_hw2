@@ -1,0 +1,269 @@
+[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false]beamer
+
+
+
+Neural Networks and Deep Learning
+
+
+
+
+
+
+
+[t]Overview
+
+
+12pt
+Last class we saw how basis expansion and kernels could be used to
+increase the capacity of linear models in a controlled way.
+
+ What is the primary weakness of this approach?
+
+In this lecture, we'll see how artificial neural networks can learn appropriate feature representations along with decision boundaries to maximize classification accuracy.
+
+We'll start with the inspiration for artificial neural networks: your brain.
+
+
+
+
+
+
+
+
+
+[t]Your Brain
+[width=3.8in]../Figures/brain.jpg
+
+
+[t]Brain Regions and Functions
+[width=3.8in]../Figures/neuroanatomy.jpg
+
+
+[t]Visual Areas
+[width=3.9in]../Figures/visual_areas.jpg\\
+Optic nerve contains about 1 Million nerve fibers.
+
+
+[t]Cortical Columns
+[width=3.5in]../Figures/cortical_columns.jpg
+
+
+[t]Neurons
+[width=4in]../Figures/neuron.jpg\\
+Your brain contains about 100 Billions neurons. 
+
+
+[t]Visual Receptive Fields
+[width=4in]../Figures/receptive_fields.jpg\\ 
+
+
+[t]Mapping Receptive Fields in Live Subjects
+[width=3.5in]../Figures/cat_experiment.jpg\\ 
+Hubel and Wiesel earned the Nobel Prize in Physiology or Medicine in 1981 for this work.\\
+
+
+
+
+
+
+
+[t]McCulloch and Pitts Neuron (1943)
+[width=4in]../Figures/pitts_neuron.png\\
+Assuming $() = ()$, what model is this?
+
+
+[t]The Perceptron (1950)
+
+The Perceptron is a simple online algorithm for adapting the weights in a
+McCulloch/Pitts neuron. It was developed in the 1950s by Rosenblatt at Cornell.
+
+[width=4in]../Figures/perceptron_algorithm.png
+
+
+
+[t]Limitations of Single Layer Perceptrons
+
+
+8pt
+
+The representational limitations of the single-layer perceptron were not well understood at first in the AI community.
+
+In 1969, Minsky and Papert at MIT popularized a set of arguments showing that the single-layer perceptron could not learn certain classes of functions (including XOR). 
+
+They also showed that more complex functions could be represented using a
+ or MLP, but no one knew how to learn them from examples.
+
+This led to a shift away from mathematical/statistical models in AI toward
+logical/symbolic models.
+
+
+
+
+
+
+[t]Multi-Layer Perceptron
+
+[width=4in]../Figures/sigmoid_network.jpg
+
+
+
+
+[t]Sigmoid Neural Networks
+The solution to MLP learning turned out to be: 
+
+8pt
+
+Make the hidden layer non-linearities smooth (sigmoid/logistic) functions:
+
+
+h^(1)_k &= 1+(-(_dw_dkx_d + b_dk))\\
+h^(i)_k &= 1+(-(_lw_lkh^(i-1)_l + b_lk))
+
+
+Make the output layer non-linearity a smooth (sigmoid/logistic/softmax) function.
+
+Use standard numerical optimization methods (gradient descent) to learn the parameters. The algorithm is known as Backpropagation and was popularized by Rumelhart, Hinton and Williams in the 1980s.  
+
+
+
+
+[t]Sigmoid Neural Network Properties 
+
+8pt
+
+It can be shown that a sigmoid network with one hidden layer (of unbounded size) is a universal function approximator. 
+
+In terms of classification, this means neural networks with one hidden layer (of unbounded size) can represent any decision boundary and thus have infinite capacity.
+
+It was also shown that deep networks can be exponentially more efficient at representing certain types of functions than shallow networks.
+
+Demo!
+
+
+
+
+
+
+[t]More Failures
+
+8pt
+
+Through the 1990s is became clear that while these models could represent arbitrarily complex functions and that deep networks should work better than shallow networks, no one could effectively train deep networks.
+
+This led to a shift away from neural networks towards probabilistic/statistical  models and SVMs through the late 1990s and 2000s. 
+
+Only a few groups continued to work on neural network models during this time period (Hinton, LeCun, Bengio, Ng).
+
+
+
+
+
+
+
+[t]Deep Learning
+The solution to the deep learning problem (as of right now) appears to be:
+
+
+8pt
+
+Have access to lots of labeled data (ie: millions of examples).
+
+Make the non-linearities non-smooth again (rectified linear units, ReLU):
+
+
+h^(1)_k &= (0,_dw_dkx_d + b_dk))\\
+h^(i)_k &= (0,_lw_lkh^(i-1)_l + b_lk))
+
+
+
+
+
+
+[t]Deep Learning
+The solution to the deep learning problem (as of right now) appears to be:
+
+
+8pt
+
+Have access to lots of labeled data (ie: millions of examples).
+
+Make the non-linearities non-smooth again (rectified linear units, ReLU):
+
+
+h^(1)_k &= (0,_dw_dkx_d + b_dk))\\
+h^(i)_k &= (0,_lw_lkh^(i-1)_l + b_lk))
+
+
+
+
+
+[t]Deep Learning
+The solution to the deep learning problem (as of right now) appears to be:
+
+
+8pt
+2
+Use somewhat improved optimization methods for non-smooth functions (accelerated stochastic sub-gradient descent) to learn the parameters.
+
+Use new regularization schemes based on randomly zeroing-out nodes in the
+network.
+
+Do the computing on a GPU with 1000s of cores and 10s of GB of RAM for a massive 20-30X speedup (go SIMD!). Model training takes 10 days for large vision problems instead of 1 year.
+
+
+
+
+[t]Deep Learning Applications
+
+
+8pt
+
+Deep learning models using these basic ingredients have become dominant in AI over the last few years starting with computer vision and moving on to other areas including speech recognition.
+
+Many companies use deep learning-based vision systems to analyze photos and images.
+
+Google and others switched to deep-learning based speech recognition systems after it was shown to lead to substantial reductions in the word error rate.
+
+
+
+[t]Deep Learning For Vision
+
+Deep learning for vision uses a modified deep architecture called a  or convnet that learns small patches of weights (or filters)
+and replicates (convolves) them over an image. 
+
+[width=4in]../Figures/convnet.png
+
+
+
+This architecture is also from the 1980s and was 
+directly inspired by the structure of the visual areas of the brain.
+
+
+
+
+[t]Learned Receptive Fields
+
+[width=4in]../Figures/nn_filters.jpg
+
+
+
+[t]Learned Receptive Fields
+
+[width=4in]../Figures/rbm_filters.png
+
+
+
+[t]Deep Learning Demos
+
+
+8pt
+
+Digit Recognition: 
+
+Image Classification: 
+
+Image Classification: 
+
+Image Description: 
+
+Handwriting Generation:

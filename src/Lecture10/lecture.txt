@@ -1,0 +1,216 @@
+[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Support Vector and Neural Network Regression
+
+
+
+
+
+
+
+[t]Support Vector Regression
+
+
+Support Vector Regression (SVR) is the generalization of SVMs to the case of regression.
+
+As with SVMs, SVR is a linear regression model trained using a different objective function. In this case, the .
+
+[width=4in]../Figures/svr_loss.png
+
+
+
+[t]Support Vector Regression
+
+$$f_SVR() = (_d=1^D w_d x_d) + b = +b$$
+
+$$^*,b^* = _,b C_i=1^N V_(y_i - _i-b) + ||||_2^2$$
+
+$$V_(r) = 
+\
+lr
+0 &  |r|<\\
+|r|-& 
+
+.
+$$
+
+
+[t]Support Vector Regression
+
+[width=4in]../Figures/svr_example.png
+
+
+
+[t]Kernelization
+
+Using the same representer theorem used in classification, it can be shown that
+
+$$f_SVR() = ^*+b* = _i=1^N _i<,_i> + _i=1^N _i<1,_i>$$
+
+This can again be generalized using kernels to allow for non-linear models:
+$$f_SVR() = ^*+b* = _i=1^N _iK(,_i)$$
+
+
+
+
+[t]SVR vs KRR
+[width=3.5in]../Figures/svr_vs_krr.png
+
+
+[t]Trade-Offs
+
+
+SVR is more robust to outliers than OLS (minimizing the MSE) due to the loss being linear in the tails instead of quadratic. This is related to a long line of work on robust regression.
+
+Kernel SVR is low bias and has good capacity control, but use of
+cross validation to select regularization hyperparameters is critical.
+
+The learning problem is convex for any choice of 
+reglarization parameters and thus has a unique global optimum.
+
+The kernel matrix computation is quadratic in the data dimension,
+but the model has a support vector property.
+
+You need to know what kernel to use or you need to
+use some form of validation to select from among several alternatives.
+
+
+
+
+
+
+
+
+
+[t]Multi-Layer Perceptron
+
+[width=4in]../Figures/sigmoid_network.jpg
+
+
+
+
+[t]Neural Network Regression
+To convert an MLP from classification to regression, we only need to change the output
+activation function from logistic to linear.
+
+12pt
+
+The hidden layer non-linearities are smooth functions:
+
+
+h^1_k &= 1+(-(_dw_dk^1x_d + b^1_dk))\\
+h^i_k &= 1+(-(_lw_lk^ih^(i-1)_l + b^i_lk))  for  i=2,...,L
+
+
+The output layer activation function is a linear function:
+$$ = _l w_l^o h^L_l + b^o$$
+
+
+
+
+
+[t]Learning
+
+Let $$ be the complete collection of parameters defining a neural network model.
+Our goal is to find the value of $$ that minimizes the MSE on the training data
+set $ = \y_i,_i\_i=1:N$
+
+$$_MSE(|) =  N_n=1^N (y_n-_n)^2$$
+
+
+
+[t]Gradients
+
+We need the gradient with respect to each of the parameters. Let's begin with $w_l^o$:
+
+
+_MSE(|)w_l^o 
+&= w_l^oN_n=1^N (y_n-_n)^2=0\\
+&=N_n=1^N (y_n-_n)_nw_l^o\\
+&=N_n=1^N (y_n-_n)h^L_l
+
+
+
+
+[t]Gradients
+
+It's also useful to define the derivatives wrt the hidden units for a single data case:
+
+^L_k = _MSE(y,|)h^L_k 
+&=h^L_k  (y-)^2\\
+&= 2(y-)h_k^L\\ 
+&= 2(y-)w^o_k
+
+In general, we can define: $^j_k = _MSE(y,|)h^j_k$
+
+
+
+
+
+[t]Gradients
+
+Suppose we're trying to compute the derivative with respect to the weight
+$w_kl^j$ for some layer $j$ and assume we have $^j_l$ computed for
+all hidden units $l$ in layer $j$.
+
+
+_MSE(y,|)w_kl^j 
+ &= _MSE(y,|)h_l^jw_kl^j \\
+ &= ^j_l h_l^j(1-h_l^j)h_k^j-1
+
+
+
+The total derivative is then given by:
+
+$$_MSE(|)w_kl^j =N_n=1^N_MSE(y_n,_n|)w_kl^j $$
+
+
+
+[t]Gradients
+
+Suppose we're trying to compute the error with respect to hidden unit $k$ in layer
+$j-1$ and assume we have $^j_l$ computed for all hidden units $l$ in layer $j$.
+
+
+_MSE(y,|)h_k^j-1 
+ &= _l_MSE(y,|)h_l^jh_k^j-1 \\
+ &= _l^j_l h_l^j(1-h_l^j) w_kl^j-1
+
+ 
+
+
+[t]Backpropagation
+
+
+The Backpropagation algorithm works by making a forward pass through the network
+for each data case and storing all the hidden unit values.
+
+The algorithm then computes the error at the output and makes a backward pass through
+the network computing the derivatives with respect to the parameters as well as the contribution
+of each hidden unit to the error. These are the $_k^j$ values.
+
+The complete computation is just an application of the chain rule with caching of
+intermediate terms in the neural network graph structure.
+
+
+
+
+[t]Trade-Offs
+
+
+Neural network regression has low bias, but high variance.
+
+The objective function has local optima and requires
+iterative numerical optimization using backpropagation to
+compute the gradients, which can be slow.
+
+Making predictions with trained models can be very fast.
+
+Capacity control in these models can be crucial. The capacity
+parameters are the depth of the network and the size of each layer.
+
+These models can also be trained using $_2$ or $_1$ regularization
+or the more recent dropout scheme as an alternative to controlling
+network structure.

@@ -1,0 +1,249 @@
+[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false]beamer
+
+
+
+KNN and Decision Trees
+
+
+
+
+
+
+
+
+[t]Views on Machine Learning
+
+../Figures/mitchell.jpg ``A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at tasks in T, as measured by P, improves with experience E.''\\[12pt]  Substitute ``training data D'' for  ``experience E.''
+
+
+
+[t]Machine Learning Tasks
+  [width=4in]../Figures/learning_problems.png
+
+
+[t]Machine Learning Approaches
+  
+     Learning is accomplished by storing the training data (memorization).
+    
+     Learning is accomplished by using an algorithm to adapt the parameters in a mathematical or statistical model given training data. For exmaple:\\
+    
+    
+  
+
+
+
+
+
+
+[t]The Classification Task
+
+Definition: The Classification Task
+Given a feature vector $^D$ that describes an object that belongs to one of $C$ classes from the set $$, predict which class the object belongs to.
+
+
+
+
+[t]Example: Digits
+  [width=3.5in]../Figures/mnist.png
+
+
+[t]Example: Natural Images
+  [width=3.5in]../Figures/cifar.png
+
+
+[t]Example: Synthetic Images
+  [width=3.5in]../Figures/tufas.png
+
+
+[t]The Classifier Learning Problem
+Definition: Classifier Learning
+Given a data set of example pairs $=\(_i,y_i),i=1:N\$ where $_i^D$ is a feature vector and $y_i$ is a class label, learn a function $f:^D$ that accurately predicts the class label $y$ for any feature vector $$.
+
+
+
+[t]Classification Error and Accuracy
+
+Definition: Classification Error Rate
+Given a data set of example pairs $=\(_i,y_i),i=1:N\$ and a function $f:^D$, the classification error rate of $f$ on $$ is:
+$$Err(f,) = N_i=1^N(y_i f(_i))$$
+
+
+Definition: Classification Accuracy Rate
+Given a data set of example pairs $=\(_i,y_i),i=1:N\$ and a function $f:^D$, the classification accuracy rate of $f$ on $$ is:
+$$Acc(f,) = N_i=1^N(y_i = f(_i))$$
+
+
+
+
+
+
+
+
+[t]K Nearest Neighbors Classification
+
+The KNN classifier is a non-parametric classifier that simply stores the training data $$
+and classifies each new instance $$ using a majority vote over its' set of $K$ nearest neighbors $_K()$ computed using any distance function $d:^D ^D  $.
+
+KNN Classification Function
+$$f_KNN() = _y _i_K() [y_i=y]$$
+
+
+Use of KNN requires choosing the distance function $d$ and the number of neighbors $K$.
+
+
+
+[t]Distance and Similarity
+
+
+In general, KNN can work with any distance function $d$ satisfying non-negativity $d(,')0$ and identity of indiscernibles $d(,)=0$.
+
+Alternatively, KNN can work with any similarity function $s$ satisfying non-negativity $s(,)0$ that attains it's maximum on indiscernibles $s(,)=_' s(,')$.
+
+However, the more structure the distance or similarity function has  (symmetry, triangle inequality), 
+the more structure you can exploit when designing algorithms.
+
+
+
+
+
+[t]Distance Metrics
+
+Definition: Minkowski Distance ($_p$ norms)
+Given two data vectors $,' ^D$, the Minkowski Distance with parameter $p$ (the $_p$ norm) is a proper metric defined as follows:
+
+
+d_p(,') &=  ||-'||_p \\
+&=(_i=1^D |x_d-x'_d|^p)^1/p
+
+
+Special cases include Euclidean distance ($p=2$), Manhattan distance ($p=1$) and Chebyshev distance ($p=$).
+
+
+
+[t]Brute Force KNN
+
+
+Given any distance function $d$, brute force KNN works by computing the distance $d_i = d(_i,_*)$ from a target point $_*$ to all of the training points $_i$.
+
+You then simply sort the distances $\d_i,i=1:N\$ and choose the data cases with the $K$ smallest distances to form the neighbor set $_K(_*)$. Using a similarity function is identical, but you select the $K$ most similar data cases. 
+
+Once the $K$ neighbors are selected, applying the classification rule is easy.
+
+
+
+
+[t]KNN Variants
+
+
+Instead of giving all of the $K$ neighbors equal weight in the majority vote, a distance-weighted majority can be used:
+
+
+f_KNN() &= _y _K() w_i [y_i=y]
+_i_K() w_i\\
+w_i &= (-d_i)
+
+
+Instead of a brute force nearest neighbor search, data structures like ball trees can be constructed over the training data that support nearest neighbor search with lower amortized computational complexity.
+
+
+
+
+
+[t]KNN Trade-Offs
+
+
+Low bias: Converges to the correct decision surface as data goes to infinity.
+
+High variance: Lots of variability in the decision surface when amount of data is low.
+
+Curse of dimensionality: Everything is far from everything else in high dimensions.
+
+Space and Time Complexity: Need to store all training data and perform neighbor search can make the method
+use a lot of memory and take a lot of time.
+
+
+
+
+
+
+
+[t]Decision Tree
+
+
+A classical decision tree classifies data cases using a conjunction of rules organized into a binary tree structure.
+
+Each internal node in a classical decision tree contains a rule of the form $(x_d<t)$ or $(x_d=t$) that tests a single data dimension $d$ against a single value $t$ and assigns the data case to it's left or right sub-tree according to the result.
+
+A data case is routed through the tree from the root to a leaf. Each leaf node is associated with a class, and a data case is assigned the class of the leaf node it is routed to.
+
+
+
+
+
+[t]Example: Decision Tree for Flu
+  [width=4in]../Figures/decision-tree.pdf
+
+
+[t]Decision Tree Learning Algorithm
+
+
+Decision trees are learned using recursive greedy algorithms that 
+select the variable and threshold at each node from top to bottom.
+
+The learning algorithm begins with all data cases at the root of the tree.
+
+The algorithm selects a variable and a threshold to split on according to a heuristic.
+
+The algorithm applies the chosen rule and assigns each data case to
+the left or right sub-tree.
+
+The algorithm then recurses on the child nodes until a given stopping condition is satisfied.
+
+When the stopping condition is satisfied, the current node is a leaf
+in the tree. It is typically assigned a label that corresponds to the most common label of the
+data cases it contains.
+
+
+The two main criteria used to evaluate the the split that results from 
+a potential variable $d$ and threshold $t$ are Gini Impurity ($C_GI$) and information gain ($C_IG$).
+
+Suppose a given variable $d$ and threshold $t$ result in a distribution of class labels in the proportions
+$p_1,p_2,...,p_C$ for the $C$ classes.
+
+$$
+C_GI = _c=1^C p_i(1-p_i)\;\;\;\;\;\;
+C_IG = -_c=1^C p_i (p_i)
+$$
+
+The decision tree construction algorithm recursively searches for optimal (variable, threshold) pairs according
+to a given criteria down to a specified depth.
+
+
+
+
+
+
+[t]Decision Tree Learning
+
+
+The main stopping criteria used are all data cases assigned to a node have the same label, the number of data cases assigned to the node falls below a threshold, and the node is at the maximum allowable depth.
+
+Given sufficient depth, a decision tree can approximate any classification function to arbitrary accuracy.
+
+There are a number of heuristics for selecting variables and thresholds to split on.
+In general, these heuristics are aimed at producing splits of the training data that are as homogeneous as possible in terms of the labels.
+
+
+
+
+[t]Decision Tree Trade-Offs
+
+
+Interpretability: The learned model is easy to understand as a collection of rules.
+
+Test Complexity: Shallow trees can be extremely fast classifiers at test time.
+
+Train Complexity: Finding optimal trees is NP-complete, thus need for greedy heuristics.
+
+Representation: Splitting on single variables can require very large trees to
+accurately model non-axis aligned decision boundaries.

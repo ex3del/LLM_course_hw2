@@ -1,0 +1,208 @@
+[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Kernel Principal Components \and Spectral Clustering
+
+
+
+
+
+
+
+
+[t]Limitations of LDR
+
+
+All the dimensionality reduction methods we've seen so far find optimal
+linear sub-spaces under different constraints.
+
+ How can we move beyond linear sub-spaces?
+ 
+
+
+[t]Basis Expansion
+
+
+One way to move beyond linear dimensionality reduction is to first apply 
+a non-linear basis expansion to the data vectors, and then apply linear 
+dimensionality reduction.
+ 
+Any basis expansion can be applied including polynomials, etc., 
+just as in the case of classification and regression.
+ 
+ 
+
+
+[t]Basis Expansion + SVD
+
+Given a data set $^ND$ and a basis expansion 
+function $: ^D ^D'$ for $D'>D$, we obtain 
+the following SVD-based algorithm:
+
+
+ Compute $,, = (())$
+ Return $Z = $
+ 
+
+
+[t]Basis Expansion + PCA
+
+Given a data set $^ND$ and a basis expansion 
+function $: ^D ^D'$ for $D'>D$, we obtain 
+the following PCA-based algorithm:
+
+
+Compute $= (()-)^T(()-)$ where 
+$=1/N(_i)$.
+
+Compute the $K$ leading eigenvectors $w_1,...,w_K$ of $$ 
+where $_k ^D'$.
+
+Stack the eigenvectors together into a $D' K$ matrix 
+$$ where each column $k$ of $$ corresponds to $_k$.
+
+Project the matrix $()$ into the rank-K sub-space of 
+maximum variance by computing the matrix product $=()$.
+ 
+
+
+[t]Kernel PCA
+
+As in the classification case, it becomes very expensive to use an 
+explicit basis function expansion that maps data into a high-dimensional space.
+
+In the basic SVD-based algorithm, there's no way to avoid this 
+problem.
+
+In the PCA-based algorithm, it's not hard to show that the sample 
+covariance matrix obtained after the basis expansion depends only on inner 
+products of the form $(_i),(_j)$. 
+
+Kernel functions can often provide a much more efficient 
+computation of these inner products without explicitly computing the basis 
+expansion: $(_i, _j) = 
+(_i),(_j)$
+
+
+
+[t]Kernel PCA Algorithm
+Given a data set $^ND$ and a kernel function 
+$$, Kernel PCA can be computed as follows:
+
+
+Compute $_ij = (_i,_j)$ for 
+all $i,j$
+
+Compute $= (I-1_N)(I-1_N)$ where $1_N$ is an $NxN$ 
+matrix where every entry is $1/N$.
+
+Compute the $K$ leading eigenvectors $w_1,...,w_K$ of $$ 
+where $_k ^N$ along with their eigenvalues 
+$_1,...,_K$
+
+Compute the elements of the matrix of projected data vectors using
+$$_nk = _i=1^N _ik_k 
+(_n,_i)$$
+ 
+
+
+[t]Example
+
+Consider the case of using the radial basis function kernel
+$(,) = (-c||-||_2^2)$.
+
+[width=4in]../Figures/kpca.png
+
+
+
+[t]Summary
+
+
+Kernel PCA provides a non-linear dimensionality reduction method that can 
+be used to extract directions of variation after applying high-dimensional 
+basis function expansions, without explicitly performing the basis expansion.
+
+Kernel PCA can be thought of as looking for directions of variation 
+in the space of similarities between data cases, and can extract components 
+that correspond to fairly complex structures.
+
+When a good kernel is known a priori, kernel PCA can provide an
+effective pre-processing step for clustering methods as well as linear 
+classification and regression methods.  
+
+However, exact computation of kernel PCA can be expensive because 
+the size of the matrix that is decomposed is $NxN$.
+ 
+
+
+
+
+
+
+[t]Spectra Clustering
+
+
+Applying kernel PCA followed by K-means clustering is closely related to 
+a clustering method called spectral clustering.
+
+Spectral clustering works by defining a weighted 
+similarity graph on the data cases. 
+
+It's very common to use $(,) = 
+(-c||-||_2^2)$ as the weighting function and to 
+include edges corresponding to the $K$ nearest neighbors of each point.
+
+Unlike the kernel PCA case, the similarity values for
+edges not included in the graph are set to $0$. The matrix of edge weights is 
+denoted by $$.
+
+ 
+
+
+
+
+[t]Connected Components
+
+
+In the simple case, the resulting graph has multiple connected 
+components, and we can create one cluster for each connected component.
+
+[width=4in]../Figures/spectral_clustering1.png
+
+ 
+
+
+
+[t]Minimum Weight Balanced Cut
+
+
+In the more complex case, the graph has only one connected component, and
+the goal is to identify a minimum weight balanced cut:
+
+[width=4in]../Figures/spectral_clustering2.png
+
+ 
+
+
+
+
+[t]Spectral Clustering Algorithm
+
+
+Define the weighted node degree matrix $$ such that $_ii 
+= _n _in$.
+
+Define the graph laplacian $ =  - $.
+
+Compute the eigendecomposition of $$ and extract the 
+$M$ eigenvectors corresponding to the $M$ smallest eigenvalues. 
+
+Just like in kernel PCA, each eigenvector is length $N$. The 
+collection of $M$ of them forms an alternative dimensionality reduced 
+representation for $$, which we can call $$.
+
+Run K-means on $$ to extract $K$ clusters.
+
+This algorithm is an approximation to the exact $K$-way min-cut in 
+the graph, which has exponential complexity to compute.

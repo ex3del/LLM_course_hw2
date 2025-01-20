@@ -1,0 +1,364 @@
+[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false]beamer
+
+
+
+Naive Bayes, LDA, \Logistic Regression
+
+
+
+
+
+
+
+
+[t]The Classification Task
+
+Definition: The Classification Task
+Given a feature vector $^D$ that describes an object that belongs to one of $C$ classes from the set $$, predict which class the object belongs to.
+
+
+
+
+
+[t]The Classifier Learning Problem
+Definition: Classifier Learning
+Given a data set of example pairs $=\(_i,y_i),i=1:N\$ where $_i^D$ is a feature vector and $y_i$ is a class label, learn a function $f:^D$ that accurately predicts the class label $y$ for any feature vector $$.
+
+
+
+[t]Classification Error and Accuracy
+
+Definition: Classification Error Rate
+Given a data set of example pairs $=\(_i,y_i),i=1:N\$ and a function $f:^D$, the classification error rate of $f$ on $$ is:
+$$Err(f,) = N_i=1^N(y_i f(_i))$$
+
+
+Definition: Classification Accuracy Rate
+Given a data set of example pairs $=\(_i,y_i),i=1:N\$ and a function $f:^D$, the classification accuracy rate of $f$ on $$ is:
+$$Acc(f,) = N_i=1^N(y_i = f(_i))$$
+
+
+
+
+
+
+
+
+
+
+[t]Probabilistic Classification
+
+
+Suppose we know that the true probability of seeing a data case that
+belongs to class $c$ is $P(Y=c)=_c$ and the true probability density of seeing a data vector $^D$ that belongs to class $c$ is $p(=|Y=c) =_c()$.
+
+We can use this information to compute the probability that the class of any observation $$ is $c$. How?
+
+Bayes Rule:
+$P(Y=c|=) = )_c_c'_c'()_c'$
+
+
+
+
+
+[t]The Bayes Optimal Classifier
+
+
+The Bayes Optimal Classifier uses the classification function: 
+
+
+
+f_B()&=_c P(Y=c|=)\\
+&=_c _c()_c
+
+
+
+The Bayes optimal classifier achieves the minimal possible expected error rate among all possible classifiers:
+
+$$1 - _P(=)[_c P(Y=c|=)]$$
+
+This is a nice result, but is it useful in practice?
+
+
+
+
+
+
+
+
+
+[t]Naive Bayes
+
+
+The naive Bayes classifier approximates the Bayes optimal classifier using a simple form for the functions $_c()$. 
+
+This form assumes that all of the data dimensions are probabilisticaly independent given the value of the class variable:
+
+$$_c() = p(=|Y=c) = _d=1^D p(X_d=x_d|Y=c)=_d=1^D _cd(x_d)$$
+
+The general form for the classification function is:
+
+f_NB()&=_c _c_d=1^D_cd(x_d)
+
+
+
+
+
+
+
+[t]Class Conditional Distributions
+
+12pt
+The functions $p(X_d=x_d|Y=c)=_cd(x_d)$ are called .
+
+For real valued $x_d$,  $p(X_d=x_d|Y=c)$ is typically modeled as a normal density $_cd(x_d)=(x_d;_dc,^2_dc)=$ $^2(-2_dc^2(x_d-_dc)^2)$.
+
+For binary valued $x_d$,  $p(X_d=x_d|Y=c)$ is a Bernoulli distribution $_cd(x_d)=_dc^x_d(1-_dc)^(1-x_d)$.
+
+For general categorical values $x_d$,  $p(X_d=x_d|Y=c)$ is a categorical distribution $_cd(x_d)=_v_d _vdc^[x_d=v]$
+
+
+
+
+
+[t]Learning for Naive Bayes
+
+
+12pt
+The class probabilities $_c$ and the parameters of the marginal class conditional distributions $_cd(x_d)$ are learned by maximum likelihood on a sample of training data $=\(_i,y_i),i=1:n\$. 
+
+This reduces to estimating them using class-conditional sample averages for most common distributions.
+
+Class probabilities: $_c = n_i=1^n [y_i=c]$
+
+Normal: 
+$_dc = ^n [y_i=c]x_di_i=1^n [y_i=c]\;\;\;\;\;
+^2_dc = ^n [y_i=c](x_di-_dc)^2_i=1^n [y_i=c]$
+
+Bernoulli: 
+$_dc = ^n [y_i=c]x_di_i=1^n [y_i=c]$ Categorical: 
+$_vdc = ^n [y_i=c][x_di=v]_i=1^n [y_i=c]$
+
+
+
+
+
+
+[t]Geometric Interpretation
+
+
+12pt
+Suppose we use normal distributions for the marginal class conditional distributions and we have a binary classification problem. What is the geometry of the decision boundary?
+
+
+f_NB()&=_c _c_d=1^D_cd(x_d)\\
+               &=_c (_c) + _d=1^D(_cd(x_d))\\
+               &=_c (_c) + _d=1^D (-2(2_dc^2) - 2_dc^2(x_d-_dc)^2)
+
+
+
+
+
+
+[t]Geometric Interpretation
+
+
+12pt
+The decision boundary consists of the set of points $$ where:
+
+&(_0) + _d=1^D (-2(2_d0^2) - 2_d0^2(x_d-_d0)^2) \\
+&-(_1) - _d=1^D (-2(2_d1^2) - 2_d1^2(x_d-_d1)^2)=0
+
+
+It's easy to see that the decision boundary is a quadratic function of $$ with the form:
+$_d=1^D ( a_dx_d^2 + b_dx_d) + c=0$.
+
+In the multi-class case, the decision boundary is piece-wise quadratic.
+
+
+
+
+[t]Trade-Offs
+
+
+12pt
+Speed: Both learning and classification have very low computational complexity.
+
+Storage: The model only requires $O(DC)$ parameters. It achieves a large compression of the training data.
+
+Interpretability: The model has good interpretability since the parameters of $_c()$ correspond to class conditional averages.
+
+Accuracy: The assumption of feature independence and canonical forms for class-conditional marginals will rarely be correct for real-world problems, leading to lower accuracy.
+
+Data: Some care is needed in the estimation of parameters in the discrete case when data is scarce. 
+
+
+
+
+
+
+
+
+[t]Linear Discriminant Analysis
+
+
+Linear Discriminant Analysis (LDA) is a classification technique due to Fisher that dates back to the 1930's.
+
+It can be interpreted as a different approximation to the Bayes Optimal Classifier for real-valued data. 
+
+Instead of a product of independent Normals like in Naive Bayes, LDA assumes the class-conditional densities are multivariate normal with a common covariance matrix: 
+
+$$_c() = (;_c,) 
+= |2|^1/2(-2(-_c)^T^-1(-_c))$$
+
+The classification function is $f_LDA() = _c _c()_c$
+
+
+
+
+
+[t]Learning for LDA
+
+
+As with Naive Bayes, LDA parameters are learned using maximum likelihood, which reduces
+to using sample estimates.
+
+Class probabilities: $_c = n_i=1^n [y_i=c]$
+
+Class Means: $_c = ^n [y_i=c]_i_i=1^n [y_i=c]$
+
+Shared Covariance: $= n_i=1^n
+(_i-_y_i)(_i-_y_i)^T$
+
+
+
+
+
+[t]Geometric Interpretation
+
+
+12pt
+What is the geometry of the decision boundary for LDA in the binary case?
+
+The decision boundary consists of the set of points $$ where:
+
+
+&(_0) -2|2| - 2(-_0)^T^-1(-_0)\\
+&-(_1) + 2|2| +2(-_1)^T^-1(-_1)=0
+
+
+We can cancel a large number of terms because of the common covariance matrix and obtain the following result:
+$$(_0) -(_1) - 0.5_0^T^-1_0 + 0.5_1^T^-1_1 +  (_0-_1)^T^-1=0$$
+
+This shows that the decision boundary is actually linear in $$.
+
+
+
+[t]Trade-Offs
+
+
+6pt
+Speed: The quadratic dependence on $D$ makes LDA slower than Naive Bayes by a factor of $D$ during learning and classification.
+
+Storage: The model requires $O(D^2C)$ parameters. This can still represent a good compression of the data when $D<<N$.
+
+Interpretability: The model has good interpretability since the mean parameters $_c$ correspond to class conditional averages.
+
+Accuracy: The assumptions LDA makes will rarely be correct for real-world problems. However, the induced linear decision boundaries can often perform reasonably well.
+
+Data: LDA will generally need more data than NB since it needs to estimate the $O(D^2)$ parameters in the pooled covariance matrix $$.
+
+
+
+
+
+
+
+[t]Generative vs Discriminative Classifiers
+
+
+12pt
+The Bayes Optimal Classifier, Naive Bayes and LDA are said to be  classifiers because they explicitly model the joint distribution $P(,Y)$ of the data vectors $$ and the labels $y$. Question: is this really necessary?
+
+No, to build a probabilistic classifier, all we really need to model is $P(Y|)$. 
+
+Classifiers based on directly estimating $P(Y|)$ are called  classifiers because they ignore the distribution of $$ and focus only on the class labels $y$.
+
+
+
+
+[t]Logistic Regression
+
+
+8pt
+Logistic Regression is a probabilistic discriminative classifier.  
+
+In the binary case, it directly models the decision boundary using a linear function:
+$$P(Y=1|)-P(Y=0|)  = ^T+b $$$$P(Y=1|) = 1+(-(^T+b))$$
+
+The classification function is: $f_LR() = _c P(Y=c|)$
+
+
+
+
+
+
+[t]Logistic Function
+
+[width=3in]../Figures/logistic.png
+
+
+
+[t]Multiclass Logistic Regression
+
+
+8pt
+
+Logistic regression can also be extended to the multiclass case:
+
+$$P(Y=c|) = _c^T+b_c)_c' (-(_c'^T+b_c'))  $$
+
+The classification function is still: 
+$$f_LR() = _c P(Y=c|)$$
+
+
+
+
+[t]Learning Logistic Regression
+
+
+12pt
+The logistic regression model parameters $= \(_c, b_c), c\$ are selected to optimize the conditional log likelihood of the labels given a data set $=\(_i,y_i), i=1:n\$:
+
+$$_* = _(|) = __i=1^n P(Y=y_i|=_i)$$
+
+However, the function $(|)$ can not be maximized analytically. Learning the model parameters requires numerical optimization methods. 
+
+
+
+
+[t]Geometry
+
+
+12pt
+Logistic regression is explicitly designed to have a linear decision boundary in the binary case.
+
+In the multiclass case, the decision boundary is piece-wise linear. 
+
+Logistic Regression has the same representational capacity as LDA.
+
+
+
+
+
+[t]Trade-Offs
+
+
+6pt
+Speed: At classification time, LR is faster than NB and LDA. Learning LR requires numerical optimization, which will be slower than NB.  
+
+Storage: The model requires $O(DC)$ parameters. The same order as Naive Bayes, but much less than LDA's $O(DC + D^2)$ when $C<<D$.
+
+Interpretability: The ``importance'' of different feature variables $x_d$ can be understood in terms of their weights $w_dc$.
+
+Accuracy: Tends to be better in high dimensions with limited data compared to LDA. Much worse than KNN in low dimensions with lots of data and non-linear decision boundaries.

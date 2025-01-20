@@ -1,0 +1,149 @@
+[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+K-Means Clustering
+
+
+
+
+
+
+
+
+[t]The Clustering Task
+Definition: The Clustering Task
+Given a collection of data cases $_i^D$, partition the 
+data cases into groups such that the data cases within each partition are
+more similar to each other than they are to data cases in other partitions.
+
+
+ 
+ 
+[t]Defining a Clustering
+ 
+
+Suppose we have $N$ data cases $=\_i\_i=1:N$.
+ 
+A clustering of the $N$ cases into $K$ clusters is a partitioning 
+ of $$ into $K$ mutually disjoint subsets 
+ $=\C_1,...,C_K\$ such that 
+ $C_1 ... C_K = $.
+ 
+ 
+
+
+[t]The Hierarchical Agglomerative Clustering Algorithm
+[width=4in]../Figures/hac_algorithm.png
+
+
+
+
+
+
+[t]The K-Means Algorithm
+ 
+
+The K-Means algorithm is an iterative optimization 
+algorithm for clustering that alternates between two steps.
+
+The algorithm maintains a set of $K$ cluster centroids  or 
+prototypes $_k$ that represent the average (mean) feature vector of the data 
+cases in each cluster.
+
+In the first step, the distance between each data case and each 
+prototype is computed, and each data case is assigned to the nearest prototype.
+
+In the second step, the prototypes are updated to the mean of the 
+data cases assigned to them.
+
+ 
+
+
+[t]The K-Means Algorithm
+
+[width=4in]../Figures/kmeans-algorithm.png
+
+
+
+[t]The K-Means Algorithm
+
+Suppose we let $z_i$ indicate which cluster $_i$ belongs to and 
+$_k^D$ be the cluster centroid/prototype for cluster $k$.
+The two main steps of the algorithm can then be expressed as follows:
+
+
+$z_i =_k ||_k-_i||_2^2$
+
+$_k = ^N [z_i=k]_i_i=1^N 
+[z_i=k]$
+
+
+
+
+
+[t]The K-Means Objective
+
+
+The K-Means algorithm attempts to minimize the sum of the within-cluster
+variation over all clusters (also called the within-cluster sum of squares):
+
+$$^* = _ 
+_k=1^K|C_k|__i,_jC_k 
+||_i-_j||_2^2$$
+
+Note that this objective function has many, many local optima in 
+general, each corresponding to a different clustering of the data. 
+
+K-Means produces a non-increasing sequence of objective function 
+values and is guaranteed to converge to some local optima. Finding the global
+optimum is not computationally tractable.
+
+
+ 
+
+
+
+
+[t]Initialization
+
+
+Because K-Means finds a local optimum, it can be highly sensitive to 
+initialization.
+
+It is common to perform multiple random re-starts of the algorithm
+and take the clustering with the minimal total variation.
+
+Common initializations include setting the initial 
+centers to be randomly selected data cases, setting the initial partition to
+a random partition, and selecting centers using a ``furthest first''-style 
+heuristic (more formally known as K-Means++).
+
+It often helps to initially to run with $K(K)$ 
+clusters, then merge clusters to get down to $K$ and run the algorithm
+from that initialization.
+
+ 
+
+
+
+[t]Issues
+
+
+Only works with Euclidean distance. An alternate version based on 
+Manhattan distance exists and is called the K-medians algorithm.
+
+Pre-processing like re-scaling/normalizing features can
+completely change the results.
+
+We need some way to determine the ``right'' number of clusters to 
+focus on. We want to cluster on salient differences between data cases, not 
+noise.
+
+The run time is $O(NKT)$ where $T$ is the number of iterations to
+convergence of the total variation. $T$ is often small (like 20), but examples 
+can be constructed that require an exponential number of steps to converge. 
+
+Results in a hard assignment of data cases to clusters, which may 
+be a 
+problem if there are outliers.

@@ -1,0 +1,498 @@
+[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Principal Components Analysis
+
+
+
+
+
+
+
+[t]The Dimensionality Reduction Task
+
+Definition: The Dimensionality Reduction Task
+Given a collection of feature vectors $_i^D$, map the 
+feature vectors into a lower dimensional space $_i^K$ where 
+$K<D$ while preserving certain properties of the data.
+
+
+[width=4in]../Figures/manifold_unrolling.png
+
+
+
+[t]Linear Dimensionality Reduction
+ 
+
+The simplest dimensionality reduction methods assume that the observed 
+high dimensional data vectors $_i^D$ lie on a 
+K-dimensional linear manifold within $^D$. 
+
+Mathematically, the linear sub-space assumption can be written as 
+$ = $
+
+[width=3in]../Figures/linear_subspace.png
+
+
+ 
+
+
+[t]Learning
+ 
+
+The learning problem for linear dimensionality reduction is to estimate
+values for both $$ and $$ given only the noisy observations 
+$$.
+
+One possible learning criteria is to minimize the sum of squared 
+errors when reconstructing $$ from $$ and $$. This leads 
+to:
+
+$$_, || -  ||_F$$
+
+
+where $||||_F$ is the Frobenius norm of matrix  $$ (the sum of 
+the squares of all matrix entries). 
+
+ 
+
+
+[t]Singular Value Decomposition
+ 
+
+
+We can pick a unique representation for the subspace by 
+specifying additional criteria. Classical Rank-K Singular Value Decomposition 
+(K-SVD) corresponds to the following restriction:
+
+$$_,, || - ^T ||_F$$
+
+where $S$ is a $KK$ diagonal matrix with positive elements,  
+$$ is an $NK$ matrix such that  $^T=I$, and $V$
+is a $DxK$ matrix such that $^T=I$.
+
+The matrix product $=$ gives the optimal 
+rank-K representation of $$ with respect to Frobenius norm minimization,
+with $^T$ acting as the basis for the space.
+
+ 
+
+
+
+
+
+[t]Eigenvectors
+ 
+
+
+Let $^DxD$ be a matrix, $
+^D$ be a vector, and $$ be scalar.
+
+If $ = $ then $$ is a right 
+eigenvector of $A$ with eigenvalue $$.
+
+If $^T = $ then $$ is a 
+left eigenvector of $A$ with eigenvalue $$ (equivalently 
+$^T = ^T$).
+
+If $$ is symmetric so that $=^T$, then the 
+left and right eigenvectors of $$ are the same with the same eigenvalues.
+
+$$2&1\\1&2 
+1\\1 
+=3\\3
+=31\\1
+$$
+
+$$1 & 1 
+2 & 1\\ 1 & 2 
+=31 & 1 
+$$
+
+A full-rank (invertible) matrix $
+^DxD$ will have $D$ linearly independent eigenvectors.
+
+ 
+
+
+[t]Eigendecomposition
+ 
+
+
+Let $ ^DxD$ be a matrix whose columns 
+$_d$ are $D$ linearly independent eigenvectors of $$ 
+with $$ the corresponding diagonal matrix of eigenvalues such that 
+$_dd=_d$.Then:
+
+$$ = $$
+$$ = ^-1$$
+$$^-1 = $$
+
+
+Without loss of generality, we can assume that $_1
+_2 ... _D$,
+
+ 
+
+
+
+[t]Eigendecomposition of a Symmetric Matrix
+ 
+
+
+If $$ is symmetric, we can choose $D$ orthonormal eigenvectors so that
+$||_d||_2=1$, $^T_d _d'=0$ and $D$ real eigenvalues 
+$_d$. This representation of $$ is unique. 
+As a result, we have:
+
+$$ = ^T = _d=1^D _d _d^T_d$$
+
+$$^T=$$ 
+
+
+ 
+
+
+[t]Representation of a Vector in the Eigen Basis
+ 
+
+
+Similarly, if $$ is an arbitrary vector, then we can also 
+represent $$ using the basis provided by the eigevectors $$ of a 
+real symmetric matrix $$. We obtain:
+
+
+ &= _d=1^D _d _d\\
+_d&= ^T_d
+
+
+ 
+
+
+
+[t]Geometry
+ 
+
+
+If $$ is a real symmetric matrix with positive eigenvalues, then 
+the quadratic equation $^T=0$ defines an ellipsoid in a 
+$D$-dimensional space, which provides a different way of thinking about these 
+operations:
+
+[width=4in]../Figures/eigen_basis_change.png
+
+ 
+
+
+
+
+
+[t]Principal Component Analysis
+ 
+
+Given a data matrix $^ND$, 
+the goal of Principal Component Analysis (PCA) is to identify the directions
+of maximum variance contained in the data.
+
+[width=4in]../Figures/pca1.png
+
+ 
+
+
+
+[t]Sample Variance in a Given Direction
+
+
+Let $^D$ such that 
+$||||_2=^T=1$. 
+
+The sample estimate of the variance in the direction 
+$$ given the data set $$ is given by the expression:
+
+$$ N_i=1^N (_i-)^2 \;\; \;\;
+= N_i=1^N _i$$ 
+
+ 
+
+
+[t]Pre-Centering
+
+
+Under the assumption that the data are 
+pre-centered so that $N_i=1^N _i=0$, this expression 
+simplifies to:
+
+
+N_i=1^N (_i)^2 
+= ()^T() 
+= ^T^T
+
+
+ 
+
+
+[t]The Direction of Maximum Variance
+
+
+Suppose we want to identify the direction $_1$ of maximum variance 
+given the data matrix $$. We can formulate this optimization problem as 
+follows:
+
+
+_1 = _ ^T^T  
+||||_2=1
+
+
+How can we solve this problem?
+
+ 
+
+
+[t]The Direction of Maximum Variance
+
+
+Let $= ^T$. 
+
+$$ is real and symmetric, so it 
+admits an eigendecomposition of the form: 
+$$= _d=1^D _d 
+_d_d^T$$
+
+$_1_2 ,...,_D0$ are the 
+eigenvalues of $$. 
+
+$_d^D$ are the eigenvectors of $$.
+They satisfy: 
+
+$$||_d||_2 = _d^T_d =1  d$$ 
+
+$$_d^T_d' =0  dd'$$ 
+
+ 
+
+
+[t]The Direction of Maximum Variance
+
+
+Using this result, we can write the optimization problem as:
+
+
+$$_ ^T^T  
+||||_2=1 $$
+$$_ 
+^T(_d=1^D _d _d_d^T)  
+... st  
+||||_2=1$$
+$$_ _d=1^D _d 
+(^T_d)^2  
+||||_2=1 $$
+
+
+ 
+
+
+
+[t]The Direction of Maximum Variance
+
+
+$$ can also be expressed in the orthonormal basis 
+$_1,...,_D$ by letting $ = 
+_d=1^D_d_d$. 
+
+The constraint that $||||_2=1 $ becomes $^D 
+_d^2=1$. 
+
+This means $_d=1^D _d^2=1$ and $_d^2>0$, so the 
+$_d^2$ values act like a discrete probability distribution.
+
+ 
+
+
+
+[t]The Direction of Maximum Variance
+
+
+
+Plugging this back into the objective function, we have:
+
+$$_ _d=1^D _d 
+(^T_d)^2  
+||||_2=1 $$
+
+$$_ _d=1^D _d 
+(_d'=1^D_d'_d'^T_d)^2  
+_d=1^D _d^2=1 $$
+
+$$_ _d=1^D _d _d^2  
+_d=1^D _d^2=1 $$
+
+
+ 
+
+
+[t]The Direction of Maximum Variance
+
+
+
+At this point, the solution is clear.
+
+To maximize the variance, we need to set $_1=1$ 
+and set $_d=0$ otherwise. This put's all the weight on the maximum 
+eigenvalue of $$, which is $_1$ by assumption.
+
+Working our way back to $_1$, we put all our weight on the 
+maximum eigenvalue, so $ = 
+_d=1^D_d_d = _1$.
+
+This shows that the maximum variance direction given a data 
+matrix $$ is the eigenvector of $^T$ with the 
+largest eigenvalue. 
+
+
+ 
+
+
+[t]K Largest Directions of Variance
+
+
+
+Suppose instead of just the direction of maximum variance, we want the 
+$K$ largest directions of variance that are all mutually orthogonal.
+
+Finding the second-largest direction of variance corresponds to 
+solving the problem:
+
+
+_2 &=  _ _d=1^D _d 
+(^T_d)^2  
+||||_2=1  and  ^T_1=0
+
+
+It's easy to see that this is going 
+to be the eigenvector corresponding to the second largest eigenvalue.
+
+In general, the top $K$ directions of variance 
+$_1,...,_K$ are given by the $K$ eigenvectors corresponding to 
+the $K$ largest eigenvalues of $^T$.
+
+ 
+
+
+[t]Dimensionality Reduction with PCA
+
+
+Given centered data matrix $ ^ND$, compute 
+unscaled sample covariance matrix $= ^T$.
+
+Compute the $K$ leading eigenvectors $w_1,...,w_K$ of $$ 
+where $_k ^D$.
+
+Stack the eigenvectors together into a $D K$ matrix 
+$$ where each column $k$ of $$ corresponds to $_k$.
+
+Project the matrix $$ into the rank-K sub-space of maximum 
+variance by computing the matrix product $=$.
+
+To reconstruct $$ given $$ and $$,
+we use $ = ^T$.
+
+ 
+
+
+
+
+
+[t]Connection to SVD
+
+
+Last class we saw that the minimum Frobenius norm linear dimensionality 
+reduction problem could be solved using the the rank-K SVD of $$:
+
+$$_,, || - ^T ||_F$$
+
+where the matrix product $=$ gives the optimal rank-K 
+representation of $$ with respect to Frobenius norm minimization.  
+
+
+ 
+
+
+
+[t]Connection to SVD
+
+
+If we let $K=D$ then $ = ^T$ and
+$^T = ^T^T$.
+
+Due to orthogonality of $U$ this gives: $^T = 
+^2^T$. 
+
+This means that the right singular vectors of 
+$$ are exactly the eigenvectors of $^T$, so 
+SVD's $$ and PCA's $$ are identical (assuming $$ is centered). 
+
+We can also see that the eigenvalues of $^T$ are the 
+squares of the diagonal elements of $$. 
+
+This means that the $K$ largest 
+singular values and $K$ largest eigenvalues correspond to the same $K$ basis 
+vectors.
+
+ 
+
+
+
+[t]Connection to SVD
+
+
+
+According to PCA, the projection operation is 
+$=$. 
+
+Using $ = ^T$ and 
+$=$ we have:
+
+$$= = (^T)() = $$ 
+
+Finally, note that if the decompositions are based only on the K 
+leading basis vectors, which are identical under both PCA and SVD, the 
+projections $=$ and $=$ will still be 
+identical.
+
+ 
+
+
+[t]Connection to SVD
+
+
+These manipulations show that PCA on $^T$ and SVD on 
+$$ identify exactly the same sub-space and result in exactly the same 
+projection of the data into that sub-space.
+
+As a result, generic linear dimensionality reduction 
+simultaneously minimizes the Frobenius norm of the reconstruction error of 
+$$ and maximizes the retained variance in the learned sub-space.
+
+Both SVD and PCA provide the same refinement of generic linear 
+dimensionality reduction: an orthogonal basis for exactly the same optimal 
+linear subspace. 
+
+ 
+
+
+[t]Issues
+
+
+The computational complexity of PCA is $O(D^2N + D^3)$ if the full 
+eigendecomposition is obtained and then truncated, compared to 
+$O(min(DN^2, ND^2))$ for SVD.
+
+If $K<<D$, then PCA can also be computed iteratively, as can SVD.
+
+The basic SVD and PCA algorithms are not suitable for large-scale 
+data. Instead, randomized algorithms are often used.
+
+The value of $K$ can sometimes be chosen based on looking for 
+eigenvalue gaps in the eigenspectrum of the covariance matrix. Otherwise, a 
+supervised end/side-task is needed or a criteria like AIC/BIC must be applied.

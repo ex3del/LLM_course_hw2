@@ -1,0 +1,81 @@
+COMPSCI 589
+Benjamin M. Marlin
+University of Massachusetts Amherst
+College of Information and Computer Sciences
+
+
+[2]
+  [ Lecture #1] 
+    \\ Lecture #1: #2
+     []
+     []
+     \\
+        
+
+
+
+
+  
+    
+        Slides by Benjamin M. Marlin (marlin@cs.umass.edu). \\
+    Created with support from National Science Foundation Award\# IIS-1350522. 
+                                                              
+    
+  
+
+
+[]
+
+  <beamer>Outline
+    [currentsection,subsectionstyle=hide]
+  
+
+
+
+[1]
+
+[4]
+  <#1-#2>
+    [T]
+      
+           [width=0.5in]#3
+       
+            #4
+    
+              
+
+
+<presentation>
+  
+  
+
+
+<handout>
+  
+  
+
+
+
+[english]babel
+[latin1]inputenc
+
+[T1]fontenc
+
+
+[noend]algorithmic
+
+
+
+
+
+
+
+
+*
+*
+*Val
+[1]
+*arg\,max
+*arg\,min
+*sign
+[2]

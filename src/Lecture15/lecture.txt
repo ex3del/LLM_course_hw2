@@ -1,0 +1,193 @@
+[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Hierarchical Clustering
+
+
+
+
+
+
+
+[t]Views on Machine Learning
+
+../Figures/mitchell.jpg ``A computer 
+program is said to learn from experience E with respect to some class of tasks 
+T 
+and performance measure P, if its performance at tasks in T, as measured by P, 
+improves with experience E.''\\[12pt]  Substitute ``training data D'' for  
+``experience E.''
+
+
+
+[t]Machine Learning Tasks
+  [width=4in]../Figures/learning_problems.png
+
+
+[t]The Classification Task
+
+Definition: The Classification Task
+Given a feature vector $^D$ that describes an object that 
+belongs to one of $C$ classes from the set $$, predict which class 
+the object belongs to.
+
+
+
+
+[t]The Clustering Task
+
+Definition: The Clustering Task
+Given a collection of data cases $_i^D$, partition the 
+data cases into groups such that the data cases within each partition are
+more similar to each other than they are to data cases in other partitions.
+
+
+[width=3in]../Figures/clustering_example.png
+
+
+[t]Examples: Market Segmentation
+[width=4.5in]../Figures/market_segmentation.jpg
+
+
+[t]Examples: Community Detection
+[width=3.5in]../Figures/community_detection.jpg
+
+
+[t]Examples: Gene Expression
+[width=3.5in]../Figures/gene_clustering.jpg
+
+
+[t]Examples: Phylogenetic Trees
+[width=4.5in]../Figures/phylogeny.jpg
+
+
+[t]Examples: Super Pixels
+[width=4in]../Figures/super_pixels.png
+
+
+
+
+
+ 
+[t]Defining a Clustering
+ 
+
+Suppose we have $N$ data cases $=\_i\_i=1:N$.
+ 
+ A clustering of the $N$ cases into $K$ clusters is a partitioning 
+ of $$ into $K$ mutually disjoint subsets 
+ $=\C_1,...,C_K\$ such that 
+ $C_1 ... C_K = $.
+ 
+ 
+
+
+[t]Exhaustive Clustering
+ 
+ Suppose we have a function $f()$ that takes a partitioning 
+ $$ of the data set $D$ and returns a score with lower scores 
+ indicating better clusterings.
+ 
+ The optimal clustering according to $f$ is simply given by 
+ $$_ \;\;f()$$
+ 
+  What is the complexity of exhaustive clustering?
+ 
+
+
+[t]Number of Clusterings
+
+
+
+ The total number of clusterings of a set of $N$ elements is the 
+Bell number $B_N$ where $B_0=1$ and $B_n+1 = _k=0^n n k B_k$.
+
+The first few Bell numbers are: 1, 1, 2, 5, 15, 52, 203, 877, 
+4140, 21147, 115975, 678570, 4213597, 27644437, 190899322, ...
+
+The complexity of exhaustive clustering scales with $B_N$ and is 
+thus computationally totally intractable for general scoring functions. 
+
+We will need either approximation algorithms or scoring functions 
+with special properties. 
+
+
+
+
+
+
+
+[t]Hierarchical Agglomerative Clustering
+
+
+Hierarchical Clustering methods are a family of greedy tree-based 
+clustering methods.
+
+Hierarchical Agglomerative Clustering (HAC)  is the most popular 
+member of this family.
+
+It begins with all data cases assigned to their own clusters, and 
+then greedily and recursively merges the pair of clusters that is optimal with 
+respect to a given criteria.
+
+
+
+
+
+[t]Distance and Linkage Functions
+
+
+Like KNN, HAC need to be supplied with a function for computing the 
+distance between two data cases. This is often taken to be Euclidean 
+distance, but could be any distance function.
+
+To merge clusters, HAC also needs what is called a linkage function 
+for measuring the distance between clusters. 
+
+Linkage functions can differ 
+significantly in their computational complexity and the clusterings they 
+produce.
+
+
+
+
+[t]Examples of Linkage Functions
+[width=4in]../Figures/linkage.png
+
+
+
+[t]The Hierarchical Agglomerative Clustering Algorithm
+[width=4in]../Figures/hac_algorithm.png
+
+
+[t]Example: Data
+[width=3in]../Figures/hac_example_data.png
+
+
+[t]Example: Dendrograms
+[width=4in]../Figures/hac_example.png
+
+
+[t]Issues
+
+
+We need to have a good notion of similarity for the results of cluster 
+analysis to be meaningful at all.
+
+As with KNN, pre-processing like re-scaling/normalizing features can
+completely change the results. 
+
+Further, we need to slect between the different linkage functions.
+
+We need some way to determine the ``right'' number of clusters to 
+focus on. We want to cluster on salient differences between data cases, not 
+noise.
+
+This procedure is not able to nicely handle noise observations 
+that are different from each other and from the rest of the data that do 
+belong to valid clusters.
+
+All of these issues mean we need to be cautious in interpreting 
+the results of clustering. It should  be the starting point for an exploratory 
+data analysis, not the end point.

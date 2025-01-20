@@ -1,0 +1,303 @@
+[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Course Overview - Supervised and Unsupervised Learning
+
+
+
+
+
+
+
+
+[t]Introduction
+    
+
+
+[t]Definitions of Learning
+
+3../Figures/bfskinner.jpg Learning is a long-term change in behavior due to experience.
+
+3../Figures/gestalt.jpg Learning is an internal mental process that integrates new information into established mental frameworks and updates those frameworks over time.
+
+3../Figures/hebb.png Learning is a physical process in which neurons join by developing the synapses between them.
+
+
+
+[t]Introduction
+    
+
+
+[t]Views on Machine Learning
+
+2../Figures/samuel.jpg ``Machine learning is a field of study that gives computers the ability to learn without being explicitly programmed.''
+
+2../Figures/mitchell.jpg ``A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at tasks in T, as measured by P, improves with experience E.''\\[12pt] Substitute ``training data D'' for  ``experience E.''
+
+
+
+
+
+[t]Machine Learning Tasks
+  [width=4in]../Figures/learning_problems.png
+
+
+[t]Machine Learning Approaches
+  [<+->]
+     Learning is accomplished by storing the training data (memorization).
+    
+     Learning is accomplished by using an algorithm to adapt the parameters in a mathematical or statistical model given training data. For exmaple:\\
+    
+    <+->() = _d=1^D_d x_d$$
+    
+  
+
+
+[t]Machine Learning Applications
+  [width=4in]../Figures/ml_applications.png
+
+
+[t]Machine Learning in Industry
+  [width=4in]../Figures/ml_industry.pdf
+
+
+
+[t]Relationship to Other Fields
+  [<+->]
+    Machine Learning and Artificial Intelligence
+    Machine Learning and Probability/Statistics
+    Machine Learning and Numerical Optimization
+    Machine Learning and Function Approximation
+    Machine Learning and Cognitive Science
+    Machine Learning and Neuroscience
+    Machine Learning and Data Mining 
+    Machine Learning and Data Science
+    Machine Learning and Big Data
+  
+
+
+
+
+
+
+
+[t]Course Goals
+
+The aim of this course is to develop the knowledge and skills necessary to effectively apply existing machine learning models and algorithms to solve real-world problems. The course will cover:
+
+ [<+->]
+Classification, regression, clustering, dimensionality reduction and representation learning 
+Model selection, regularization, design of experiments, model evaluation
+Use of machine learning across different computing contexts (desktop/cluster/cloud)
+
+
+<+->This course  teach you how to design new machine learning models and
+algorithms.
+
+
+
+[t]Prerequisites
+
+The course has formal prerequisites as listed below. All students are expected to be familiar with this material or have the ability to make up any gaps in their backgrounds on their own.
+
+ [<+->]
+Linear Algebra
+Calculus
+Probability and Statistics
+Algorithms and Data Structures 
+
+
+<+-> The course requires the use of Python for programming. Students are expected to learn Python as we go.
+
+
+
+
+[t,label=current]Text Books
+
+The course will use a two textbooks freely available from the authors:
+
+[<+->]
+[ISL]: . James, Witten, Hastie and Tibshirani.
+[ESL]: . Hastie, Tibshirani and Friedman.
+
+
+<+->Readings are intended to be completed before class.
+
+
+
+[t]Programming and Computing
+
+[<+->]
+Students need access to computing to complete regular assignments (any moderately recent laptop/desktop should do).
+Programming assignments will use Python 2.7.
+A complete Ubuntu programming environment will be distributed using Vagrant/Virtual Box. 
+Access to cloud computing resources is required to complete course components using Apache Spark. 
+
+
+
+
+
+
+
+[t]Linear Algebra
+
+Definition: Vector Space
+  The real vector space $^n$ is a set with elements  $=[x_1,...,x_n]$
+  where each $x_i $. The elements $$ are called vectors, and they satisfy the following properties:
+  
+    [<+->]
+     If $^n$ and $^n$, then 
+    $ + =[x_1+y_1,...,x_n+y_n] ^n$.
+     If $^n$ and $a $, then 
+    $a =[ax_1,...,ay_n] ^n$.
+     If $^n$ and $^n$, then 
+    $= _i=1^n x_iy_i$.
+  
+
+
+
+
+[t]Linear Algebra
+
+Definition: Matrix
+  A matrix $^nm$ is rectangular array of elements $x_ij$, $1i n$, $1j m$:
+  
+  $$ =
+ 
+  x_11 & x_12 & & x_1m \\
+  x_21 & x_22 & & x_2m \\
+   &  & &  \\
+  x_n1 & x_n2 & & x_nm
+ 
+  $$
+  
+
+
+
+[t]Linear Algebra
+
+Definition: Matrix
+  A matrix $^nm$ supports the following operations:
+  
+    [<+->]
+     If $^nm$, $^nm$ and $=+$, then  $^nm$ and $Z_ij=X_ij+Y_ij$.
+
+     If $^nm$, $a$
+    and $=a$, then  $^nm$ and $Z_ij=aX_ij$.
+    
+     If $^nm$, $^mn$ and $=$, then  $^nn$ and $Z_ij=_k=1^mX_ikY_kj$.
+
+    
+
+
+Yous should be familiar with basic matrix types (square, diagonal, identity), basic matrix operations (transpose, inverse, trace, determinant, etc.), and matrix concepts (eigenvalues, eigenvectors, orthogonality, etc.). 
+
+
+
+
+[t]Probability Distributions
+
+Definition: Probability Distribution
+
+  A probability distribution $P$ over a sample space $$ is a mapping from subsets of $$ to the real numbers that satisfies the following conditions:
+
+    [<+->]
+    Non-negativity: $P() 0$ for all $$
+    Normalization: $P() =1$
+    Additivity: For all $,  $ that are disjoint sets, $P() = P() + P()$
+  
+
+
+
+
+[t]Random Variables 
+Definition: Random Variable
+  A random variable $X$ is defined by a function $f_X$ that maps each element $$ of the sample space $$ to a value $f_X()$ in a set $$ called the  of the random variable.
+  
+    For each $x$ the event $\X=x\$ refers to the subset of the sample space $\| , f_X()=x\$.
+    
+    For each $x$ the probability $P(X=x) = P(\| , f_X()=x\)$.
+  
+
+
+
+[t]Probability and Random Variables 
+We can also specify a probability distribution for a random variable $X$ with range $$ directly instead of via an underlying sample space $$. The following conditions must hold:
+
+[<+->]
+ $P(X=x)0 \;\;x X$ 
+  and $_xP(X=x)=1$.
+ $p(X=x)0 \;\; x X$ 
+  and $_p(X=x)dx =1$.
+
+
+
+
+
+[t]Random Variables and Data Sets
+
+In machine learning and statistics, probability distributions are defined over data cases described by multiple attributes that are identified with random variables. 
+
+ 
+ Example: Heart Disease Dataset
+    gray!25white
+  cccc
+    
+     Gender & Blood Pressure & Cholesterol  & Heart Disease\\
+     Male&Med&Low&No\\
+     Male&Hi&Hi&Yes\\
+     Male&Med&Med&Yes\\
+     Male&Med&Hi&No\\
+     Female&Med&Low&No\\
+     Male&Low&Med&No
+  
+  
+
+
+
+
+
+[t]Joint Probability Distributions
+
+
+A  is a probability distribution defined over a collection of random variables $(X_1,...,X_m)$ with ranges $_1,...,_m$: $P(X_1=x_1,...,X_m=x_m)$.
+
+A joint distribution defined over random variables $X_1,...,X_m$ must satisfy normalization and non-negativity with respect to the Cartesian product of their ranges   $=_1_m$.
+
+Alternatively, a joint distribution can be viewed as a probability distribution over a single vector-valued random variable $=[X_1,...,X_m]$ whose range is $=_1_m$. 
+
+
+
+
+[t]Joint Distributions: Heart Disease Example
+Consider the heart disease example. The joint distribution over the random variables $Gender$, $BloodPressure$, $Cholesterol$ and $HeartDisease$ is just a big table:
+
+
+      gray!25white
+  ccccc
+    
+      Gender & BloodPressure & Cholesterol  & HeartDisease & P\\
+      F      & L       & L            & N             & 0.0127 \\
+      F      & L       & L            & Y             & 0.0007 \\
+      F      & L       & M            & N             & 0.0098 \\
+      F      & L       & M            & Y             & 0.0009 \\
+      F      & L       & H            & N             & 0.0087 \\
+      F      & L       & H            & Y             & 0.0010 \\
+      &  &       &        &                
+  
+
+
+
+
+
+[t]Important Probability Concepts
+
+You should be familiar with the following fundamental concepts from probability theory
+
+[<+->]
+Marginalization
+Conditioning
+Bayes Rules
+Expectations
+Classical Distributions (Bernoulli, Binomial, Multinomial, Gaussian)

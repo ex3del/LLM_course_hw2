@@ -1,0 +1,146 @@
+[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Multidimensional Scaling and Isomap
+
+
+
+
+
+
+
+
+[t]Kernel PCA and Spectral Clustering
+
+
+Last class, we saw a method to achieve non-linear dimensionality reduction
+by combining basis expansions with dimensionality reduction.
+
+We showed that basis expansion can be combined with PCA and SVD, but that
+PCA could also be used with the kernel trick.
+
+Lastly, we saw how spectral clustering can be viewed as a modification of 
+clustering in the kernel PCA latent space.
+
+ 
+
+
+
+
+
+
+
+[t]Multidimensional Scaling
+
+
+MDS is a non-linear dimensionality reduction method that is explicitly 
+designed to minimize the distortion in the pairwise distances 
+between points when projecting them into a low dimensional embedding.
+
+Suppose we have a data set $= 
+\_i^D\_i=1:N$. 
+
+Let $d_ij$ be the distance between $_i$ and $_j$. 
+Any distance metric can be used. Euclidean distance  
+$d_ij=||_i-_j||$ is common.
+
+ 
+
+
+[t]Least Squares Multidimensional Scaling
+
+
+Let $_i ^K$ be the low-dimensional embedding of 
+$_i$ for each data case $i$. We assume $K<D$.
+
+Least-squares MDS learns the embeddings $_i$ by minimizing 
+the following objective function, known as the  function:
+
+
+$$__1,...,_N _i<j ( d_ij - 
+||_i-_j||_2)^2$$
+
+Basically, this function attempts to have the regular Euclidean 
+distances between points in $^K$ reflect the distances between the 
+points in $^D$. This can be useful for data visualization when $K=2$.
+
+ 
+
+
+[t]Classical Multidimensional Scaling Variants
+
+
+Let $s_ij$ be the similarity between $_i$ and $_j$. 
+
+
+Let $_i ^K$ be the low-dimensional embedding 
+of $_i$ for each data case $i$. We assume $K<D$.
+
+Classical MDS learns the embeddings $_i$ by minimizing 
+the following objective function:
+
+
+$$__1,...,_N _i<j ( s_ij - 
+_i-, _j-)^2$$
+
+If the similarities are centered inner products in $^D$, 
+Classical MDS and PCA are equivalent. For other similarity functions, classical 
+MDS performs non-linear dimensionality reduction.
+
+  
+
+
+[t]MDS Trade-offs
+
+
+Interestingly, to use MDS we actually don't need the raw feature vectors. 
+It's enough to have the pairwise distance or similarity matrices.
+
+Unlike kernel PCA, the similarity or distance matrices do not need 
+to be valid kernel matrices (ie: they do not need to correspond to inner 
+products of some basis expansion).
+
+A significant issue with MDS is that we need to be able to specify 
+a global similarity or distance matrix directly. This may not actually be easy 
+to do if the data come from a complex manifold (regular Euclidean distance will 
+fail).
+
+  
+
+
+
+
+
+
+
+
+[t]Isometric feature mapping
+
+
+Isometric feature mapping (Isomap) is a non-linear dimensionality 
+reduction method that is designed to minimize the distortion in geodesic 
+distances on a manifold when projecting them into a low dimensional embedding.
+ 
+
+[width=4.5in]../Figures/isomap.jpg
+
+
+
+
+[t]Isometric feature mapping algorithm
+
+
+The isomap algorithm begins by computing the K-nearest 
+neighbors of each data point and building the distance weighted K-nearest 
+neighbor graph $G$ over the data. 
+
+For points $i, j$ that are neighbors in the graph, isomap uses the 
+straight line distance between them as $d_ij$.
+
+For points $i, j$ that are not neighbors in the graph, isomap uses 
+the length of the shortest path in $G$ as $d_ij$. This is an approximation to
+the geodesic distance between $_i$ and $_j$ on the manifold.
+
+Finally, isomap plugs the distances $d_ij$ into MDS with 
+classical scaling and computes the embedding.

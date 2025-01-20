@@ -1,0 +1,270 @@
+[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Linear Dimensionality Reduction and SVD
+
+
+
+
+
+
+
+[t]Machine Learning Tasks
+  [width=4in]../Figures/learning_problems.png
+
+
+
+[t]The Dimensionality Reduction Task
+
+Definition: The Dimensionality Reduction Task
+Given a collection of feature vectors $_i^D$, map the 
+feature vectors into a lower dimensional space $_i^K$ where 
+$K<D$ while preserving certain properties of the data.
+
+
+[width=4in]../Figures/manifold_unrolling.png
+
+
+[t]Example: Representing Time Series
+[width=4in]../Figures/spase_coding_time_series.png
+
+
+[t]Example: Learning Face Parts
+[width=4.5in]../Figures/nmf.png
+
+
+[t]Example: Representing Natural Image Patches
+[width=4.5in]../Figures/sparse_coding_images.jpg
+
+
+[t]Example: Image Embedding
+[width=4.5in]../Figures/image_embedding.png
+
+
+[t]Applications
+ 
+
+Can be used as a pre-processing step to enable more accurate
+classification and regression on manifold data.
+
+Very low dimensional embeddings (ie: K=2,3) can be used to
+visualize complex manifold-structured data as in the previous example.
+
+Can be used to de-noise data by projecting to lower-dimensional
+space and then projecting back to the feature space.
+
+ 
+
+
+[t]Dimensionality Reduction vs Feature Selection
+ 
+
+The goal of feature selection is to remove features that are not 
+informative with respect to the class label. This obviously reduces the 
+dimensionality of the feature space.
+
+Dimensionality reduction can be used to compress the feature space
+for manifold structured data even when there is information in each of the 
+feature dimensions so that none can be discarded.
+
+Another important property of dimensionality reduction is that it is 
+unsupervised. It will attempt to preserve structure in the data that could be
+useful for a range of supervised problems, not a specific problem. 
+
+Unlike feature selection, which is a supervised task, 
+dimensionality reduction can sometimes compress out structure useful to a 
+particular supervised task thereby increasing error.
+
+ 
+
+
+
+
+
+
+[t]Linear Dimensionality Reduction
+ 
+
+The simplest dimensionality reduction methods assume that the observed 
+high dimensional data vectors $_i^D$ lie on a 
+K-dimensional linear manifold within $^D$. 
+
+[width=4in]../Figures/linear_subspace.png
+
+
+ 
+
+
+[t]Linear Dimensionality Reduction
+ 
+
+Mathematically, the linear sub-space assumption can be written as follows:
+
+$$_id = _k=1^K z_ik b_kd$$
+
+
+where $_k=[b_k1,...,b_kD]$ for $k=1,...,K$ are a 
+set of basis vectors describing a $K$-dimensional linear sub-space of 
+$^D$ and $z_ki$ are a set of real-valued weights on those basis 
+vectors.
+
+
+ 
+
+
+
+[t]Connection to Linear Regression
+ 
+
+This expression is exactly linear regression where $x_id$ is 
+the target, $z_ik$ are the weights, and $_kd$ for each $k$ are the 
+features. 
+
+$$_id = _k=1^K z_ik b_kd$$
+
+
+This observation is also true if we swap the roles of the weights 
+and the features.
+
+However, unlike the linear regression case, we only know what 
+corresponds to the targets. We must learn both the features and the weights. 
+
+ 
+
+
+[t]Matrix Form
+ 
+
+If we let $$ be the data matrix $_id= x_id$,
+$$ be a matrix where $_ik=z_ik$, and $$ be a matrix 
+where $_kd=b_kd$, we can express $$ as follows:
+
+$$ = $$
+
+
+$^NK$ is often referred to as the 
+factor loading matrix while $^KD$ are referred to 
+as the latent factors by analogy to regression.
+
+ 
+
+
+[t]Observation Noise
+ 
+
+Most real world data will be subject to noise. If we assume that 
+$^ND$ is a matrix of noise values from some
+probability distribution, we have:
+
+$$ =  + $$
+
+
+ 
+
+
+[t]Learning
+ 
+
+The learning problem for linear dimensionality reduction is to estimate
+values for both $$ and $$ given only the noisy observations 
+$$.
+
+One possible learning criteria is to minimize the sum of squared 
+errors when reconstructing $$ from $$ and $$. This leads 
+to:
+
+$$_, || -  ||_F$$
+
+
+where $||||_F$ is the Frobenius norm of matrix  $$ (the sum of 
+the squares of all matrix entries). 
+
+ 
+
+
+[t]Learning Algorithm
+ 
+
+Not surprisingly, we can obtain a solution to this learning problem by
+leveraging the OLS solution to linear regression. The algorithm is often 
+referred to as Alternating Least Squares or ALS. 
+
+Starting from a random initialization, ALS iterates between 
+assuming $$ are known features and optimizing $$ 
+as the unknown weights, and assuming that $$ are the known features and 
+optimizing $$ as the unknown weights:
+
+
+$$ (^T)^-1^TX$$
+$$^T (^T)^-1X^T$$
+
+
+ 
+
+
+[t]Lack of Uniqueness of Optimal Parameters
+ 
+
+Suppose we run the ALS algorithm to convergence and obtain estimates
+for $_*$ and $_*$ such that:
+
+$$c = || - _*_*||_F$$
+
+Note that if we let $ ^KK$ be an 
+arbitrary $KK$ invertible matrix, then we obtain exactly the same value 
+$c$ of the objective function for the alternate parameters 
+$=_*$ and $ = 
+^-1_*$:
+
+
+c &= || - _*(I)_*||_F\\
+ &= || - (^-1) ||_F\\
+ &= || -  ||_F
+
+
+ 
+
+
+[t]Singular Value Decomposition
+ 
+
+Interestingly, this optimization problem has a continuous subspace of 
+optimal solutions that all obtain the same global minimum value of the 
+objective function. 
+
+Each optimal solution is simply a different representation the same
+linear subspace.
+
+We can pick a unique representation for the subspace by 
+specifying additional criteria. Classical Rank-K Singular Value Decomposition 
+(K-SVD) corresponds to the following restriction:
+
+$$_,, || - ^T ||_F$$
+
+where $S$ is a $KK$ diagonal matrix with positive elements,  
+$$ is an $NK$ matrix such that  $^T=I$, and $V$
+is a $DxK$ matrix such that $^T=I$.
+
+ 
+
+
+[t]Trade-Offs
+ 
+
+Minimum Frobenius norm linear dimensionality reduction is nice because 
+it will find the globally optimal linear sub-space, and SVD provides a 
+unique representation for this sub-space.
+
+The basic ALS algorithm scales as $O(K^3 + D^3)$ per pair of 
+iterations due to the matrix inverses, which is not suitable for high 
+dimensions. The full SVD algorithm scales as $O(min(DN^2, ND^2))$, which also 
+isn't scalable to large data. However, fast approximations exist for both 
+problems.
+
+A significant limitation of linear dimensionality reduction is that
+it can fail to achieve a useful compression of the data if the underlying 
+manifold is not actually linear.
+
+As with clustering, the rank $K$ of the latent sub-space is a free 
+parameter.

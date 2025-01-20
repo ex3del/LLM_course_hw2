@@ -1,0 +1,166 @@
+[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Mixture Models
+
+
+
+
+
+
+
+[t]Mixture Models
+
+
+A mixture model is a probabilistic clustering model that is the 
+unsupervised analogue of the Bayes Optimal Classifier where the unknown 
+assignment of data cases to clusters take the place of the known class labels. 
+
+We let $_i$ be a data case and $z_i\1,...,K\$ be the 
+index of the cluster data case $i$ belongs to. $z_i$ is often called the 
+mixture indicator variable or the latent class.
+
+Each cluster $k$ specifies it's own distribution over the feature 
+vectors $P(=|Z=k)$ 
+
+We also have a discrete distribution $P(Z=k)=_k$, which 
+describes the prior probability that a data case belongs to cluster $k$.
+
+
+
+[t]Data Distribution
+
+
+The joint  distribution of the features and the mixture indicator 
+variable is:
+
+$$P(=,Z=k)=P(=|Z=k)P(Z=k)$$
+
+In clustering, we don't know what the right value of the mixture 
+indicator variable is a priori, but we can marginalize it away to obtain a 
+probability distribution on the feature vector only:
+
+$$P(=)=_k=1^KP(=|Z=k)P(Z=k)$$
+
+
+
+
+[t]Mixture Component Distributions
+
+To define a specific mixture model, we need to define the form of 
+$P(=|Z=k)$. Some common choices include:
+
+
+Bernoulli: $_d=1^D 
+_dk^[x_d=1](1-_dk)^[x_d=0]$
+
+Independent Gaussian: $_d=1^D 
+(x_d;_dk, ^2_dk)$
+
+Multivariate Gaussian: $ 
+(;_k,_k)$
+
+
+
+
+[t]Learning
+
+
+Given a data set $=\_i\_i=1:N$, we can learn the
+mixture model parameters by maximizing the log probability of the data give 
+the parameters:
+
+$$ = _i=1^N 
+(_k=1^KP(_i=_i|Z=k)P(Z=k))$$
+
+
+While we can do this directly using gradient-based optimization, 
+it's often faster to use a special algorithm called Expectation 
+Maximization.
+
+
+
+
+[t]Expectation Maximization for Gaussian Mixture Models
+
+
+[E-Step:] In the first step of the algorithm, we compute the 
+probability that each data case belongs to each cluster using Bayes rule. These 
+probabilities are often called the responsibilities. 
+
+$$r_ik = P(Z_i=k|_i)=
+(;_k,_k)_k'=1^K_k' 
+(;_k',_k')$$
+
+
+
+
+
+
+
+
+[t]Expectation Maximization for Gaussian Mixture Models
+
+
+
+[M-Step:] In the second step, we update the parameters 
+using responsibility weighted averages.
+
+$$_k = ^N r_ikN, \;\;\;\;\;\;
+_k = ^N r_ik_i _i=1^N r_ik$$
+
+$$_k = ^N 
+r_ik(_i-_k)^T(_i-_k) _i=1^N r_ik$$
+
+
+
+
+
+
+[t]A Special Case
+
+Suppose we fix $_k=1/K$ and $_k = I$. In this case we have:
+$$(;_k,_k) = 
+|2I|(-2||_k-_i||_2^2)$$
+and we obtain the following special case of the EM algorithm for multivariate 
+Gaussians:
+
+$$r_ik = 
+2||_k-_i||_2^2)_k'=1^K(-2
+||_k'-_i||_2^2)$$
+
+$$_k = ^N r_ik_i _i=1^N r_ik$$
+
+This is often referred to as soft K-means.
+
+
+
+[t]Trade-Offs
+
+
+We can see that the original K-Means algorithm performs hard assignments 
+during clustering, and implicitly assumes all clusters will have an equal 
+number of points assigned as well as a unit covariance matrix. 
+
+EM for Mixtures of Gaussians relaxes all of these assumptions. The 
+objective still has multiple local optima, but EM also produces a guaranteed 
+non-decreasing sequence of objective function values.
+
+EM can also be used with any component densities/distributions to 
+customize the model to a given data set.
+
+As with K-Means, initialization is important, but the same 
+heuristics can be applied. There are similar issues with interpreting output 
+and selecting $K$.
+
+
+
+
+[t]Choosing K
+
+
+The Elbow Method: Simple, only requires one fit per value of K. Requires manual assessment of plot. Works for K-Means and Mixture Models.
+
+Cross-validation: Requires multiple fits per value of K. Automatic selection of best K. 
+Works for GMMs, but often fails for K-Means.

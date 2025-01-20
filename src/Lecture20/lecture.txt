@@ -1,0 +1,219 @@
+[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Sparse Coding, NMF and ICA
+
+
+
+
+
+
+
+
+[t]Linear Dimensionality Reduction
+ 
+
+The learning problem for linear dimensionality reduction is to estimate
+values for both $$ and $$ given only the noisy observations 
+$$.
+
+One possible learning criteria is to minimize the sum of squared 
+errors when reconstructing $$ from $$ and $$. This leads 
+to:
+
+$$_, || -  ||_F$$
+
+
+where $||||_F$ is the Frobenius norm of matrix  $$ (the sum of 
+the squares of all matrix entries). 
+
+ 
+
+
+[t]PCA and SVD
+
+
+PCA on $^T$ and SVD on 
+$$ identify exactly the same linear sub-space and result in exactly the 
+same projection of the data into that linear sub-space.
+
+As a result, generic linear dimensionality reduction 
+simultaneously minimizes the Frobenius norm of the reconstruction error of 
+$$ and maximizes the retained variance in the learned sub-space.
+
+SVD and PCA provide the same refinement of generic linear 
+dimensionality reduction: an orthogonal basis for exactly the same optimal 
+linear subspace. 
+
+To extend PCA and SVD to the non-linear case, we can use basis expansions 
+or kernels (next class).
+
+ 
+
+
+
+[t]Limitations
+
+
+PCA and SVD constrain the basis elements to be orthonormal. 
+
+In some cases we may want to extract representations where the 
+basis elements and factor loadings are non-negative, representations where the 
+factor loadings are maximally independent, or representations where the 
+factor loadings are sparse.
+
+The reason is that these constraints may better 
+model the process that generates the data. These constraints may also help 
+with recognition tasks.
+
+ 
+
+
+
+
+
+[t]Sparse Coding
+
+
+Sparse coding is an extension of linear dimensionality reduction where 
+the factor loadings are constrained to be sparse.
+
+This model is closely related to the Lasso ($_1$ 
+regularized linear regression).
+ 
+This gives rise to the following optimization problem:
+
+
+&_, || -  ||_F - 
+||||_1 \\
+& ||B_k||_2=1  k
+
+
+ 
+where $||||_1$ is the sum of the absolute values of the elements in 
+$$ and $||||_F$ is the sum of the squares of the elements in 
+$$. 
+ 
+ 
+
+
+[t]Motivation
+
+
+By the early 2000's several theoretical, computational, and experimental 
+studies suggested that neurons encode sensory information using a small
+number of active neurons at any given point in time, a strategy that was named
+sparse coding in the computational neuroscience literature.
+
+Olshausen and Field (2004) argued that sparse coding makes 
+the structure in natural signals more apparent, represents complex data in a 
+way that is easier to read out in later stages of processing, and saves energy.
+
+As $$ increases, the representation becomes sparser, 
+typically using a small number of the $K$ available basis vectors to encode 
+each signal. By comparison, the PCA representation of a natural signal normally 
+puts non-zero weight on all basis elements.
+
+
+
+
+[t]Example: Image Patches
+[width=4.5in]../Figures/sparse_coding_images.jpg
+
+
+[t]Example: Time Series
+[width=4in]../Figures/spase_coding_time_series.png
+
+
+
+
+
+[t]Non-Negative Matrix Factorization
+
+
+NMF is an extension of linear dimensionality reduction where 
+the factor loadings and the basis elements are constrained to be positive.
+ 
+This gives rise to the following optimization problem:
+
+
+&_, || -  ||_F\\
+& 0, 0
+
+
+ 
+ 
+
+
+[t]Motivation
+
+
+Data including natural images, gene expressions, and word count 
+representations of text are naturally non-negative.
+
+In many cases, complex non-negative data arise from a 
+non-negative composition of simpler non-negative parts.
+
+This is exactly the intuition that non-negative matrix 
+factorization is designed to capture.
+
+
+
+
+
+[t]Example: Learning Face Parts
+[width=4.5in]../Figures/nmf.png
+
+
+
+
+
+[t]Independent Components Analysis
+
+
+ICA is an extension of linear dimensionality reduction where 
+the random variables that represent the factor loadings are constrained to be 
+problematically independent of each other.  
+ 
+This gives rise to the following optimization problem:
+
+
+&_, || -  ||_F\\
+& Z_i Z_j  1<i<j<k
+
+
+
+In practice, a surrogate criterion must be used in place of 
+independence and a number of different functions have been explored in the 
+literature.  
+
+ 
+
+
+[t]Motivation
+
+
+Linear mixing of independent sources is exactly what occurs when you
+listen to multiple audio sources at the same time.
+
+Humans are somehow able to automatically de-mix multiple sources of 
+audio (multiple people speaking) into distinct source channels very accurately.
+
+ICA was designed to solve exactly this problem (called blind source 
+separation) and can do so very reliably when the number of observed linearly 
+mixed channels is equal to the number of sources.
+
+The method has also been applied to images and many other types of 
+data.
+
+
+
+
+[t]Example: Blind Source Separation
+[width=4.5in]../Figures/ica_signals.pdf
+
+
+
+[t]Example: Independent Components of Natural Images
+[width=4.5in]../Figures/ica_images.pdf

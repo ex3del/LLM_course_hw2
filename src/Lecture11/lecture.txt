@@ -1,0 +1,245 @@
+[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+KOLS and Gaussian Process Regression
+
+
+
+
+
+
+
+[t]Support Vector Regression
+
+
+Support Vector Regression (SVR) is the generalization of SVMs to the case of regression.
+
+As with SVMs, SVR is a linear model trained using a different 
+objective function. In this case, the .
+
+[width=4in]../Figures/svr_loss.png
+
+
+
+
+[t]Kernelization
+
+Using the same representer theorem used in classification, it can be shown that
+
+$$f_Lin() = ^*+b* = _i=1^N _i<,_i> + _i=1^N _i<1,_i>$$
+
+This can again be generalized using kernels to allow for non-linear models:
+$$f_Lin() = ^*+b* = _i=1^N _iK(,_i)$$
+
+Let's have a look at how this model works in more detail.
+
+
+
+[t]What About Probabilities?
+
+
+An additional drawback of SVR is that it isn't probabilistic.
+
+For many applications like weather prediction and stock 
+market forecasting, we might like the model to predict both a 
+mean value and a confidence interval or standard deviation.
+
+ How can we define a flexible regression model 
+like SVR, but with probabilistic outputs?
+
+
+
+
+[t]OLS Regression as a Probabilistic Model
+
+Recall that the ordinary least squares solution to linear regression
+is equivalent to optimizing the following probabilistic model
+where $^2$ is the noise variance.
+
+
+P(y|) = (y;, ^2)
+             = 
+(-2^2(y-
+)^2)
+
+
+
+
+[t]Parameter Estimates
+
+The solution for the parameter estimates is:
+
+
+_* & = (^T)^-1^T\\
+^2_*  & = N_n=1^N (y_n - _n)^2
+
+
+Note that learning this model estimates both the regression
+weights $$ and the residual noise variance $^2$.
+
+
+
+[t]Kernelized OLS Regression
+
+Just as with SVR, the OLS solution can be written in terms of inner products 
+between data cases and the representer theorem can be used to obtain a 
+kernelized form of the model where:
+
+$$f_Lin() = _* = _i=1^N 
+_iK(,_i)$$
+
+$$^2  = N_n=1^N (y_n - f_Lin(_n))^2$$
+
+Let's have a look at how this model compares to SVR.
+
+
+
+[t]KOLS and Uncertainty
+
+ What is the problem with the uncertainty estimate coming 
+from KOLS?\\[12pt]
+
+It's the same everywhere! We should have more uncertainty far from where
+we have data and less uncertainty close to where we have data.
+
+
+
+
+
+
+
+
+[t]Gaussian Process Regression
+
+
+Gaussian Process Regression is a kernelized probabilistic regression model
+that infers a probability distribution over latent functions (a 
+).  
+
+A Gaussian process regression model uses a Gaussian process prior 
+over the space of functions, and a regular normal likelihood.
+
+$$p(f) = (f;m,)\;\;\;\;\; p(y|,f) = 
+(y;f(x),^2)$$
+
+A Gaussian process is characterized by a mean function 
+$m()$ and a covariance function (kernel function) 
+$(,')$ such that the joint distribution of the process
+over any finite collection of input $_1,...,_n$ is multivariate 
+Gaussian. 
+
+
+
+
+
+[t]Gaussian Process Regression
+
+The covariance function $$ defines how ``smooth'' typical
+functions $f$ from the process look. Different covariance functions
+and different hyper-parameters lead to favoring different types of functions.
+
+[width=4in]../Figures/GPsamples1.png
+
+
+
+[t]Gaussian Process Regression
+
+The covariance function $$ defines how ``smooth'' typical
+functions $f$ from the process look. Different covariance functions
+and different hyper-parameters lead to favoring different types of functions.
+
+[width=4in]../Figures/GPsamples2.png
+
+
+
+[t]Gaussian Process Regression
+
+
+Intuitively, the model defines the distribution $p(y|)$ by 
+integrating over the space of all possible functions:
+
+$$p(y|) = 
+(y;f(x),^2)(f;m,)df$$
+
+If we have a data set 
+$=\(y_i,_i\_i=1:N$, we can (conceptually) invert this 
+model using Bayes rule to infer $p(f|)$:
+
+$$p(f|) = (f;_N,_N)^N 
+(y_i;f(_i),^2)(f;m,)
+_i=1^N
+(y_i;f(_i),^2)(f;m,)df
+$$
+
+We can then make predictions for new points using the equation:
+
+$$p(y|,) = 
+(y;f(x),^2)(f;)df$$
+
+
+
+
+
+[t]Gaussian Process Regression
+
+
+It may look like the prediction computation $p(y|,)$ is 
+impossible to actually carry out here, but it turns out to be computable in 
+closed form:
+
+Let $ = [y_1,...,y_N]^T$ 
+
+Let $ = [m(_1),...,m(_N)]^T$ and $m_* = 
+m()$
+Let $_ij = (_i,_j)$, 
+$(_*)_i,1 = (_i,)$ and $(_**) = 
+(,)$.
+
+We can compute the predictive distribution as follows:
+
+  p(y|,) &= (y; _*,^2_*)\\
+  _* &= m_* + _*^T (+ ^2I)^-1 ( - 
+)\\
+  ^2_*& = _** - _*^T (+ ^2I)^-1_*
+
+
+Let's see what this model can do.
+
+
+
+
+
+
+[t]Learning
+
+
+Since as a non-parametric Bayesian model, GPR has no explicit model 
+parameters to learn like SVR. 
+
+The covariance function that defines a GP has the same 
+hyper-parameters as the corresponding kernel when used in SVR.
+
+The hyper-parameters can be set via cross validation. They can also
+be learned on training data using maximum marginal likelihood optimization.
+
+
+
+
+
+[t]Trade-Offs
+
+
+The computational complexity of GPR scales with cube of the number of
+input points due to inversion of the covariance matrix. This can be sped up 
+using a number of approximations.
+
+Unlike SVR and KOLS, GPR provides a more sensible estimate of uncertainty
+that reflects the amount of data locally.
+
+The likelihood function is still Gaussian; however, so the model is 
+sensitive to outliers like OLS, and unlike SVR.
+
+Unlike SVR, the model does not have a support vector property. This means
+naive GPR implementations must retain access to all data similar to KNN. 
+regression.

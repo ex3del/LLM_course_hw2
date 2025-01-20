@@ -1,0 +1,163 @@
+[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+KNN Regression, Regression Trees, \Feature Selection
+
+
+
+
+
+
+
+[t]The Regression Task
+
+Definition: The Regression Task
+Given a feature vector $^D$, predict it's corresponding output value $y$.
+
+
+[width=3in]../Figures/polynomial-function.png
+
+
+[t]The Regression Learning Problem
+Definition: Regression Learning Problem
+Given a data set of example pairs $=\(_i,y_i),i=1:N\$ where $_i^D$ is a feature vector and $y_i$ is the output, learn a function $f:^D$ that accurately predicts $y$ for any feature vector $$.
+
+
+
+[t]Error Measures: MSE
+Definition: Mean Squared Error
+Given a data set of example pairs $=\(_i,y_i),i=1:N\$ and a function $f:^D$, the mean squared error of $f$ on $$ is:
+$$MSE(f,) = N_i=1^N(y_i - f(_i))^2$$
+
+
+Related measures include: \\
+Sum of Squared Errors: $SSE(f,)=NMSE(f,)$\\
+Risidual Sum of Squares: $RSS(f,)=NMSE(f,)$\\
+Root Mean Squared Error: $RMSE(f,)=)$
+
+
+
+
+
+
+
+[t]K Nearest Neighbors Regression
+
+The KNN regression is a non-parametric regression method that simply stores the training data $$
+and makes a prediction for each new instance $$ using an average over it's set of $K$ nearest neighbors $_K()$ computed using any distance function $d:^D ^D  $.
+
+KNN Regression Function
+$$f_KNN() = K_i_K() y_i$$
+
+
+As with classification, use of KNN requires choosing the distance function $d$ and the number of neighbors $K$.
+
+
+
+
+[t]Example: 1D KNN (K=1 vs K=9)
+
+[width=4in]../Figures/knn_regression_1d.png
+
+
+
+[t]Example: 2D KNN (K=1 vs K=9)
+
+[width=4in]../Figures/knn_regression_2d.png
+
+
+
+
+[t]Weighted KNN Regression
+
+
+Instead of giving all of the $K$ neighbors equal weight in the average, a distance-weighted average can be used:
+
+
+f_KNN() &=_K() w_i y_i
+_i_K() w_i\\
+w_i &= (-d_i)
+
+
+
+
+
+
+
+
+
+
+[t]Regression Trees
+
+A regression tree makes predictions using a conjunction of rules organized into a binary tree structure.
+
+Each internal node in a regression tree contains a rule of the form $(x_d<t)$ or $(x_d=t$) that tests a single data dimension $d$ against a single threshold value $t$ and assigns the data case to it's left or right sub-tree according to the result.
+
+A data case is routed through the tree from the root to a leaf. Each leaf node is associated with a predicted output, and a data case is assigned the output of the leaf node it is routed to.
+
+
+
+
+
+[t]Example: 2D Regression Trees
+[page=1,width=4in]../Figures/2DTree-Example.png
+
+
+[t]Building Regression Trees
+[H]
+,h,minS,maxD)$
+
+ $d,t = BestSplit()$
+ $_1 = \(y_i,_i)| x_dit\$, $_2 = \(y_i,_i)| x_di > t\$
+_1|<=minS$ or $h+1maxD$
+  $Root.RightChild.Prediction = |_1|_y _1 y$
+
+$BuildTree(Root.RightChild, _1,h+1,minS,maxD)$
+  
+_2|<=minS$ or $h+1maxD$
+  $Root.LeftChild.Prediction = |_2|_y _2 y$
+ $BuildTree(Root.LeftChild, _2,h+1,minS,maxD)$
+
+ $Root.d=d$,$Root.t=t$
+
+
+
+
+
+
+
+[t]Finding the Best Split
+[H]
+)$
+
+ $ = sort(\x_d1,...,x_dN\)$
+ )/2|i=1...N-1\$
+   $_1 = \(y_i,_i)| x_dit\$
+   $_2 = \(y_i,_i)| x_di > t\$
+   $_1 = |_1|_y _1 y$
+   $_2 = |_2|_y _2 y$
+   $Score(d,t) = _y _1 (y-_1)^2 + _y _2 (y-_2)^2$
+ $d,t = _d',t'  Score(d,t)$
+
+
+
+
+[t]Example: Building Regression Trees
+[page=1,width=3.5in]../Figures/regression_tree.pdf
+
+
+
+
+
+[t]Best Subset Selection
+[width=4in]../Figures/best_subset_selection.png
+
+
+
+[t]Forward Stepwise Selection
+[width=4in]../Figures/forward_selection.png
+
+
+[t]Backward Stepwise Selection
+[width=4in]../Figures/backward_selection.png

@@ -1,0 +1,267 @@
+[serif,xcolor=pdftex,dvipsnames,table,hyperref=bookmarks=false,breaklinks]beamer
+
+
+
+Introduction to Data Parallel Computing
+
+
+
+
+
+
+
+
+
+[t]Moore's Law
+[width=3.5in]../Figures/moores_law.png\\[6pt]
+
+Machine Learning's free ride ended in about 2005.
+
+
+[t]Multi-Core CPUs
+[width=4in]../Figures/corei7.jpg
+
+
+[t]Multi-Core CPU Memory Architecture
+[width=3.5in]../Figures/multi-core-architecture.jpg\\[12pt]
+What if one multi-core CPU isn't enough?
+
+
+[t]Distributed Computer (Cluster)
+[width=3.5in]../Figures/openrack2.jpg\\[12pt]
+Facebook custom-built server rack.
+
+
+[t]Distributed Computer (Cluster) Architecture
+[height=2in]../Figures/hpc_cluster.png\\[12pt]
+ What if a one-rack cluster isn't enough?
+
+
+
+[t]Server Container
+[width=3.5in]../Figures/bing_container.jpg\\
+Server container used by Bing Search.\\
+What if a one-container cluster isn't enough?
+
+
+[t]Container Hanger
+[width=3.5in]../Figures/server_container.jpg\\
+Container hanger at Google data center.
+\\
+What if you don't want to manage a compute 
+center?
+
+
+[t]Cloud Computing
+[width=3.5in]../Figures/clouds.png\\[12pt]
+
+Infrastructure as a service (IAAS) + Hardware Virtualization \\[12pt]
+
+
+
+
+
+
+
+[t]Types of Parallelism
+
+ Running multiple threads 
+concurrently with access to a single shared memory.  Low communication overhead. 
+Limited scalability. Typical of multi-core 
+setting.
+
+ Running multiple processes on 
+different machines that are networked together. High communication overhead. 
+High scalability. Typical of cluster setting.
+
+
+
+[t]Types of Parallel Computing Tasks
+
+ Tasks need no communication between 
+them at all. Near linear speedups. Examples: cross validation workflows.
+
+ Each task performs the same operations over 
+a distinct set of data elements. Tasks typically communicate only with a 
+``master'' task for synchronization and not with each other. Sub-linear 
+speedups. Examples: data parallel 
+implementations of any algorithms we've seen to date)
+
+ Each CPU performs local computation
+but needs to frequently communicate results with other CPUs. Sub-linear 
+speedups. Examples: physics simulations.
+
+
+
+
+[t]Why the Sub-Linear Scaling?
+
+The parallel speedup is limited by the amount of time a 
+non-embarrassingly parallel process spends either in single threaded code or 
+communicating with other processes.
+
+Amdahl's Law: Let $$ be the fraction of code that must run 
+single threaded and $P$ be the number of processors. Then the maximum parallel 
+speedup
+is approximated by:
+
+$$P + $$
+
+
+In the limit as $P$ goes to infinity, this ratio converges to 
+$1/$.
+
+
+
+
+[t]Amdahl's Law
+[width=3.5in]../Figures/AmdahlsLaw.png\\
+
+
+
+
+
+[t]Imperative Programming
+
+Imperative programming languages (C, C++, Java, etc.) have multiple 
+problems with concurrency when parallelism is introduced through 
+multi-threading with shared memory.
+
+Examples: Order-Violation, Atomicity-Violation, Deadlock, ... 
+
+Writing correct multi-threaded code is highly non-trivial. Since 
+the order of execution of code in threads is basically random, detecting and
+replicating bugs is extremely difficult.
+
+A key problem in PL is automatically compiling a single-threaded 
+imperative program into a multi-threaded program. No such general purpose 
+compiler exists today. 
+
+
+
+
+
+[t]Functional Programming
+
+The main problems in multi-threaded imperative programs result from 
+allowing mutable state through global variables accessible to all threads. 
+
+This is often referred to as the ``side effects'' problem. In other 
+words, a function can depend on variables other than its explicit inputs, and 
+modify state variables as a result of producing it's output. 
+
+Functional programming eliminates all of these problems by 
+prohibiting mutable state variables and building computations only by nesting
+function evaluations.
+
+There is no explicit looping, only recursion. The component 
+functions are required to always return the same output when run on the same 
+input.
+
+
+
+
+
+[t]Anonymous Functions
+
+In functional programming, functions are first-class types that can be 
+passed to other functions as input.
+
+Some mostly imperative languages like Python also support this.
+
+Since functional programs are often specified using many short 
+functions, naming all the functions becomes tedious. 
+
+Anonymous functions are simply unnamed functions that can be 
+written as inline expressions.
+
+Python supports this using the Lambda Function syntax:\\
+
+
+
+
+
+
+
+[t]Functional Programming and Parallel Computing
+
+The advantage of functional programming is that the resulting 
+programs are trivial to parallelize automatically since different arguments
+to the same function can always be computed in parallel. 
+
+$$f(g(x),h(x),i(x),j(k(x),l(x)))$$
+
+
+
+
+[t]Functional Programming and Data Parallel Computing
+
+Functional programming is a natural match for data parallel computing
+where we want to do things like:
+
+
+Apply the same function to all elements in a 
+data set (Map) 
+Apply a Boolean filter to select only certain data elements 
+(Filter)
+Aggregate a number of data elements by summing, maxing, etc. 
+(Reduce or Fold).
+
+
+It turns out that a small number of such easily parallelizable 
+functional programming primitives are sufficient for creating data-parallel
+implementations of machine learning algorithms. 
+
+
+
+
+[t]Data Parallel Computing: Map
+
+ Applies the function $f$ to each value of the array 
+$x$. This is an embarrassingly parallel operation.
+
+$$Map(f,x)=[f(x_1),...,f(x_n)]$$
+
+[width=3.5in]../Figures/map.png\\
+
+
+
+
+[t]Data Parallel Computing: Reduce
+
+
+ Applies the function $g$ to the first two 
+elements of the array $x$ recursively until the input contains a single value, 
+which it then returns. 
+
+$$Reduce(g,x) = \lr
+Reduce(g,[g(x_1,x_2), x_3,...,x_n]) &  n>1 \\ 
+x_1 &  
+.$$
+
+Ex: $Reduce(+,[3,10,20,15]) =
+Reduce(+,[(3+10),20,15])= 
+Reduce(+,[13,20,15])=
+Reduce(+,[(13+20),15])=
+Reduce(+,[33,15])=
+Reduce(+,[(33+15)])=
+48$
+
+ Can we parallelize this computation?
+
+
+
+
+
+[t]Data Parallel Computing: Reduce
+
+
+If the function is associative, this computation can be 
+parallelized using a balanced binary tree.
+
+[width=3.5in]../Figures/reduce.png\\
+
+
+Ex: $Reduce(+,[3,10,20,15]) = 
+Reduce(+,[Reduce(+,[3,10]),Reduce(+,[20,15])])= 
+Reduce(+,[13,35])= 48$
